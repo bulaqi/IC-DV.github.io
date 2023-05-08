@@ -1,4 +1,9 @@
 ### 当前问题
 1.写tranaction 费劲，位数，约束等
-### 解决思路
-1.[效率提升](https://github.com/bulaqi/IC-DV.github.io/wiki/%5BTOP%5D-%E6%95%88%E7%8E%87%E6%8F%90%E5%8D%87%E6%80%9D%E8%B7%AF)
+2. MAKE脚本回归不合理
+3. 代码架构灵活性太高
+4. 
+
+### 效率提升思路
+1. dut_cfg 类 工具实现
+2. 本地自动化回归脚本
