@@ -1,6 +1,6 @@
-知识点：SV 默认是静态变量，在for 循环内fork 需要特别注意\
-解决方案：利用 **动态变量传参**,必须通过automatic 类型变量传递到子函数
-
+### 1. 知识点：SV 默认是静态变量，在for 循环内fork 需要特别注意
+### 2. 解决方案：利用 **动态变量传参**,必须通过automatic 类型变量传递到子函数
+### 3. 参考代码:
 ~~~
 task cq_rm_proc::cq_proc(int ch_id);
     $display("cq_proc : ch_id=%0d",ch_id);
@@ -19,5 +19,5 @@ task cq_rm_proc::run_phase(uvm_phase pahse);
 endtask
 ~~~
 
-参考：
-https://link.zhihu.com/?target=https%3A//blog.csdn.net/moon9999/article/details/104207565
+#### 4. 传送门
+    https://link.zhihu.com/?target=https%3A//blog.csdn.net/moon9999/article/details/104207565
