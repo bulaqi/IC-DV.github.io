@@ -1,0 +1,56 @@
+传送门:
+https://mp.weixin.qq.com/s?__biz=MzIyMjYxNzA4NQ==&mid=2247484965&idx=1&sn=af7e8303c0ecac530067f02244734fe1&chksm=e82b8ab7df5c03a190b286ef9b504efa4fc080629de767466c73f171e238af227ca097d83d0c&scene=21#wechat_redirect
+~~~~
+### 1. 一些SV和UVM的在线教程
+~~~
+首推“验证学院”，由Mentor编写，有Cookbook，有视频教程。
+https://verificationacademy.com/
+
+“验证指导”，包括SystemVerilog教程、UVM教程、SystemC教程等。
+
+https://www.verificationguide.com/p/home.html
+
+
+
+“ASIC World”的SV教程，据说这个网站每月有超过3百万的浏览量。
+
+http://www.asic-world.com/systemverilog/tutorial.html
+
+
+
+doulos教程
+
+https://www.doulos.com/knowhow/sysverilog/
+
+https://www.doulos.com/knowhow/sysverilog/uvm/
+
+
+
+UVM candy lovers 教程
+
+http://cluelogic.com/category/uvm/
+
+http://cluelogic.com/2011/07/uvm-tutorial-for-candy-lovers-overview/
+
+https://github.com/cluelogic/uvm-tutorial-for-candy-lovers
+
+
+
+chipverify
+
+https://www.chipverify.com/system-verilog/system-verilog
+
+https://www.chipverify.com/uvm/uvm-tutorial
+
+
+
+uvm tutorial
+
+http://uvmtutorial.com/
+
+
+
+UVM教程
+
+http://www.testbench.in/UT_00_INDEX.html
+~~~
