@@ -28,16 +28,17 @@ bsub < blastn.lsf
 - -R span[hosts=1] 指定作业只能在单个节点运行，不能跨节点（跨节点作业需要MPI支持，生物中比较少），-R 可以使得作业在需要满足某种条件的节点上运行
 - -o 作业标准输出，%J为作业ID，即此处的作业输出文件为 jobid.out
 - -e 作业错误输出，%J为作业ID，即此处的作业输出文件为 jobid.err
-- -q 作业提交的作业队列
+- **-q 作业提交的作业队列** \
 $LSB_DJOB_NUMPROC 为LSF系统变量，表示作业脚本申请的CPU核心数 \
 另外还有一些常用选项：
 - -M 内存控制参数，作业占用的内存超过其指定值时，作业会被系统杀掉。如 -M 20GB -R "rusage[mem=20GB]" 申请20GB的内存，且其内存使用量不能超过20G
-- -m 指定作业运行节点
+- **-m 指定作业运行节点**
 - -W hh:mm 设置作业运行时间
 - -w 作业依赖，方便写流程，如-w "done(JobA)"，作业名为JobA的作业完成之后，该作业才开始运行；[作业依赖详细用法](https://link.zhihu.com/?target=https%3A//www.ibm.com/support/knowledgecenter/en/SSWRJV_10.1.0/lsf_admin/job_dep_sched.html)
 - -K 提交作业并等待作业结束，在写流程时会用得上，可以见后面的例子
 - -P 指定project name，如果我们需要统计某个项目消耗的计算资源，如CPU时等，可以将相关的作业都指定为同一个project name，然后根据project name统计资源消耗
 - -r rerun选项，即作业失败后自动重新运行，提交大量作业时此选项比较有用
+- **-I 非交互式模式,此时终端不能输入**
 
 ##### 2.LSF作业脚本2-并行作业（多节点）
 ~~~
