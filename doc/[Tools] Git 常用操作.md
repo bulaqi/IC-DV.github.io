@@ -24,8 +24,8 @@
 1. git pull -r --autostash   //(git pull --rebase --autostash) autostash 选项自动隐藏并弹出未提交的更改
     //git stash
     //git  pull -r  //rebase
-   //git stash popm
-   //补充命令：git stash list
+    //git stash popm
+    //补充命令：git stash list
 2. 解冲突
 3. git add . // 解冲后，一般退到resbase状态，需要重新add commit
 4. git commit -m "modify"
@@ -48,15 +48,15 @@
    ~~~
 3. 已经用 git commit 提交了代码
    ~~~
-   使用 git reset --hard HEAD^来回退到上一次commit的状态
+   git reset --hard HEAD^来回退到上一次commit的状态
    git reset --hard HEAD^
    git reset --hard commitid，或者回退到任意版本，使用git log命令查看git提交历史和commitid
    ~~~
    备注:使用本命令后，本地的修改并不会消失，而是回到了第一步1；未使用git add 缓存代码，继续使用git checkout -- filepathname，就可以放弃本地修改
 
 4. 已经用 git commit 提交了代码
-   ~~~
-   使用 git reset --hard HEAD^来回退到上一次commit的状态
+   ~~~ 
+   git reset --hard HEAD^ 来回退到上一次commit的状态
    git reset --hard HEAD^
    git reset --hard commitid，或者回退到任意版本，使用git log命令查看git提交历史和commitid
    ~~~
@@ -80,22 +80,27 @@
 ### 6. 拉分支
 1. 场景:本地已经创建了分支dev（以dev为例，下同），而远程没有
    ~~~
-   方法1： git push -u origin dev
-   方法2： git push --set-upstream origin dev
+   git push -u origin dev   
+   ~~~
+   或
+   ~~~
+   git push --set-upstream origin dev
    ~~~
 2. 场景:远程已经创建了分支dev,而本地没有
-   ~~~
    在pull远程分支的同时，创建本地分支并与之进行关联
+   ~~~
    git pull origin dev:dev-------两个dev分别表示远程分支名：本地分支名
    ~~~
 3. 场景:远程已经创建了分支dev,而本地新建分支需要关联 远端分支
    ~~~
-   git branch -u origin/分支名   其中origin/分支名 中分支名 为远程分支名
+   git branch -u origin/分支名   其中origin/分支名 中分支名 为远程分支名      
+   ~~~
    或者
+   ~~~
    git branch --set-upstream-to origin/分支名  
    ~~~
 ### 7. 个人案例
-#### 案例 1
+#### 案例 1:
    1. 问题：pull 后提示本地AEM分支比origin aem分支新，本地有3次commit，所以pull后到rebase状态
    2. 解决方法：
       ~~~
