@@ -54,7 +54,7 @@
    ~~~
    备注:使用本命令后，本地的修改并不会消失，而是回到了第一步1；未使用git add 缓存代码，继续使用git checkout -- filepathname，就可以放弃本地修改
 
-4.已经用 git commit 提交了代码
+4. 已经用 git commit 提交了代码
    ~~~
    使用 git reset --hard HEAD^来回退到上一次commit的状态
    git reset --hard HEAD^
@@ -95,16 +95,17 @@
    git branch --set-upstream-to origin/分支名  
    ~~~
 ### 7. 个人案例
-1.问题：pull 后提示本地AEM分支比origin aem分支新，本地有3次commit，所以pull后到rebase状态
-解决方法：
-~~~
-git rebase --abort
-git status // 提示本地分支比远端分支 新
-git reset --soft HEAD^
-git status //提示本地分支和远端分支 一致了
-git commit -m "add xx"
-git push //更新至远端
-~~~
+#### 案例 1
+   1. 问题：pull 后提示本地AEM分支比origin aem分支新，本地有3次commit，所以pull后到rebase状态
+   2. 解决方法：
+      ~~~
+      git rebase --abort
+      git status // 提示本地分支比远端分支 新
+      git reset --soft HEAD^
+      git status //提示本地分支和远端分支 一致了
+      git commit -m "add xx"
+      git push //更新至远端
+      ~~~
 
 
 ### 8. 传送门
