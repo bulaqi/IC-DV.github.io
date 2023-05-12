@@ -2,7 +2,7 @@
 ### 1. 概述
   git 新建分支的目的是为了多分支并行独立开发，完成后merger 到主分支
 
-### 2. 其他常用操作
+### 2. 常用命令
 ~~~
 1. git stash VS  git stash pop
 2. git stash list
@@ -60,24 +60,7 @@
    git reset --hard HEAD^
    git reset --hard commitid，或者回退到任意版本，使用git log命令查看git提交历史和commitid
    ~~~
-   
-### 5. 多分支互不干扰方案
-1. 方法1,拉2个分支,独立工作 (推荐)
-   ~~~
-   1. 本地已有分支dev，写了需求a，先commit，即将工作区的内容提交到版本库中，否则切换到其他分支时，就会覆盖当前工作区的代码。（这步很重要）
-   2. 在本地创建dev_bug分支，从远程dev分支中check（git checkout -b dev_bug origin/dev）
-   3. 在本地dev_bug上修改bug，并commit、push到远程dev上
-   4. 在本地变换到dev，继续做需求a
-   ~~~
-2. 方法2,stash 暂存
-   ~~~
-   1. 本地已有分支dev，写了需求a，但是不要提交。
-   2. 执行git stash命令，将工作区的内容“储存起来”
-   3. 接着在dev分支上修改bug，并提交，push
-   4. 执行git stash pop，恢复工作区原来的内容
-   ~~~
-
-### 6. 拉分支
+### 5. 拉分支
 1. 场景:本地已经创建了分支dev（以dev为例，下同），而远程没有
    ~~~
    git push -u origin dev   
@@ -98,7 +81,24 @@
    或者
    ~~~
    git branch --set-upstream-to origin/分支名  
+   ~~~   
+### 6. 多分支互不干扰方案
+1. 方法1,拉2个分支,独立工作 (推荐)
    ~~~
+   1. 本地已有分支dev，写了需求a，先commit，即将工作区的内容提交到版本库中，否则切换到其他分支时，就会覆盖当前工作区的代码。（这步很重要）
+   2. 在本地创建dev_bug分支，从远程dev分支中check（git checkout -b dev_bug origin/dev）
+   3. 在本地dev_bug上修改bug，并commit、push到远程dev上
+   4. 在本地变换到dev，继续做需求a
+   ~~~
+2. 方法2,stash 暂存
+   ~~~
+   1. 本地已有分支dev，写了需求a，但是不要提交。
+   2. 执行git stash命令，将工作区的内容“储存起来”
+   3. 接着在dev分支上修改bug，并提交，push
+   4. 执行git stash pop，恢复工作区原来的内容
+   ~~~
+
+
 ### 7. 个人案例
 #### 案例 1:
    1. 问题：pull 后提示本地AEM分支比origin aem分支新，本地有3次commit，所以pull后到rebase状态
