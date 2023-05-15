@@ -1,8 +1,8 @@
-### 基础
-- 在使用内嵌约束randomize（）with {CONSTRAINT}时，约束体中的变量名的查找顺序默认是从被随机化对象开始查找，但如果调用randomize（）函数局部域中也有同名变量，那就需要使用local::来显式声明该变量来源于外部函数，而非被随机化的对象（在约束中也可用this/super来索引这些变量）
+### 1. 基础
+- 在使用内嵌约束randomize（）with {CONSTRAINT}时，约束体中的变量名的查找顺序默认是从被随机化对象开始查找，但如果调用randomize（）函数局部域中也有同名变量，那就需要使用local::来显式声明**该变量来源于外部函数**，而非被随机化的对象（在约束中也可用this/super来索引这些变量）
 
 - 但如果调用randomize（）函数局部域中也有同名变量，那就需要使用local::来显式声明该变量来源于外部函数，而非被随机化的对象（在约束中也可用this/super来索引这些变量）
-### 示例
+### 2. 示例
 ~~~
 class chnl_generator;
     rand int pkt_id = -1;
@@ -33,7 +33,7 @@ endclass
 
 ~~~
 
-分析：
+### 3. 分析：
 data表示变量：
 - 当task没有传递参数时，local::data表示chnl_generator::data
 - 当task有传递参数时，local::data表示任务传递进来的参数
@@ -42,5 +42,5 @@ data表示变量：
 
 
 
-### 参考
+### 4. 参考
  [sv 约束中的local用法](https://blog.csdn.net/sinat_41774721/article/details/122328741)

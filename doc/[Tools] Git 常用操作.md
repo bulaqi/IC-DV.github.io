@@ -17,6 +17,7 @@
 11. git checkout tag_name // 可能会提示你当前处于一个“detached HEAD" 状态。 tag 相当于是一个快照，是不能更改它的代码的。
 12. git checkout -b branch_name tag_name //如果要在 tag 代码的基础上做修改，你需要一个分支
 13. 限制git commit 文件size，配置.git/hooks/pre-commit文件，hard-limit和soft-limi
+14. git remote -v //查看该文件夹所连接的远程仓库
 ~~~
 
 ### 3. git 上库(autostash)
@@ -60,6 +61,7 @@
    git reset --hard HEAD^
    git reset --hard commitid，或者回退到任意版本，使用git log命令查看git提交历史和commitid
    ~~~
+
 ### 5. 拉分支
 1. 场景:本地已经创建了分支dev（以dev为例，下同），而远程没有
    ~~~
@@ -82,6 +84,7 @@
    ~~~
    git branch --set-upstream-to origin/分支名  
    ~~~   
+
 ### 6. 多分支互不干扰方案
 1. 方法1,拉2个分支,独立工作 (推荐)
    ~~~
