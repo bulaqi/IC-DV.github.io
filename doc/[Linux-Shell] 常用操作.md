@@ -8,6 +8,7 @@ grep -rn "要查找的文本" ./    //-r：递归查找子目录中的文件
 #### 2. 批量查找并替换当前目录下的文件内容
 ~~~
 sed -i "s/要查找的文本/替换后的文本/g" `grep -rl "要查找的文本" ./`   //-l 是list
+grep -rl "qu_con_mode" ./* | xargs sed -i "s/qu_con_mode/host_cq_qu_depth_mode/g"
 ~~~
 #### 3. 批量查找并替换任意目录下的文件内容。
 ~~~
