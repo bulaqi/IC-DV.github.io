@@ -70,8 +70,19 @@ for(int i=0;i<5;i++) begin
 end
 ...
 ~~~
-- 1. 结构体 auto_file 那个函数？
+
+10. 结构体 auto_file 那个函数？
 无，不能传递结构体，只能传递函数，函数用file_object实现
 
--- 2. unpack  数组定位是那个方法？
+11. unpack  数组定位是那个方法？
 packer.counter
+
+12.类里面只能是变量初始化和复制,不能在类内直接计算
+~~~
+class xx_test extends basic_tc4;
+int i =5;
+int j =8;
+if(i>5)                  //编译报错,类内不能直接赋值
+  $print("i out rang");  //编译报错,类内不能直接赋值
+
+~~~
