@@ -3,6 +3,7 @@
 - [verdi实用技巧](https://cloud.tencent.com/developer/beta/article/1897270)
 - [实用Verdi 的使用技巧](https://code84.com/819640.html)
 - [Verdi的启动和设置](https://blog.csdn.net/zhajio/article/details/109450318)
+- [verdi实用技巧](https://zhuanlan.zhihu.com/p/427579054)
 #### 常用命令
 - verdi -ssf xx.fsdb &　　//-ssf表示指定波形文件
 ###
