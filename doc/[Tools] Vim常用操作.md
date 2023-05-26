@@ -25,8 +25,7 @@ ctrl+w+v,ctrl+w+s
 ~~~
 #### 3. 缩进
 1. 批量缩进  
-  eg,光标处3行都缩进:3, shift+>(两次)  \
-  (备注:可以不用选中)
+  eg,光标处3行都缩进:3, shift+>(两次)    (备注:可以不用选中)
   
 ### 传送门:
 - [Gvim中实现特定行文本的替换](https://www.cnblogs.com/gujiangtaoFuture/articles/10363988.html)
