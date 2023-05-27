@@ -86,3 +86,25 @@ if(i>5)                  //编译报错,类内不能直接赋值
   $print("i out rang");  //编译报错,类内不能直接赋值
 
 ~~~
+
+13. for 循环内用fork
+- 函数传参必须是automatic
+- 被调函数也应该是automatic类型,否则被调函数内部变量会被公用
+~~~
+task cal_exp_burst_cnt();
+
+	for (int i =0 ;i<5; i++) begin
+		fork
+			automatic int pf_id = i;  //必须是automaitc,否则cal_pf_exp_burst_cnt参数是5
+			if(pf_bitmap_en[pf_id])
+				cal_pf_exp_burst_cnt(pf_id);
+		join_none
+	end	
+~~~
+
+~~~
+task automatic cal_pf_exp_burst_cnt(pf_id);
+	int req_split; //如果函数类型不是automatic,则全部子进程公用一套req_split 变量
+	...
+endtask
+~~~
