@@ -108,3 +108,29 @@ task automatic cal_pf_exp_burst_cnt(pf_id);
 	...
 endtask
 ~~~
+
+14.慎重使用组合逻辑,监测上升沿
+背景:检测某型号的上升沿,采用@(posdege xx),
+~~~
+while(1) begin
+   ...
+   @(posdege xx);
+   ...
+end
+~~~
+问题:不可靠,组合逻辑内部是有可能出现毛刺,但是波形上不显示(受显示策略的影响)
+解决方案:参考逻辑的实现,监测上升沿, if(singe == 1 && singe_1dely == 0)
+~~~
+while(1) begin
+   ...
+   @(posdege sys.clk);
+   if(singe == 1 && singe_1dely == 0) begin 
+   ...
+   end
+   ...
+end
+~~~
+
+
+
+
