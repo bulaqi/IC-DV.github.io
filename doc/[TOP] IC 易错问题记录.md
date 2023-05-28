@@ -110,7 +110,7 @@ task automatic cal_pf_exp_burst_cnt(pf_id);
 endtask
 ~~~
 
-### 14. 慎重使用组合逻辑,监测上升沿
+### 14. 尽量选择同步电路,慎重使用组合逻辑,监测上升沿
 背景:检测某型号的上升沿,采用@(posdege xx),
 ~~~
 while(1) begin
@@ -134,5 +134,10 @@ end
 
 
 ### 15 .跨时钟域的处理
-
-
+- 背景: elbi 接口ack 和rsp 握手时候,信号采丢了,系统时钟是500M,elbi 时钟是1G. 核心问题,**ack 下降沿采丢了,没有做信号宽度扩展**
+- 知识点: 跨时钟域的处理
+  1. 单bit: 打一拍
+  2. 多bit: 握手/ 异步fifo /转为独热码或格雷码
+- 传送门
+[芯片设计进阶之路——跨时钟信号处理方法](https://zhuanlan.zhihu.com/p/113832794)
+[跨异步时钟域的6种方法](https://blog.csdn.net/z951573431/article/details/117260698)
