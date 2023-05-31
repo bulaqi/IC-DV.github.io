@@ -138,6 +138,6 @@ end
 - 知识点: 跨时钟域的处理
   1. 单bit: 打一拍
   2. 多bit: 握手/ 异步fifo /转为独热码或格雷码
-- 传送门
-[芯片设计进阶之路——跨时钟信号处理方法](https://zhuanlan.zhihu.com/p/113832794) \
-[跨异步时钟域的6种方法](https://blog.csdn.net/z951573431/article/details/117260698)
+- 传送门   
+  1. [芯片设计进阶之路——跨时钟信号处理方法](https://zhuanlan.zhihu.com/p/113832794)
+  2. [跨异步时钟域的6种方法](https://blog.csdn.net/z951573431/article/details/117260698)
