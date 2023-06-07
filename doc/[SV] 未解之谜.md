@@ -5,3 +5,5 @@ foreach(axi_data_queue[i]) begin
    axi_data[i] = axi_data_queue.pop_front();
 end
 ~~~
+
+不要动态的队列的控制循环
