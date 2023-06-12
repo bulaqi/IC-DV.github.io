@@ -19,6 +19,7 @@
 13. 限制git commit 文件size，配置.git/hooks/pre-commit文件，hard-limit和soft-limi
 14. git remote -v //查看该文件夹所连接的远程仓库
 15. git difftool commit_id1 commit_id2 //  找到该文件后,重新commit_id,git difftool 对比
+16. git diff <commit1> <commit2> 文件目录D  //同一个文件目录,不同commit_id 之间的差异
 ~~~
 
 ### 3. git 上库(autostash)
