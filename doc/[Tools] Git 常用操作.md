@@ -20,6 +20,8 @@
 14. git remote -v //查看该文件夹所连接的远程仓库
 15. git difftool commit_id1 commit_id2 //  找到该文件后,重新commit_id,git difftool 对比
 16. git diff <commit1> <commit2> 文件目录D  //同一个文件目录,不同commit_id 之间的差异
+17. git diff <commit1> -- 文件目录D  //--表示工作区,-- 和文件名 之间有一个 空格
+18. git diff -- 文件名   //查看具体某个文件 在工作区和暂存区之间的差异,-- 和文件名 之间有一个 空格
 ~~~
 
 ### 3. git 上库(autostash)
@@ -103,8 +105,39 @@
    4. 执行git stash pop，恢复工作区原来的内容
    ~~~
 
+### 8. git diff
+#### 1. 查看工作区和暂存区之间文件的差异
+~~~
+git diff 命令，默认查看的就是 工作区 和 暂存区之间文件的差异
+1.git diff : 查看工作区和暂存区之间所有的文件差异
+2.git diff -- 文件名：查看具体某个文件 在工作区和暂存区之间的差异
+3.git diff -- 文件名1 文件名2 文件名3：查看多个文件在工作区和暂存区之间的差异
+~~~
+#### 2. 查看工作区和版本库之间文件的差异
+~~~
+git diff HEAD : 查看工作区与最新版本库之间的所有的文件差异
+git diff 具体某个版本 : 查看工作区与具体某个提交版本之间的所有的文件差异
+git diff HEAD -- 文件名 ： 查看工作区与最新版本库之间的 指定文件名的文件差异
+git diff HEAD -- 文件名1 文件名2 文件名3 ：查看工作区与最新版本库之间的 指定文件名的多个文件差异
+git diff 具体某个版本 -- 文件名 ： 查看工作区与具体某个版本之间的 指定文件名的文件差异
+git diff 具体某个版本 -- 文件名1 文件名2 文件名3 ：查看工作区与最具体某个版本之间的 指定文件名的多个文件差异
+~~~
+#### 3. 查看暂存区和版本库之间文件的差异
+~~~
+git diff --cached : 查看暂存区和 上一次提交 的最新版本(HEAD)之间的所有文件差异
+git diff --cached 版本号 ： 查看暂存区和 指定版本 之间的所有文件差异
+git diff --cached -- 文件名1 文件名2 文件名3 ： 查看暂存区和 HEAD 之间的指定文件差异
+git diff --cached 版本号 -- 文件名1 文件名2 文件名3 ： 查看暂存区和 指定版本 之间的指定文件差异
+~~~
+#### 4. 查看不同版本库之间文件的差异
+~~~
+git diff 版本号1 版本号2 ： 查看两个版本之间的差异
+git diff 版本号1 版本号2 -- 文件名1 文件名2 ： 查看两个版本之间的指定文件之间的差异
+git diff 版本号1 版本号2 --stat : 查看两个版本之间的改动的文件列表
+git diff 版本号1 版本号2 src : 查看两个版本之间的文件夹 src 的差异
+~~~
 
-### 7. 个人案例
+### 9. 个人案例
 #### 案例 1:
    1. 问题：pull 后提示本地AEM分支比origin aem分支新，本地有3次commit，所以pull后到rebase状态
    2. 解决方法：
@@ -118,9 +151,10 @@
       ~~~
 
 
-### 8. 传送门
+### 10. 传送门
 1. [git操作本地和远程仓库 新建分支 切换分支 合并分支 解决冲突](https://link.zhihu.com/?target=https%3A//javaweixin6.blog.csdn.net/article/details/105884936%3Fspm%3D1001.2101.3001.6650.6%26utm_medium%3Ddistribute.pc_relevant.none-task-blog-2%257Edefault%257EBlogCommendFromBaidu%257ERate-6-105884936-blog-75213159.pc_relevant_3mothn_strategy_and_data_recovery%26depth_1-utm_source%3Ddistribute.pc_relevant.none-task-blog-2%257Edefault%257EBlogCommendFromBaidu%257ERate-6-105884936-blog-75213159.pc_relevant_3mothn_strategy_and_data_recovery%26utm_relevant_index%3D7)
 2. [腾讯技术工程：这才是真正的Git——Git内部原理揭秘！](https://zhuanlan.zhihu.com/p/96631135)
 3. [git reset 命令 | 菜鸟教程](https://link.zhihu.com/?target=https%3A//www.runoob.com/git/git-reset.html)
 4. [git本地创建多个分支互不干扰](https://www.cnblogs.com/BonnieWss/p/10711835.html)
 5. [git撤销、还原、放弃本地文件修改](https://link.zhihu.com/?target=https%3A//blog.csdn.net/qq_27674439/article/details/121124869)
+6. [Git基础-git diff 比较文件的差异](https://blog.csdn.net/qq_39505245/article/details/119899171)
