@@ -147,5 +147,52 @@ end
 
 ### 16. 跨层级的约束
 - 背景:transaction中基础约束,seq中附件约束,最终在用例中继续实现多态的约束
-- 实现:尽量避免跨层级的约束,如果非要跨层级约束,建议修改为用例传参给下一级seq,然后在seq内约束tranaction,不建议直接约束
+- 实现:尽量避免跨层级的约束,如果非要跨层级约束,建议修改为用例传参给下一级seq,
+- 然后在seq内约束tranaction,不建议直接约束
+
+### 17.正确理解rand 类型
+- 知识点: 只有rand 类型的数据才能被randmomzize ,
+- 背景:seq 中定义的变量如果是rand类型,则才能被randomize ,否则只能被之间赋值
+- 方式1:
+xxx_sequence.sv
+~~~
+class xxx_sequence extends xxx_base_sequence
+    rand bit [4:0] pf_bitmap_en;
+    rand bit [4:0][32:0]  msix_ch_bitmap_en;
+
+~~~
+
+xxx_test.sv
+~~~
+assert(xxx_seq.randmozi with{
+   ...
+   xxx_seq.pf_bitmap_en == local:pf_bitmap_en;     // 只有rand 类型的才能在randmoize内约束
+   xxx_seq.msix_ch_bitmap_en == local:msix_ch_bitmap_en;
+   ...
+});
+~~~
+
+
+- 方式2:
+xxx_sequence.sv
+~~~
+class xxx_sequence extends xxx_base_sequence
+    ...
+    bit [4:0] pf_bitmap_en;       //非rand 类型
+    bit [4:0][32:0]  msix_ch_bitmap_en;   //非rand 类型
+    ...
+~~~
+
+xxx_test.sv
+~~~
+    //assert(xxx_seq.randmozi with{
+    //  ...
+    //  xxx_seq.pf_bitmap_en == local:pf_bitmap_en;     // 只有rand 类型的才能在randmoize内约束
+    //  xxx_seq.msix_ch_bitmap_en == local:msix_ch_bitmap_en;
+    // ...
+    //});
+	xxx_seq.pf_bitmap_en =  pf_bitmap_en;
+	xxx_seq.msix_ch_bitmap_en == msix_ch_bitmap_en;
+	xxx_seq.randmize();
+~~~
 
