@@ -1,0 +1,141 @@
+###  1. sv 约束范围约束的时候，必须inside{[小：大]}， 如果写反编译器不会报错，也不会报约束失败
+  
+###  2. super.configure_phase(),报错，super is not expect in this contex, 原因，**子类名称后忘记逗号**
+  
+###  3. 约束中local的使用
+  
+    在使用内嵌约束randomize（）with {CONSTRAINT}时，约束体中的变量名的查找顺序默认是从被随机化对象开始查找，但如果调用randomize（）函数局部域中也有同名变量，那就需要使用local::来显式声明该变量来源于外部函数，而非被随机化的对象（在约束中也可用this/super来索引这些变量
+###  4. 队列的长度不要直接作为循环的条件，易错
+  
+###  5 .非类的变量约束,rand 变量能约束类变量,不能约束内的函数变量
+  
+###  6. 语法错误,编译器不会报错:
+  
+~~~
+task  xx_tc::main_phase(uvm_phae phase);
+        int q_rand;//函数内只能定义为变量,不能用rand 修饰
+	beign
+  
+		//std::randmize(q_rand);
+                //std::randomize(q_rand) with(q_randinside{[1:31]};); // 正确,注意语法,编译器不会报错,randomize后有括号,括号内包含q_rand,然后with 约束
+                std::randomize() with(q_randinside{[1:31]};); // 语法错误,编译器不会报错,randomize后有括号,括号内包含q_rand,然后with 约束
+  
+		<img src="https://latex.codecogs.com/gif.latex?display(&quot;q_rand=%0d&quot;,q_rand);&#x2F;&#x2F;%20真随机，调用系统函数，"/>display("random_data=%0d",<img src="https://latex.codecogs.com/gif.latex?random);&#x2F;&#x2F;伪随机	endendmodule~~~###%20%206.约束失败导致的卡死,计算器卡死,导致平台卡死,无波形,固定卡在某个时间点,APB下配置的阶段,定位方向错误,所以,%20有错误全文多上下文日志,否则看初始化流程,初步定位卡死的点solver%20time%20out%20when%20solving%20following%20problemsof%20cq_queue[i].depth%20dist{2:=10,[3:4095]:&#x2F;30,[5096:65535]:&#x2F;30,4095:=10};%20&#x2F;&#x2F;范围重复sof%20cq_queue[i].depth%20dist{2:=10,[3:4095]:&#x2F;30,[5096:65535]:&#x2F;30,65536:=10};&#x2F;&#x2F;错误,16bit最多表示65535###%20%207.https:&#x2F;&#x2F;blog.csdn.net&#x2F;hanshuizhizi&#x2F;article&#x2F;details&#x2F;116521728~~~bit[11:0]%20aq_size;bit[11:0]%20sq_size;bit[31:0]%20aqa;constrant%20aq_size_cons{aq_size%20dist%20{2:&#x2F;10,[3:4095]:&#x2F;30,4096:&#x2F;10};}constrant%20sq_size_cons{sq_size%20dist%20{2:&#x2F;10,[3:4095]:&#x2F;30,4096:&#x2F;10};}constran%20%20aqa_cons{slove%20aq_size%20before%20aqa;slove%20sq_size%20before%20aqa;}constrain%20qu_con%20{%20%20&#x2F;&#x2F;soft%20aqa%20==%20{4&#x27;b0,aq_size,4&#x27;b0,sq_size};%20&#x2F;&#x2F;易错点,结果[31:28]%20%20[15:12]%20不为0%20%20soft%20aqa%20==%20{{4&#x27;b0},aq_size,{4&#x27;b0},sq_size};%20&#x2F;&#x2F;知识点:变量或者常量的重复（扩展）与拼接,变量必须用{}括起来再参与拼接}~~~###%20%208.复杂的约束,求解器约束失败,系统卡死在transaction%20内有如下约束~~~...	soft%20cq_queue[0].base_addr[63:12]%20inside{[64&#x27;h500,64&#x27;h600]};	soft%20cq_queue[0].base_addr[11:%200]%20==%20{12{b&#x27;0}};	soft%20cq_queue[0].depth%20dist{2:=10,[3:4095]}		foreach(cq_queue[i])%20{%20&#x2F;&#x2F;cq_queue%20深度33		if(i%20&gt;%200)%20{			&#x2F;&#x2F;soft%20cq_queue[i].depth%20dist%20{2:10,[3:4095]:&#x2F;30};%20&#x2F;&#x2F;复杂度太高,求解器无法求出,仿真卡死			soft%20cq_queue[i].depth%20inside%20{[2:4095]};			soft%20cq_queue[i].base_addr%20==%20cq_queue[i-1].base_addr%20+%2016*%20cq_queue[i-1].depth;		}	}......~~~2种解决方案1.%20将上述计算cq_queue[i].base_addr移至post_randomize2.%20写新类,内部用randc,选择addr的初值###%20%209.%20for%20循环内嵌套foreach~~~...for(int%20i=0;i&lt;5;i++)%20begin	foreach(pf_cfg_pkt_p[i].cq_queue[j]){%20%20%20%20%20%20%20%20%20&#x2F;&#x2F;for循环内嵌套forech%20,foreach变量j,内循环		pf_cfg_pkt_p[i].cq_queue[j].depth%20&gt;%2032;%20	}end...~~~###%20%2010.%20结构体%20auto_file%20那个函数？无，不能传递结构体，只能传递函数，函数用file_object实现###%20%2011.%20unpack%20%20数组定位是那个方法？packer.counter###%20%2012.类里面只能是变量初始化和复制,不能在类内直接计算~~~class%20xx_test%20extends%20basic_tc4;int%20i%20=5;int%20j%20=8;if(i&gt;5)%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20&#x2F;&#x2F;编译报错,类内不能直接赋值"/>print("i out rang");  //编译报错,类内不能直接赋值
+  
+~~~
+  
+###  13. for 循环内用fork
+  
+- 函数传参必须是automatic
+- 被调函数也应该是automatic类型,否则被调函数内部变量会被公用
+~~~
+task cal_exp_burst_cnt();
+  
+	for (int i =0 ;i<5; i++) begin
+		fork
+			automatic int pf_id = i;  //必须是automaitc,否则cal_pf_exp_burst_cnt参数是5
+			if(pf_bitmap_en[pf_id])
+				cal_pf_exp_burst_cnt(pf_id);
+		join_none
+	end	
+~~~
+  
+~~~
+task automatic cal_pf_exp_burst_cnt(pf_id);
+	int req_split; //如果函数类型不是automatic,则全部子进程公用一套req_split 变量
+	...
+endtask
+~~~
+  
+###  14. 尽量选择同步电路,慎重使用组合逻辑,监测上升沿
+  
+背景:检测某型号的上升沿,采用@(posdege xx),
+~~~
+while(1) begin
+   ...
+   @(posdege xx);
+   ...
+end
+~~~
+问题:不可靠,组合逻辑内部是有可能出现毛刺,但是波形上不显示(受显示策略的影响)
+解决方案:参考逻辑的实现,监测上升沿, if(singe == 1 && singe_1dely == 0)
+~~~
+while(1) begin
+   ...
+   @(posdege sys.clk);
+   if(singe == 1 && singe_1dely == 0) begin 
+   ...
+   end
+   ...
+end
+~~~
+  
+  
+###  15 .跨时钟域的处理
+  
+- 背景: elbi 接口ack 和rsp 握手时候,信号采丢了,系统时钟是500M,elbi 时钟是1G. 核心问题,**ack 下降沿采丢了,没有做信号宽度扩展**
+- 知识点: 跨时钟域的处理
+  1. 单bit: 打一拍
+  2. 多bit: 握手/ 异步fifo /转为独热码或格雷码
+- 传送门   
+  1. [芯片设计进阶之路——跨时钟信号处理方法](https://zhuanlan.zhihu.com/p/113832794 )
+  2. [跨异步时钟域的6种方法](https://blog.csdn.net/z951573431/article/details/117260698 )
+  
+###  16. 跨层级的约束注意问题(易犯错)
+  
+在用例中通过seq约束transaction中的结构体数组,需要注意,结构体元素和结构体数组都应该设置为rand 类型,否则报约束冲突错误
+  
+###  16. 跨层级的约束
+  
+- 背景:transaction中基础约束,seq中附件约束,最终在用例中继续实现多态的约束
+- 实现:尽量避免跨层级的约束,如果非要跨层级约束,建议修改为用例传参给下一级seq,
+- 然后在seq内约束tranaction,不建议直接约束
+  
+###  17.正确理解rand 类型
+  
+- 知识点: 只有rand 类型的数据才能被randmomzize ,
+- 背景:seq 中定义的变量如果是rand类型,则才能被randomize ,否则只能被之间赋值
+- 方式1:
+xxx_sequence.sv
+~~~
+class xxx_sequence extends xxx_base_sequence
+    rand bit [4:0] pf_bitmap_en;
+    rand bit [4:0][32:0]  msix_ch_bitmap_en;
+  
+~~~
+  
+xxx_test.sv
+~~~
+assert(xxx_seq.randmozi with{
+   ...
+   xxx_seq.pf_bitmap_en == local:pf_bitmap_en;     // 只有rand 类型的才能在randmoize内约束
+   xxx_seq.msix_ch_bitmap_en == local:msix_ch_bitmap_en;
+   ...
+});
+~~~
+  
+  
+- 方式2:
+xxx_sequence.sv
+~~~
+class xxx_sequence extends xxx_base_sequence
+    ...
+    bit [4:0] pf_bitmap_en;       //非rand 类型
+    bit [4:0][32:0]  msix_ch_bitmap_en;   //非rand 类型
+    ...
+~~~
+  
+xxx_test.sv
+~~~
+    //assert(xxx_seq.randmozi with{
+    //  ...
+    //  xxx_seq.pf_bitmap_en == local:pf_bitmap_en;     // 只有rand 类型的才能在randmoize内约束
+    //  xxx_seq.msix_ch_bitmap_en == local:msix_ch_bitmap_en;
+    // ...
+    //});
+	xxx_seq.pf_bitmap_en =  pf_bitmap_en;
+	xxx_seq.msix_ch_bitmap_en == msix_ch_bitmap_en;
+	xxx_seq.randmize();
+~~~
+  
+  

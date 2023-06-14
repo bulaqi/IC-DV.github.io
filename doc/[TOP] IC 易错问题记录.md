@@ -12,7 +12,7 @@ task  xx_tc::main_phase(uvm_phae phase);
 
 		//std::randmize(q_rand);
                 //std::randomize(q_rand) with(q_randinside{[1:31]};); // 正确,注意语法,编译器不会报错,randomize后有括号,括号内包含q_rand,然后with 约束
-                std::randomize() with(q_randinside{[1:31]};); // 语法错误,编译器不会报错,randomize后有括号,括号内包含q_rand,然后with 约束
+                std::randomize() with(q_rand inside{[1:31]};); // 语法错误,编译器不会报错,randomize后有括号,括号内包含q_rand,然后with 约束
 
 		$display("q_rand=%0d",q_rand);// 真随机，调用系统函数，
 		$display("random_data=%0d",$random);//伪随机
@@ -24,7 +24,9 @@ solver time out when solving following problem
 sof cq_queue[i].depth dist{2:=10,[3:4095]:/30,[5096:65535]:/30,4095:=10}; //范围重复
 sof cq_queue[i].depth dist{2:=10,[3:4095]:/30,[5096:65535]:/30,65536:=10};//错误,16bit最多表示65535
 
-### 7.https://blog.csdn.net/hanshuizhizi/article/details/116521728
+### 7.Verilog 位拼接运算符{}语法要点总结
+[Verilog 位拼接运算符{}语法要点总结]
+(https://blog.csdn.net/hanshuizhizi/article/details/116521728)
 ~~~
 bit[11:0] aq_size;
 bit[11:0] sq_size;
@@ -57,7 +59,7 @@ constrain qu_con {
 ...
 ~~~
 
-2种解决方案
+2种解决方案:
 1. 将上述计算cq_queue[i].base_addr移至post_randomize
 2. 写新类,内部用randc,选择addr的初值
 
@@ -93,7 +95,7 @@ if(i>5)                  //编译报错,类内不能直接赋值
 - 被调函数也应该是automatic类型,否则被调函数内部变量会被公用
 ~~~
 task cal_exp_burst_cnt();
-
+  ...
 	for (int i =0 ;i<5; i++) begin
 		fork
 			automatic int pf_id = i;  //必须是automaitc,否则cal_pf_exp_burst_cnt参数是5
@@ -101,6 +103,7 @@ task cal_exp_burst_cnt();
 				cal_pf_exp_burst_cnt(pf_id);
 		join_none
 	end	
+  ...
 ~~~
 
 ~~~
@@ -154,15 +157,15 @@ end
 - 知识点: 只有rand 类型的数据才能被randmomzize ,
 - 背景:seq 中定义的变量如果是rand类型,则才能被randomize ,否则只能被之间赋值
 - 方式1:
-xxx_sequence.sv
+1.1 xxx_sequence.sv
 ~~~
 class xxx_sequence extends xxx_base_sequence
+    ...
     rand bit [4:0] pf_bitmap_en;
     rand bit [4:0][32:0]  msix_ch_bitmap_en;
-
+    ...
 ~~~
-
-xxx_test.sv
+1.2 xxx_test.sv
 ~~~
 assert(xxx_seq.randmozi with{
    ...
@@ -174,7 +177,7 @@ assert(xxx_seq.randmozi with{
 
 
 - 方式2:
-xxx_sequence.sv
+2.1 xxx_sequence.sv
 ~~~
 class xxx_sequence extends xxx_base_sequence
     ...
@@ -183,7 +186,7 @@ class xxx_sequence extends xxx_base_sequence
     ...
 ~~~
 
-xxx_test.sv
+2.2 xxx_test.sv
 ~~~
     //assert(xxx_seq.randmozi with{
     //  ...
