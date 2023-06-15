@@ -198,4 +198,7 @@ class xxx_sequence extends xxx_base_sequence
 	xxx_seq.msix_ch_bitmap_en == msix_ch_bitmap_en;
 	xxx_seq.randmize();
 ~~~
-
+### 18.assert 语法常见错误,多条件std约束时候,最后一个约束条件, 后必须有分号
+~~~
+assert(std::randomize(target) with{target>10;target<20;}); //注意,多条件std约束时候,最后一个约束条件,targe<20 后必须有分号
+~~~
