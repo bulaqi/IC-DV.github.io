@@ -156,8 +156,8 @@ end
 ### 17.正确理解rand 类型
 - 知识点: 只有rand 类型的数据才能被randmomzize ,
 - 背景:seq 中定义的变量如果是rand类型,则才能被randomize ,否则只能被之间赋值
-- 方式1:
-1.1 xxx_sequence.sv
+- 方式1: \
+1. xxx_sequence.sv
 ~~~
 class xxx_sequence extends xxx_base_sequence
     ...
@@ -165,7 +165,7 @@ class xxx_sequence extends xxx_base_sequence
     rand bit [4:0][32:0]  msix_ch_bitmap_en;
     ...
 ~~~
-1.2 xxx_test.sv
+2. xxx_test.sv
 ~~~
 assert(xxx_seq.randmozi with{
    ...
@@ -177,7 +177,7 @@ assert(xxx_seq.randmozi with{
 
 
 - 方式2:
-2.1 xxx_sequence.sv
+1. xxx_sequence.sv
 ~~~
 class xxx_sequence extends xxx_base_sequence
     ...
@@ -186,7 +186,7 @@ class xxx_sequence extends xxx_base_sequence
     ...
 ~~~
 
-2.2 xxx_test.sv
+2. xxx_test.sv
 ~~~
     //assert(xxx_seq.randmozi with{
     //  ...
