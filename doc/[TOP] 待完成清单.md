@@ -4,3 +4,4 @@
 4. verdi的smartlog https://blog.csdn.net/Michael177/article/details/123579058
 5. 思考如何平台的可以快速定位问题的能力,如何搭建,各级日志的打印
 6. 等待事件,并设置超时时间
+7. include import package的使用,aem 的部分ptk 在env下,如果移位到sqe目录下
