@@ -22,6 +22,7 @@
 16. git diff <commit1> <commit2> 文件目录D  //同一个文件目录,不同commit_id 之间的差异
 17. git diff <commit1> -- 文件目录D  //--表示工作区,-- 和文件名 之间有一个 空格
 18. git diff -- 文件名   //查看具体某个文件 在工作区和暂存区之间的差异,-- 和文件名 之间有一个 空格
+19. git blame [filename]
 ~~~
 
 ### 3. git 上库(autostash)
