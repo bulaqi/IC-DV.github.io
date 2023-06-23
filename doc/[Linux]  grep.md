@@ -27,6 +27,29 @@ ps -ef|grep xxxx
 -v：显示不被 pattern 匹配到的行，相当于[^] 反向匹配
 -w ：匹配 整个单词
 ~~~
-### 
-### 传送门
+#### 4. 常用
+4.1 grep -e命令是实现多个匹配之间的或关系，比如我们想找包含aaaa或者bbbb的，显然应该返回第一行和第二行： 
+~~~
+grep -e aaaa -e bbbb test
+aaaa
+bbbbbb
+~~~
+
+4.2 grep -F相当于fgrep命令，就是将pattern视为固定字符串。比如搜索'aa*'不带-F和带上，区别如下
+~~~
+➜ grep 'aa*' test
+aaaa
+AAAaaa
+
+➜ grep -F 'aa*' test
+~~~
+可以看到第二次就找不到了，因为搜索的是 aa*这个字符串，而不是正则表达式 \
+4.3 grep -f 文件名的使用方法是把后面这个文件里的内容当做pattern。比如我们有个文件，名字是 grep.txt，然后内容是aa*，使用方法如下
+~~~
+➜ grep -f grep.txt test
+aaaa
+AAAaaa
+~~~
+
+#### 传送门
 1. [Linux 文本处理三剑客：grep、sed 和 awk](https://zhuanlan.zhihu.com/p/110983126)
