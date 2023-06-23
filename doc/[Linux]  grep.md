@@ -28,3 +28,5 @@ ps -ef|grep xxxx
 -w ：匹配 整个单词
 ~~~
 ### 
+### 传送门
+1. [Linux 文本处理三剑客：grep、sed 和 awk](https://zhuanlan.zhihu.com/p/110983126)
