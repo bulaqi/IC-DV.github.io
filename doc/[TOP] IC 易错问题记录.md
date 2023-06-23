@@ -195,6 +195,7 @@ class xxx_sequence extends xxx_base_sequence
     // ...
     //});
 	xxx_seq.pf_bitmap_en =  pf_bitmap_en;
+
 	xxx_seq.msix_ch_bitmap_en == msix_ch_bitmap_en;
 	xxx_seq.randmize();
 ~~~
@@ -202,3 +203,13 @@ class xxx_sequence extends xxx_base_sequence
 ~~~
 assert(std::randomize(target) with{target>10;target<20;}); //注意,多条件std约束时候,最后一个约束条件,targe<20 后必须有分号
 ~~~
+
+
+### 19. Makefile 编译的理解
+编译时,指定sv的文件路径,如果该路径无sv文件,则编译错误,跳出编译
+总结:依赖关系必须是要对应
+~~~
+.shadow/complile_tb:./shadow/compile_uvm $(TB_PAHT)/atc/*/*.sv  $(TB_PAHT)/atc/*/*/*.sv
+~~~
+问题描述:如果$(TB_PAHT)/atc/*/*.sv找不到文件,则依赖关系未解决,退出编译
+修改:如果该路径无用例,则删除该路径;否则在路径下添加用例
