@@ -35,4 +35,4 @@
 
  
 ### 传送门:
-     1. [搭建一个好平台](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/%5BTOP%5D%20%20%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%A5%BD%E5%B9%B3%E5%8F%B0.md)
+1. [搭建一个好平台](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/%5BTOP%5D%20%20%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%A5%BD%E5%B9%B3%E5%8F%B0.md)
