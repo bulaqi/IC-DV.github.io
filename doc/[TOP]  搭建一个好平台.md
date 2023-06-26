@@ -20,11 +20,11 @@
   - 打印rm中收到的报文数据
   - 打印scb exp act的数据
     
-5. 借助脚本,效率会更高
+6. 借助脚本,效率会更高
   开发bscb,将scb组件中的收到的exp和act报文数据,用becompare比较
 
-6.检查尽量黑盒测试,测试过程尽量不借助dut信号,确保scb中优先收到exp数据比act数据早
-7.严格按照VO表进行推进,欢迎有新想法,新想法可以先记录,完成计划任务后再补新idea,要详细开发和架构多轮评审的意义
+7. 检查尽量黑盒测试,测试过程尽量不借助dut信号,确保scb中优先收到exp数据比act数据早
+8. 严格按照VO表进行推进,欢迎有新想法,新想法可以先记录,完成计划任务后再补新idea,要详细开发和架构多轮评审的意义
 
 ### 3. 传送门:
 [we can do better](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/%5BTOP%5D%20we%20can%20do%20better.md)
