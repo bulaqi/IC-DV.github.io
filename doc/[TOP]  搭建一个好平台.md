@@ -4,7 +4,27 @@
 
 ### 2.好平台的若干项措施
 1. 平台结构,VIP数据的获取
-2. 用例模板
+   
+3. 用例模板,全局配置的获取,建议采用gloab.cfg文件,eg,通过ahb配置aem_region0_addr,
+   - 可以建立一个全局的配置类,该类内包含全部寄存,内部组件需要任何寄存器的值都从该类内获取
+   - 方法1: 平台可以通过监控总线数据,刷新该全局类的寄存器,
+   - 方法2: 用例之间写该配置类的值
+     
+4. 合理的用例结构,可以快速开发的用例
+   - 采用原华为的用例模板,和当前开发各种seq结合的方法,快速构建用例
+   - 如果seq发包需要用task 封装,请重复考虑传参的全面性,建议:1:tc_cfg_struct_class 类,承载bit_map_en的用例控制结构图, 2.dut_cfg_seq类,传递配置信息 3.一个控制发包seq的类,eg,顺序发,rand发,全部发等
+
+5. 充分考虑开发平台的可测试性,按照功能将关键信息打印至不同文件中
+  - 打印用例中的激励, 在transaction中实现print_函数
+  - 打印配置    -配置pkt打印一级, 实际发送的seq打印已经
+  - 打印rm中收到的报文数据
+  - 打印scb exp act的数据
+    
+5. 借助脚本,效率会更高
+  开发bscb,将scb组件中的收到的exp和act报文数据,用becompare比较
+
+6.检查尽量黑盒测试,测试过程尽量不借助dut信号,确保scb中优先收到exp数据比act数据早
+
 
 ### 3. 传送门:
 [we can do better](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/%5BTOP%5D%20we%20can%20do%20better.md)
