@@ -12,7 +12,7 @@
      
 4. 合理的用例结构,可以快速开发的用例
    - 采用原华为的用例模板,和当前开发各种seq结合的方法,快速构建用例
-   - 如果seq发包需要用task 封装,请重复考虑传参的全面性,建议:1:tc_cfg_struct_class 类,承载bit_map_en的用例控制结构图, 2.dut_cfg_seq类,传递配置信息 3.一个控制发包seq的类,eg,顺序发,rand发,全部发等
+   - 如果seq发包需要用task 封装,请重复考虑传参的全面性,建议:1:tc_cfg_struct_class 类,承载bit_map_en的用例控制结构图, 2.dut_cfg_seq类,传递配置信息 3.一个控制发包seq的类,eg,顺序发,rand发,全部发等场景
 
 5. 充分考虑开发平台的可测试性,按照功能将关键信息打印至不同文件中
   - 打印用例中的激励, 在transaction中实现print_函数
@@ -24,7 +24,7 @@
   开发bscb,将scb组件中的收到的exp和act报文数据,用becompare比较
 
 6.检查尽量黑盒测试,测试过程尽量不借助dut信号,确保scb中优先收到exp数据比act数据早
-
+7.严格按照VO表进行推进,欢迎有新想法,新想法可以先记录,完成计划任务后再补新idea,要详细开发和架构多轮评审的意义
 
 ### 3. 传送门:
 [we can do better](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/%5BTOP%5D%20we%20can%20do%20better.md)
