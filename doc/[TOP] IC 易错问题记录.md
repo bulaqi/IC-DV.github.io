@@ -213,3 +213,44 @@ assert(std::randomize(target) with{target>10;target<20;}); //注意,多条件std
 ~~~
 问题描述:如果$(TB_PAHT)/atc/*/*.sv找不到文件,则依赖关系未解决,退出编译
 修改:如果该路径无用例,则删除该路径;否则在路径下添加用例
+
+
+### 20. 慎用disabale fork禁用整个衍生进程
+~~~
+fork
+	begin:ring_host_dbl_timeout
+		for(int i=0; i<5; i+++) begin
+			automatic int pf_id = i;
+			for(int cq_id; cq_id<33; cq_id++) begin
+				fork
+					automatic int cq_ch_id = cq_id;
+					ring_host_dbl_with_mode(pf_id,cq_ch_id); //该子进程内部是死循环,内部调用AHB总线查询寄存器
+				join_none				
+			end
+		end
+	end
+	
+	while(1) begin
+		@(posedeg aem_top_vif.aem_top_clk)
+		if(!aem_top_vif.axim_wlast_o)
+			idle_clk_cnt++;
+		else 
+			idle_clk_cnt =0 ;
+			
+		if(idle_clk_cnt > 2000) begin
+			disable ring_host_dbl_timeout;  //问题:timeout跳出的时候,有可能上面的衍生子进程ring_host_dbl_with_mode,还在while(1) 调用AHB_vip
+											//因:AHB_VIP 发送了seq请求,但是ring_host_dbl_with_mode被kill 掉,AHB_VIP 报错
+			break;
+		end
+	end
+joinjoin_any
+~~~
+
+- 报错信息:
+xxx_uvm_test_top.env.ahb_sys_env.master[0].sequencer[SEQREQZMB] SEQREQZMB] The task responsible for requesting a wait_for_grant on sequencer 'xxx' for sequence 'default_parent_seq' has been bkilled, to avolid a deadlock thee sequence will be removed form the arbitraction queues.
+- 解决方案
+  在ring_host_dbl_with_mode 内部判断aem_top_vif.axim_wlast_o 超时,超时后break跳出
+- 建议
+  不建议,粗暴的之间disabel fork join 块,慎用
+
+
