@@ -74,7 +74,7 @@
    ~~~
    或
    ~~~
-   git push --set-upstream origin dev
+   git push --set-upstream-to origin dev
    ~~~
 2. 场景:远程已经创建了分支dev,而本地没有
    在pull远程分支的同时，创建本地分支并与之进行关联
