@@ -5,7 +5,7 @@ filelist列表中直接引用 xxx/xxx/fifo.v 则对文件中的module名没有�
 ### 2. partcomp,fastpartcom
  1. partcomp自动分块编译，只需要加入-partcomp的编译选项即可，应用起来比较简单。
  2. -fastpartcom=jn，n代表并行线程的数量
-#### 3.vcs编译重复定义文件问题
+#### 3.vcs编译重复定义文件问题,-error=noMPD
  1. 在允许覆盖的情况下，消除不报error，用-top指定顶层或加选项-error=noMPD
 
 ### 传送门
