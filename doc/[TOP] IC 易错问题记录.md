@@ -254,12 +254,39 @@ xxx_uvm_test_top.env.ahb_sys_env.master[0].sequencer[SEQREQZMB] SEQREQZMB] The t
   不建议,粗暴的之间disabel fork join 块,慎用
 
 ### 21. 功能覆盖率,covergroup的bin设置的时候, 不能直接用变量传进去,会爆运行错误
+1. 问题
+~~~
 covergroup cq_doordbl_overage_cov;
 	iocq_door_size: coverpoint ahb_trans.data[0] iff (ahb_trans.addr == 'h1008) {
-		bins over_iocq_depth = {[cfg.iocqe_ring_depth[0] : $]};  //此处cfg.iocqe_ring_depth,不能直接传,需要用参数传
+		bins over_iocq_depth = {[cfg.iocqe_ring_depth[0] : $]};  //此处cfg.iocqe_ring_depth,不能直接传,需要用采用通用覆盖组参数传,或者直接改为常量
 	}
 	acq_door_size: coverpoint ahb_trans.data[0] iff (ahb_trans.addr == 'h1008) {
 		bins over_acq_depth = {[cfg.acqe_ring_depth[0] : $]};    //此处cfg.iocqe_ring_depth,不能直接传,需要用参数传
 	}
-endgrop
-
+endgroup
+~~~
+2. 解决方案
+   2.1 covgrp 传参
+   ~~~
+   covergroup cq_doordbl_overage_cov(aem_top_config cfg);
+   	iocq_door_size: coverpoint ahb_trans.data[0] iff (ahb_trans.addr == 'h1008) {
+		bins over_iocq_depth = {[cfg.iocqe_ring_depth[0] : $]};  //此处cfg.iocqe_ring_depth,不能直接传,需要用采用通用覆盖组参数传
+	}
+	acq_door_size: coverpoint ahb_trans.data[0] iff (ahb_trans.addr == 'h1008) {
+		bins over_acq_depth = {[cfg.acqe_ring_depth[0] : $]};    //此处cfg.iocqe_ring_depth,不能直接传,需要用采用通用覆盖组参数传
+	}
+   endgroup
+   ~~~
+   2.2 bin仓改为常量
+   ~~~
+   covergroup cq_doordbl_overage_cov();
+   	iocq_door_size: coverpoint ahb_trans.data[0] iff (ahb_trans.addr == 'h1008) {
+		bins over_iocq_depth = {[3 : $]};  //直接改为常量
+	}
+	acq_door_size: coverpoint ahb_trans.data[0] iff (ahb_trans.addr == 'h1008) {
+		bins over_acq_depth = {[5 : $]};    //直接改为常量
+	}
+   endgroup
+   ~~~
+3. 原理总结
+   bin仓是一个已经规定好的仓,目的是coverpoint是否在该范围,所以默认是常量,如果需要用到变量,需要特殊的处理,eg,参数传递
