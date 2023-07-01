@@ -253,4 +253,13 @@ xxx_uvm_test_top.env.ahb_sys_env.master[0].sequencer[SEQREQZMB] SEQREQZMB] The t
 - 建议
   不建议,粗暴的之间disabel fork join 块,慎用
 
+### 21. 功能覆盖率,covergroup的bin设置的时候, 不能直接用变量传进去,会爆运行错误
+covergroup cq_doordbl_overage_cov;
+	iocq_door_size: coverpoint ahb_trans.data[0] iff (ahb_trans.addr == 'h1008) {
+		bins over_iocq_depth = {[cfg.iocqe_ring_depth[0] : $]};  //此处cfg.iocqe_ring_depth,不能直接传,需要用参数传
+	}
+	acq_door_size: coverpoint ahb_trans.data[0] iff (ahb_trans.addr == 'h1008) {
+		bins over_acq_depth = {[cfg.acqe_ring_depth[0] : $]};    //此处cfg.iocqe_ring_depth,不能直接传,需要用参数传
+	}
+endgrop
 
