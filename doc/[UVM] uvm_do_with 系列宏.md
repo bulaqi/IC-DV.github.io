@@ -38,7 +38,8 @@ endclass
 ~~~
 
 ### 3. uvm_do 宏的替换方案2: start_item与finish_item
-不使用宏产生transaction的方式要依赖于两个任务： start_item和finish_item。 在使用这两个任务前， 必须要先实例化transaction后才可以调用这两个任务：
+- 不使用宏产生transaction的方式要依赖于两个任务： start_item和finish_item。
+- 在使用这两个任务前， 必须要先实例化transaction后才可以调用这两个任务：
 ~~~
    virtual task body();
       my_transaction tr;
