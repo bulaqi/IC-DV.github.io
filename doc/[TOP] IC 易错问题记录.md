@@ -253,7 +253,7 @@ xxx_uvm_test_top.env.ahb_sys_env.master[0].sequencer[SEQREQZMB] SEQREQZMB] The t
 - 建议
   不建议,粗暴的之间disabel fork join 块,慎用
 
-### 21. 功能覆盖率,covergroup的bin设置的时候, 不能直接用变量传进去,会爆运行错误
+### 21. 功能覆盖率,covergroup的bin设置的时候, 不能直接用变量传进去,会报运行错误
 1. 问题
 ~~~
 covergroup cq_doordbl_overage_cov;
@@ -290,3 +290,11 @@ endgroup
    ~~~
 3. 原理总结
    bin仓是一个已经规定好的仓,目的是coverpoint是否在该范围,所以默认是常量,如果需要用到变量,需要特殊的处理,eg,参数传递
+
+### 22. 合理的选择实现死循环读取的操作,建议写成seq,并且合理的选择 fork_join的操作,尽量避免fore循环嵌套多次层的fork join,
+原因:如果最底层调用SEQ 读取接口,可以回报 xxx_uvm_test_top.env.elbi.sequencer[SEQREQZMB] SEQREQZMB] The task responsible for requesting a wait_for_grant on sequencer 'xxx' for sequence 'default_parent_seq' has been bkilled, to avolid a deadlock thee sequence will be removed form the arbitraction queues.
+
+~~~
+ta
+~~~
+
