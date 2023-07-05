@@ -295,6 +295,49 @@ endgroup
 原因:如果最底层调用SEQ 读取接口,可以回报 xxx_uvm_test_top.env.elbi.sequencer[SEQREQZMB] SEQREQZMB] The task responsible for requesting a wait_for_grant on sequencer 'xxx' for sequence 'default_parent_seq' has been bkilled, to avolid a deadlock thee sequence will be removed form the arbitraction queues.
 
 ~~~
-ta
+task check_msix_int_func()
+	for(int i =0; i<5 ;i++) begin
+		automatic int pf_id =i;
+		...
+		for(int j=0;j<33; j++) bgein
+			automatic int int_ch_id =j;
+			fork
+				check_msix_ch_int_func(pf_id, int_ch_id);
+			join
+		end
+	end	
+endtask
+~~~
+
+
+~~~
+task automatic  check_msix_ch_int_func(int pf_id, int int_ch_id);
+	while(1) begin
+		@(posedge aem_top_vif.aem_top_clk);
+		if(cfg.main_phase_to_done_flag == 0) begin
+			check_cqe_exit(pf_id,int_ch_id);
+			delay_times(1000);
+		end else if(cfg.main_phase_to_done_flag == 1)
+		    break;
+	end
+endtask
+~~~
+
+
+~~~
+task automatic check_cqe_exit(int pf_id, int int_ch_id);
+	int ch_size = msix_ch_map_cq_tbl[pf_id][int_ch_id].size;
+	for(int i=0; i < ch_size; i ++) begin
+		ch = msix_ch_map_cq_tbl[pf_id][int_ch_id][i];
+		read_pf_host_dbl_head(pf_id,cd,cq_head);                       // 此处,由前门访问改为后面访问,否则太消耗仿真时间,导致main_phase_to_done_flag后任务删除,seq报错
+		read_pf_host_dbl_tail(pf_id,cd,cq_tail);                       // 此处,由前门访问改为后面访问
+		if(cq_head != cq_tail) begin
+			int cq_head_target = (cq_head < cq_tail)? cq_head:cq_tail
+			//fork                                                      //此次不宜加fork_join,并行的运行,减少提前发送seq
+				ring_pf_host_hdbl(pf_id,ch,cq_head_target);
+			//join
+		end
+	end
+endtask
 ~~~
 
