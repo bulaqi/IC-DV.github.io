@@ -370,7 +370,7 @@ endtask
 ~~~
 
 25. 循环启动衍生线程,且等待衍生线程的执行结果,通过全局变量实现,并行启动衍生线程,衍生线程置全部变量控制位,父线程循环检测完成状态
- - 1.正确方法示范:
+ - 1.正确方法示范:\ 
 1.send_cq_axis.sv 循环启动多线程,设置并行线程,等待子函数运行结束,通过axi_rx_send_done全局变量控制
 ~~~
 task automatic send_cq_axis(int pf_id,ref int send_iocq_hw_cnt[5]);
@@ -408,8 +408,8 @@ task automatic send_cqe_axis_per_ch(int pf_id,int cq_id,ref int send_iocq_hw_cnt
 	axi_rx_send_done[pf_id][cq_id] = 1;  //子函数运行完成后对应为置1
 endtask
 ~~~
- - 2. 易错方法解析:
-   1.send_cq_axis.sv 循环启动多线程,设置并行线程,等待子函数运行结束,通过axi_rx_send_done全局变量控制
+ - 2. 易错方法解析:\ 
+   1.send_cq_axis.sv 该函数只运行了aem_axi_iocq_seq,没有运行aem_axi_iocq_err_seq,原因fork join等待#0 和子线程被调用,但是不等待子线程的完成,所以建议采用方法1
 ~~~
 task automatic send_cq_axis(int pf_id,ref int send_iocq_hw_cnt[5]);
 	fork
@@ -423,15 +423,16 @@ task automatic send_cq_axis(int pf_id,ref int send_iocq_hw_cnt[5]);
 			join_none
 		
 		end
-		while(1) begin
-			@(posedge aem_top_vif.aem_top_clk);
-			if(axi_rx_send_done[pf_id] == 'hffff) //循环等待32个子线程,每个子线程完成后至该全部变量1bit的值,全部线程执行完备等效与该变量为FFFF
-				break;	
-		end
+		#0   //让上述的衍生线程执行
+		//hile(1) begin
+		//	@(posedge aem_top_vif.aem_top_clk);
+		//	if(axi_rx_send_done[pf_id] == 'hffff) //循环等待32个子线程,每个子线程完成后至该全部变量1bit的值,全部线程执行完备等效与该变量为FFFF
+		//		break;	
+		//nd
 	join  // 此处是join,两个条件都满足才能结束父线程
 endtask
 ~~~
-2.send_cqe_axis_per_ch.sv,该函数只运行了aem_axi_iocq_seq
+2.send_cqe_axis_per_ch.sv,该函数只运行了aem_axi_iocq_seq,没有运行aem_axi_iocq_err_seq
 ~~~
 task automatic send_cqe_axis_per_ch(int pf_id,int cq_id,ref int send_iocq_hw_cnt[5]);
 	aem_axi_iocq_seq = aem_axi_iocq_sequence::type_id::creat("aem_axi_iocq_seq");
