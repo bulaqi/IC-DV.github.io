@@ -10,7 +10,7 @@
 4. git remote -v  //当前分支所属的远程仓库地址
 5. git branch -d <branchname> //删除分支
 6. git checkout -b <branchname>  //新建并切换至新分支,不影响远本地未add的数据
-6. git checkout -b develop origin/develop  //本地新建分支,并关联远端分支
+6. git checkout -b develop origin/develop  //本地新建分支,并关联远端分支 [推荐使用]
 7. git pull -r --autostash
 8. git show tag_name //查看该tag_name的信息
 9. git tag -l //
