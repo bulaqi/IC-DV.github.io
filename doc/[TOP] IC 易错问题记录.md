@@ -344,5 +344,29 @@ endgroup
 3. 原理总结
    bin仓是一个已经规定好的仓,目的是coverpoint是否在该范围,所以默认是常量,如果需要用到变量,需要特殊的处理,eg,参数传递
 
-
+24. fork join 循环调用错误的使用,注意点:
+    1. fork 内嵌套for循环,for 循环内的第一句应该就是automatic 变量
+    2. 后续条件中涉及cq_id 变量控制的,都应该替换为automatic 变量
+    ~~~
+    task automatic send_cq_axis(int pf_id,ref int send_iocq_hw_cnt[5]);
+	fork
+		for(int cq_id =0 ;cq_id <32 ;cq_id++) begin
+			fork
+				automatic int k = cq_id;        // fork 内嵌套for循环,for 循环内的第一句应该就是automatic 变量问题
+				//if(cqx_bitmap_en[pf_id][cq+1]) begin   //cq 在循环内必须完成需要已经,cq_id== 32
+				if(cqx_bitmap_en[pf_id][k+1]) begin   //automatic内的必须是k为索引的
+                                    //automatic int k = cq_id;        // automatic类型的变量应该再for下第一句,无阻塞语句,无条件选通
+				    send_cqe_axis_per_ch(pf_id,k,sen_iocq_hw_cnt);
+				end
+			join_none
+		
+		end
+		while(1) begin
+			@(posedge aem_top_vif.aem_top_clk);
+			if(axi_rx_send_done[pf_id] == 'hffff)
+				break;	
+		end
+	join
+endtask
+    ~~~
 
