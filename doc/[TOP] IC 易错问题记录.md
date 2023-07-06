@@ -369,3 +369,43 @@ task automatic send_cq_axis(int pf_id,ref int send_iocq_hw_cnt[5]);
 endtask
 ~~~
 
+25. 循环启动衍生线程,且等待衍生线程的执行结果,通过全局变量实现,并行启动衍生线程,衍生线程置全部变量控制位,父线程循环检测完成状态
+1. 正确方法示范:
+- send_cq_axis.sv 循环启动多线程,设置并行线程,等待子函数运行结束,通过axi_rx_send_done全局变量控制
+~~~
+task automatic send_cq_axis(int pf_id,ref int send_iocq_hw_cnt[5]);
+	fork
+		for(int cq_id =0 ;cq_id <32 ;cq_id++) begin
+			fork
+				automatic int k = cq_id;        // for循环内的第一句应该就是automatic 变量问题
+				//if(cqx_bitmap_en[pf_id][cq+1]) begin   //cq 在循环内必须完成需要已经,cq_id== 32
+				if(cqx_bitmap_en[pf_id][k+1]) begin   //automatic内的必须是k为索引的
+					send_cqe_axis_per_ch(pf_id,k,sen_iocq_hw_cnt)
+				end
+			join_none
+		
+		end
+		while(1) begin
+			@(posedge aem_top_vif.aem_top_clk);
+			if(axi_rx_send_done[pf_id] == 'hffff) //循环等待32个子线程,每个子线程完成后至该全部变量1bit的值,全部线程执行完备等效与该变量为FFFF
+				break;	
+		end
+	join  // 此处是join,两个条件都满足才能结束父线程
+endtask
+~~~
+- send_cqe_axis_per_ch.sv 被调函数,内部对 控制线程的全局变量至位
+~~~
+task automatic send_cqe_axis_per_ch(int pf_id,int cq_id,ref int send_iocq_hw_cnt[5]);
+	aem_axi_iocq_seq = aem_axi_iocq_sequence::type_id::creat("aem_axi_iocq_seq");
+	aem_axi_iocq_err_seq = aem_axi_iocq_err_sequence::type_id::creat("aem_axi_iocq_err_seq");
+	aem_axi_iocq_seq.start(vsequencer);
+        send_iocq_hw_cnt[pf_id] = send_iocq_hw_cnt[pf_id] +aem_axi_iocq_seq.send_iocq_hw_cnt[pf_id];
+	
+	delay_time_ns(11000);
+	aem_axi_iocq_err_seq.start(vsequencer);
+	send_iocq_hw_cnt[pf_id] = send_iocq_hw_cnt[pf_id] +aem_axi_iocq_err_seq.send_iocq_hw_cnt[pf_id];
+	
+	axi_rx_send_done[pf_id][cq_id] = 1;  //子函数运行完成后对应为置1
+endtask
+~~~
+2. 易错方法解析:
