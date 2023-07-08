@@ -448,5 +448,6 @@ task automatic send_cqe_axis_per_ch(int pf_id,int cq_id,ref int send_iocq_hw_cnt
 endtask
 ~~~
 26. override时候注意事项
-    1. 参数必须一致,与虚函数类似
-    2. override class和instanse 2中,如果直接是类重载,需要在类被创建前先重载,否则失效
+    1. 新类定义的参数必须和原参数保持一致,与虚函数类似
+    2. override的时候不需要体现参数
+    3. override class和instanse 2中,如果直接是类重载,需要在类被创建前先重载,否则失效
