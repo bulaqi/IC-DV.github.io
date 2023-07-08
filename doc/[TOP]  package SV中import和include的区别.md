@@ -1,4 +1,4 @@
-### 知识点
+### 1. 知识点
 SystemVerilog仅使用类型的名称来确定类的类型等效性。例如，假设我下面有这两个类定义A和B：
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/ac294ee9-fc40-4f46-a16c-8d8238519b98)
 
@@ -13,7 +13,7 @@ SystemVerilog认为这两个类定义是不相等的类型，因为它们的名�
 
 
 
-### 总结
+### 2. 总结
 
 - `include将文件中所有文本原样插入包含的文件中。这是一个预处理语句，`include在import之前执行。他的主要作用就是在package中平铺其他文件，从而在编译时能够将多个文件中定义的类置于这个包中，形成一种逻辑上的包含关系。
 
@@ -26,5 +26,5 @@ SystemVerilog认为这两个类定义是不相等的类型，因为它们的名�
 3. 为了文件管理方法，将部分code写到一个单独的文件中，然后在主文件中直接include进来，相当于将多个文件合并成一个文件。比如，一个subsys要用到很多API，而这些API共有A, B，C三类，分别由3个人完成，则可以写成api_a.sv, api_b.sv, api_c.sv，在l0_basic_vseq.sv中，将这三个文件include进来。
 
 
-### 传送门
+### 3. 传送门
 1.  [SV中import和include的区别](https://blog.csdn.net/Andy_ICer/article/details/115679314)
