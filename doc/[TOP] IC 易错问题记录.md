@@ -458,3 +458,27 @@ endtask
 28. seq_lib 中的方法和basic_test中的方法
     1. 问题eg, seq中使用read_reg,并在此函数上封装了其他接口,但是因为pack的关系,无法在用例中直接使用该方法
     2. 解决方案: 在basic_test内再次实现该方法,相当于有2套相同的方法,1套给用例使用,一套给seq使用
+29. 顶层连线注意事项
+     1. 错误示例,aem_top_th.sv,initi begin 只执行一次,期望是是将aem_fp0_flr_rstn_n_i信号用aem_pf_flr_o 和aem_rst_n_i 计算得到
+        ~~~
+        ...
+        initi begin
+	 aem_top_if.aem_fp0_flr_rstn_n_i  = (~aem_top_if.aem_pf_flr_o[0] & aem_top_if.aem_rst_n_i);
+         //aem_top_if.aem_fp0_flr_rstn_n_i  <= (~aem_top_if.aem_pf_flr_o[0] & aem_top_if.aem_rst_n_i);
+        end
+        ...
+        ~~~
+    2. 单语句用assgin,实现连接
+       ~~~
+       ...
+       assgin aem_top_if.aem_fp0_flr_rstn_n_i  = (~aem_top_if.aem_pf_flr_o[0] & aem_top_if.aem_rst_n_i);
+       ...
+       ~~~
+    4. 多条语句用always块, 阻塞赋值,需要重复考虑posdege的 对象
+       ~~~
+       ...
+       always_ff(@ posdege aem_top_if.clk )
+	    assgin aem_top_if.aem_fp0_flr_rstn_n_i  <= (~aem_top_if.aem_pf_flr_o[0] & aem_top_if.aem_rst_n_i);	
+       end
+       ...
+       ~~~
