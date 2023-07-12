@@ -482,3 +482,5 @@ endtask
        end
        ...
        ~~~
+30. 寄存器模式使用的注意事项,default_map的addr 可能累加计算,需要特别注意,真实值是 map的base_addr + reg的偏移
+    
