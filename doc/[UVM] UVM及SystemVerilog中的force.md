@@ -1,11 +1,12 @@
 ### 基础知识
 #### UVM接口
-1. uvm_hdl_force,
-2. uvm_hdl_release
-3. uvm_hdl_deposit
-4. uvm_hdl_check_path
-5. uvm_hdl_read
-6. uvm_hdl_release_and_read
+1. uvm_hdl_check_path 检查给定的HDL路径是否存在。
+2. uvm_hdl_deposit 将给定的HDL路径设置为指定的值。
+3. uvm_hdl_force 强制给定路径上的值。
+4. uvm_hdl_force_time 强制给定路径上的值为指定数量的force_time。
+5. uvm_hdl_release_and_read 释放先前使用uvm_hdl_force设置的值。
+6. uvm_hdl_release 释放先前使用uvm_hdl_force设置的值。
+7. uvm_hdl_read() 获取给定路径处的值。
 ~~~
 //与SV中force语句相对应
 import "DPI-C" context function int uvm_hdl_force(
@@ -116,3 +117,4 @@ UVM_INFO ...[DEBUG] after uvm release, read_value is 1100
 
 ### 传输门
 1. [UVM及SystemVerilog中的force、deposit及两者的区别](https://zhuanlan.zhihu.com/p/621413134)
+2. [UVM HDL后门访问支持例程](https://blog.csdn.net/Michael177/article/details/123413738)
