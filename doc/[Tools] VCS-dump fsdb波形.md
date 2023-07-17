@@ -1,5 +1,3 @@
-### 参考
-https://blog.csdn.net/hh199203/article/details/114981486
 ### 方法
 #### 1. testbench中控制dump fsdb
  1. testbench中加入的代码
@@ -84,3 +82,7 @@ call fsdbDumpoff
 run 10us
 quit                                      # 需要使用quit，irun不自动结束
 ~~~
+
+
+### 传送门
+1. [VCS dump fsdb 波形](https://blog.csdn.net/hh199203/article/details/114981486)
