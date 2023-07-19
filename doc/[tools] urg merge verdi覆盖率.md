@@ -11,7 +11,14 @@
 -parallel，并行merge
 -full64，以64bit的程序进行merge
 -plan，-userdata，-userdatafile，-hvp_no_score_missing，指定hvp相关的生成信息。
+-efilelist , 添加覆盖率文件列表
 ~~~
+
+### 2. 使用
+1. verdi 查看覆盖率,el 文件为filelist
+   ~~~
+   verdi -cov -covdir xxx.vdb -efilelist xx_ex_list     //备注:其中xx_ex_list包含需要加载的el文件的绝对路径
+   ~~~
 
 ### 传送门
 1. [VCS仿真和多个test用urg工具生成coverage文件verdi查看](https://blog.csdn.net/weixin_42058545/article/details/111932681?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-1-111932681-blog-111928703.235^v38^pc_relevant_yljh&spm=1001.2101.3001.4242.2&utm_relevant_index=4)
