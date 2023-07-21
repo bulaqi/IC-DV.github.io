@@ -1,16 +1,41 @@
 [TOC]
-### 1. 概述
+### 0. 概述
   git 新建分支的目的是为了多分支并行独立开发，完成后merger 到主分支
 
+### 1.切分支查看,必须保持现场,不止add
+#### 1.1 git commit 暂存,修改后回退
+~~~
+1. git add .
+2. git commit -m "save tmp"
+3. git checkout -b develop origin/develop
+4. 查看代码
+5. git checkout aem // 切回原分支
+6. git reset --soft HEAD^  //回退已commit 但未push的
+7. git reset HEAD <fiel>   // 回退已经add,但是未commit的
+~~~
+#### 1.2 stash 暂存
+~~~
+git branch  // 查看当前分支
+git status //查看修改文件
+git stash // 将本地改动暂存到“栈”里面
+git checkout master // 切换到master分支
+git pull // 拉取master分支最新的代码
+# 当我们再想切换回当前的feature分支
+git checkout feature // 切换回到feature分支
+git stash show //显示当前放在栈里的文件
+git stash pop // 再将刚才暂存到“栈”里面的代码取出来
+git status //此时查看就出现了暂存前修改文件
+~~~
+  
 ### 2. 常用命令
 ~~~
-1. git stash VS  git stash pop
+1. git checkout -b develop origin/develop  //本地新建分支,并关联远端分支 [强烈推荐使用]
 2. git stash list
 3. git branch -vv //查看当前的本地分支与远程分支的关联关系
 4. git remote -v  //当前分支所属的远程仓库地址
 5. git branch -d <branchname> //删除分支
 6. git checkout -b <branchname>  //新建并切换至新分支,不影响远本地未add的数据
-6. git checkout -b develop origin/develop  //本地新建分支,并关联远端分支 [推荐使用]
+6. git stash VS  git stash pop
 7. git pull -r --autostash
 8. git show tag_name //查看该tag_name的信息
 9. git tag -l //
@@ -24,6 +49,8 @@
 17. git diff <commit1> -- 文件目录D  //--表示工作区,-- 和文件名 之间有一个 空格
 18. git diff -- 文件名   //查看具体某个文件 在工作区和暂存区之间的差异,-- 和文件名 之间有一个 空格
 19. git blame [filename]
+20. git reset --soft HEAD^  //回退已commit 但未push的
+21. git reset HEAD <fiel>   // 回退已经add,但是未commit的
 ~~~
 
 ### 3. git 上库(autostash)
