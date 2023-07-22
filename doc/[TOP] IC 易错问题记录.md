@@ -486,4 +486,18 @@ endtask
 31. type_id 是关键字,不能随便使用
 32. sv 通过 $system()可以调用系统命令,eg,在jump 到reset_phase后先删除本地日志
     [systemVerilog的$system系统命令可以调用linux的命令](https://blog.csdn.net/cy413026/article/details/105055970)
-34. main_phase内跳转到reset_phase,main_phase不用dropobjection,UVM会自动清理objection
+34. main_phase内跳转到reset_phase,main_phase不用dropobjection,UVM会自动清理objection,查看日志,有UVM_warning的打印提醒
+35. 同一条语句声明和例会类数组,需要注意,类的对象数组时候,需要注意
+    - 错误示例
+    ~~~
+    for(i=0; i<5; i++) begin
+    clock_clk_set_seq cr_seq_[i] = clock_clk_set_seq::type_id::creat::($sformatf("cr_seq[$0d]",i)); //编译报错,因为clock_clk_set_seq cr_seq_[i]错,i是变量,出错
+    end
+    ~~~
+    - 正确示例
+    ~~~
+    clock_clk_set_seq cr_seq_[i];// 声明和例会不要一条语句实现,分开实现,先声明后例会
+    for(i=0; i<5; i++)
+       cr_seq_[i] = clock_clk_set_seq::type_id::creat::($sformatf("cr_seq[$0d]",i)); //编译报错,因为clock_clk_set_seq cr_seq_[i]错,i是变量,出错
+    end
+    ~~~
