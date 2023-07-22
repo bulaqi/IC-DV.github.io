@@ -29,9 +29,19 @@
 图1.1.2-7 bench中设置fsdb波形
 
 ###  2. 【易错问题】
-#### 1.  ?= :?的区别
-#### 2
-参考：
+#### 1.  = ?= :?的区别:
+- = 是最基本的赋值, make会将整个makefile展开后，再决定变量的值。也就是说，变量的值将会是整个makefile中最后被指定的值。
+- := 是覆盖之前的值,:=”表示变量的值决定于它在makefile中的位置，而不是整个makefile展开后的最终值 [易错]
+- ?= 是如果没有被赋值过就赋予等号后面的值
+- += 是添加等号后面的值
+#### 2.  编译文件断行需要反斜线连接
+#### 3. 需要注意编译问题,是否归于tb,vip,还是dut,在那个部分编译
+
+
+### 3. 调试
+1. “-n” “--just-print” “--dry-run” “--recon” 不执行参数,eg,make .shadow/compile_vip_pkg
+
+### 4. 参考：
 1. [基于makefile脚本的VCS仿真平台](https://zhuanlan.zhihu.com/p/280702874#:~:text=1.1%20%E3%80%81VCS%E4%BB%BF%E7%9C%9F%E6%B5%81%E7%A8%8B)
 2. [Makefile 中:= ?= += =的区别](https://www.cnblogs.com/wanqieddy/archive/2011/09/21/2184257.html)
 3. [Makefile常用调试方法](https://www.cnblogs.com/LoTGu/p/5936465.html)
