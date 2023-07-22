@@ -6,7 +6,12 @@
 <!-- /TOC -->
 
 ###  1. 【概述】
-- VCS的仿真可以分为3个步骤：compile、elaborate和simulation，所以makefile脚本中也需要有这3个重要部分，脚本在平台中可以看到，后面会逐一对脚本功能进行介绍。
+- 以Makefile启动VCS为例来讲解如何使用命令参数，VCS编译文件会引入过多参数，试想如果我们每次都需要终端中敲击过多参数才能运行一次VCS，那么效率显然是很低的，于是通过脚本语言存储参数从而简化操作指令是必要的，于是Makefile派上了用场。
+
+我们通常会将参数写入到Makefile中，然后通过脚本简化命令成make run_vcs来一步完成VCS的编译连接运行，这称为一步法（首参数是vcs）。
+###  2. 【VCS的常用命令参数】
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/636de224-7d71-43ac-b66f-2d1f06781243)
+
 #### 1. Compile
 将硬件语言编译成库的过程，具体来说可能会涉及3中不同类型的文件：verilog、VHDL和SystemVerilog。这三种文件的编译方法：verilog使用的是vlogan命令，systemverilog使用的也是vlogan命令，但是要添加-sverilg选项，VHDL使用的则是vhdlan这个命令。编译的过程中verilog文件可能会涉及到xilinx的IP或者硬核，这时候需要通过synopsys_sim.setup这个文件来指定IP库的位置，如下图所示，首先需要链接指定的IP库，其次声明当前编译库路径，和modelsim中的vlib和vmap是同样道理
 图1.1.2-2 自定义synopsys_sim.setup
