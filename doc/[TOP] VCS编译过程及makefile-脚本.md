@@ -35,6 +35,15 @@
 - ?= 是如果没有被赋值过就赋予等号后面的值
 - += 是添加等号后面的值
 #### 2.  编译文件断行需要反斜线连接
+注意点
+- 末尾加“\”
+- 第二行前不得为tab键，空格即可
+~~~ 
+all :
+	@for subdir in $(SUBDIRS);\
+    do $(MAKE) -C $(DIR)/$$subdir || exit 1;\
+    done
+~~~
 #### 3. 需要注意编译问题,是否归于tb,vip,还是dut,在那个部分编译
 #### 4. strip用法
 ~~~
@@ -60,3 +69,4 @@ all:
 1. [基于makefile脚本的VCS仿真平台](https://zhuanlan.zhihu.com/p/280702874#:~:text=1.1%20%E3%80%81VCS%E4%BB%BF%E7%9C%9F%E6%B5%81%E7%A8%8B)
 2. [Makefile 中:= ?= += =的区别](https://www.cnblogs.com/wanqieddy/archive/2011/09/21/2184257.html)
 3. [Makefile常用调试方法](https://www.cnblogs.com/LoTGu/p/5936465.html)
+4. [Make file 换行符（反斜杠\）的用法](https://blog.csdn.net/weixin_49546923/article/details/123729363)
