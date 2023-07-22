@@ -66,7 +66,8 @@ all:
 1. “-n” “--just-print” “--dry-run” “--recon” 不执行参数,eg,make .shadow/compile_vip_pkg
 
 ### 4. 参考：
-1. [基于makefile脚本的VCS仿真平台](https://zhuanlan.zhihu.com/p/280702874#:~:text=1.1%20%E3%80%81VCS%E4%BB%BF%E7%9C%9F%E6%B5%81%E7%A8%8B)
+1. [Makefile使用教程_推荐](https://blog.csdn.net/weixin_55225128/article/details/128514273)
 2. [Makefile 中:= ?= += =的区别](https://www.cnblogs.com/wanqieddy/archive/2011/09/21/2184257.html)
 3. [Makefile常用调试方法](https://www.cnblogs.com/LoTGu/p/5936465.html)
 4. [Make file 换行符（反斜杠\）的用法](https://blog.csdn.net/weixin_49546923/article/details/123729363)
+5. [基于makefile脚本的VCS仿真平台](https://zhuanlan.zhihu.com/p/280702874#:~:text=1.1%20%E3%80%81VCS%E4%BB%BF%E7%9C%9F%E6%B5%81%E7%A8%8B)
