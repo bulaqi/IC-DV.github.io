@@ -32,15 +32,31 @@
 mirror与read的区别在于mirror可以进行检查。
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/2290b724-cf15-4d3a-8fea-8b8748165b63)
 
-
-
 #### 7. update -如果期望值/镜像值不同于实际值，则修改硬件实际值。
  在uvm_reg_block调用update后，会对里面的每个reg进行update，每个reg又会对自身的field进行write操作，所以可以更新期望值和镜像值
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/54471f70-2211-4ffe-8a55-88739685cc33)
 
 #### 8. predict -能够修改mirror_value, design_value的核心。
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/4805c1ed-363a-4aa6-b81e-eea52f4e78c9)
+ 更新field的镜像值和所需值
 
+kind有三种参数：
+How the mirror is to be updated
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/077bb4e3-d5ca-4523-9cb1-9099b6607078)
+如果想要更新镜像值又不对DUT进行操作，要用UVM_PREDICT_DIRECT。
+　　write、read、peek和poke在完成对DUT的读写之后也会调用这个函数，更新镜像值，期望值。
+
+#### 9：randomize
+当寄存器随机化后，期望值会被随机，但是镜像值不变，之后调用update任务，可以更新DUT中的寄存器值。
+　　一个field能够被随机化，要求：　　　　
+  1. 在filed的configure第八个参数设为1.
+　2. filed为rand类型。
+  3. filed的读写类型为可写的。
+#### 4. 总结
+- read、write、peek、poke、update可以修改desire/mirror value，
+- set，randomize只修改desire value，
+- mirror只修改或检查mirror value，
+- 
 ### 传送门
 1. [寄存器模型常用方法](https://blog.csdn.net/qq_43445577/article/details/119701467)
 2. [uvm_reg中修改mirror、desired、actual value的方法总结](https://blog.csdn.net/LSC0311/article/details/127338692)
