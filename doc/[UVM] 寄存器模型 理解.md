@@ -18,6 +18,28 @@
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/4a3501f8-aadd-42e4-b99c-0f91f6f3e701)
 无论前门还是后门的wirte，都会调用**uvm_reg::predict()**来修改mirror value，design value。
 前门访问会在**总线事务完成后修改**，采用的显示预测。后门访问直接**在0时刻修改**，采用自动预测。
+#### 2. read
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/678d66ae-e099-4077-b941-b0c4b253a331)
+ 同write，会调用uvm_reg::predict()来修改mirror value，design value
+#### 3. peek 后门读取，利用UVM DPI直接读取硬件实际值
+#### 4. poke 后门修改硬件实际值
+#### 5. set -修改寄存器模型中的desire value
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/6405aacc-3ebb-43d0-89a6-de049a88641e)
+
+#### 6. mirror -读回硬件的实际值，通过第二个参数可以控制更新或者检查。
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/ff1769d6-2b7a-4cbc-a832-3166f9675e40)
+
+mirror与read的区别在于mirror可以进行检查。
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/2290b724-cf15-4d3a-8fea-8b8748165b63)
+
+
+
+#### 7. update -如果期望值/镜像值不同于实际值，则修改硬件实际值。
+ 在uvm_reg_block调用update后，会对里面的每个reg进行update，每个reg又会对自身的field进行write操作，所以可以更新期望值和镜像值
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/54471f70-2211-4ffe-8a55-88739685cc33)
+
+#### 8. predict -能够修改mirror_value, design_value的核心。
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/4805c1ed-363a-4aa6-b81e-eea52f4e78c9)
 
 ### 传送门
 1. [寄存器模型常用方法](https://blog.csdn.net/qq_43445577/article/details/119701467)
