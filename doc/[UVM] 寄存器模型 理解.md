@@ -14,13 +14,17 @@
    7. set
 #### 3. 方法展开
 ##### 1. write
-前门访问-寄存器产生uvm_reg_item，adapter把uvm_reg_item转为bus_drive能用的transaction，将transaction传递给bus_sequencer，在由sequencer传递给driver
-![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/4a3501f8-aadd-42e4-b99c-0f91f6f3e701)
+前门访问-寄存器产生uvm_reg_item，adapter把uvm_reg_item转为bus_drive能用的transaction，将transaction传递给bus_sequencer，在由sequencer传递给driver.  
+
 无论前门还是后门的wirte，都会调用**uvm_reg::predict()**来修改mirror value，design value。
-前门访问会在**总线事务完成后修改**，采用的显示预测。后门访问直接**在0时刻修改**，采用自动预测。
+- 前门访问会在**总线事务完成后修改**，采用的显示预测。
+- 后门访问直接**在0时刻修改**，采用自动预测。
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/4a3501f8-aadd-42e4-b99c-0f91f6f3e701)
+
 ##### 2. read
-![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/678d66ae-e099-4077-b941-b0c4b253a331)
  同write，会调用uvm_reg::predict()来修改mirror value，design value
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/678d66ae-e099-4077-b941-b0c4b253a331)
+
 ##### 3. peek 后门读取，利用UVM DPI直接读取硬件实际值
 ##### 4. poke 后门修改硬件实际值
 ##### 5. set -修改寄存器模型中的desire value
