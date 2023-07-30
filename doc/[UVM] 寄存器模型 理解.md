@@ -42,13 +42,15 @@ mirror与read的区别在于mirror可以进行检查。
 
 ##### 8. predict -能够修改mirror_value, design_value的核心。
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/4805c1ed-363a-4aa6-b81e-eea52f4e78c9)
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/ed873911-d7be-4377-82cc-8ede6d54dac5)
+
  更新field的镜像值和所需值
 
 kind有三种参数：
 How the mirror is to be updated
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/077bb4e3-d5ca-4523-9cb1-9099b6607078)
 如果想要更新镜像值又不对DUT进行操作，要用UVM_PREDICT_DIRECT。
-　　write、read、peek和poke在完成对DUT的读写之后也会调用这个函数，更新镜像值，期望值。
+- write、read、peek和poke在完成对DUT的读写之后也会调用这个函数，更新镜像值，期望值。
 
 ##### 9：randomize
 当寄存器随机化后，期望值会被随机，但是镜像值不变，之后调用update任务，可以更新DUT中的寄存器值。
