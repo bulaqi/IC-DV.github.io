@@ -94,10 +94,9 @@ task xxx::read_reg_f(string reg_name, string field_name, output uvm_reg_data); /
     reg_name_h.read(status,rdata);
     filed_name_h = reg_name_h.get_field_by_name(filed_name);
     rdata = filed_name_h .get();
-
 endtask
 ~~~
 
 ### 7. 传送门
-1.[[UVM]UVM RAL Model中get_reg_by_name應用詳解](https://blog.csdn.net/gsjthxy/article/details/105518782)
-2.[UVM- 寄存器模型 Register Model](https://blog.csdn.net/weixin_43830240/article/details/111302866)
+1. [[UVM]UVM RAL Model中get_reg_by_name應用詳解](https://blog.csdn.net/gsjthxy/article/details/105518782)
+2. [UVM- 寄存器模型 Register Model](https://blog.csdn.net/weixin_43830240/article/details/111302866)
