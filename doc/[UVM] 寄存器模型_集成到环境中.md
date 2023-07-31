@@ -1,4 +1,4 @@
-### 概述
+### 0. 概述
    寄存器模型主要功能分为4部分，分别是：
 -  1.寄存器模型ral文件
 -  2.base_tc中寄存器模式的例化,以及工作模式设置
@@ -15,6 +15,11 @@ reg_model  rm;
 ~~~
 
 #### 2. build_phase中设置
+在实例化后reg_model还要做四件事： 
+1. 第一是调用configure函数， 其第一个参数是parent block， 由于是最顶层的reg_block， 因此填写null，第二个参数是后门访问路径， 请参考7.3节， 这里传入一个空的字符串。
+2. 第二是调用build函数， 将所有的寄存器实例化。
+3. 第三是调用lock_model函数， 调用此函数后， reg_model中就不能再加入新的寄存器了。
+4. 第四是调用reset函数， 如果不调用此函数， 那么reg_model中所有寄存器的值都是0， 调用此函数后， 所有寄存器的值都将变为设置的复位值
 ~~~
    rm = reg_model::type_id::create("rm", this);
    rm.configure(null, "");
@@ -94,4 +99,5 @@ endtask
 ~~~
 
 ### 7. 传送门
-https://blog.csdn.net/gsjthxy/article/details/105518782
+1.[[UVM]UVM RAL Model中get_reg_by_name應用詳解](https://blog.csdn.net/gsjthxy/article/details/105518782)
+2.[UVM- 寄存器模型 Register Model](https://blog.csdn.net/weixin_43830240/article/details/111302866)
