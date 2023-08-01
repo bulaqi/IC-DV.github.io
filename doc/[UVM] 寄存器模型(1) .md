@@ -21,10 +21,36 @@
   - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/40cc4e66-6447-42dd-b64e-1f552389dcb5)
 3. 寄存器模型完成启动sequence以及将读结果返回等操作;
 4. 寄存器模型的本质是重新定义了验证平台与DUT的寄存器接口;
+#### 3.寄存器模型的结构(含层次化的regmodel&file)
+0. ral 框图
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/042b695d-739b-446b-8b15-5dd0f72fea39)
+寄存器模型就是一些类的集合,这些类模拟了DUT中的存储器、寄存器以及寄存器、存储器映射行为.这些类用于产生特定激励,进行功能检查. 
+1. normal register model
+   ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/89ebcbac-f218-4bf5-80de-e2aabfd95a0f)
+
+3. hierarchical regmodel(含regfile及sub_regmodel)
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/9c780498-f74f-4859-9167-d43255821031)
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/c2089f10-65c5-48a0-9ce4-a874fd4c3a6e)
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/d34d7946-ebf4-4d8f-87be-4d71c9493e13)
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/c6de36b3-096f-4d19-9993-0e0d86e3484f)
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/183d5257-98fd-4977-a5b6-4c7bac1e420e)
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/af3705cf-e7d8-4da8-bb42-8b47fd9276b3)
 
 
+4. hierarchical regmodel实现方式1(含regfile及sub_regmodel, multi_reg_field)
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/d7070b0f-48a3-48a7-97f5-3926790ea494)
+
+5. hierarchical regmodel实现方式2(含regfile及sub_regmodel, multi_reg_field)
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/6510b61a-3c11-49bb-b872-19ab07036126)
 
 
+#### 4. regmodel的生成
+   由于项目中寄存器数量多,通常使用工具产生和维护UVM寄存器模型,常见工具如下:
+- Synopsys VCS自带的ralgen可以产生uvm寄存器模型;
+- Paradigm works公司开源的RegWorks Spec2Reg;
+#### 5. register model的并行访问
+  - 多个并行执行的线程可同时访问register model,但是当访问同一个register时,内部会对这些访问进行串行处理;
+  - 每一个register内都有一个旗语,用于确保同一时刻只有一个线程对其进行读写操作; 如果一个线程在执行register访问操作的过程中被显式kill,有必要通过调用uvm_reg::reset()函数release该register的旗语;
 
 ### 2. 注意事项
 ### 3. 传送门
