@@ -20,9 +20,11 @@ task  xx_tc::main_phase(uvm_phae phase);
 endmodule
 ~~~
 #### 6.约束失败导致的卡死,计算器卡死,导致平台卡死,无波形,固定卡在某个时间点,APB下配置的阶段,定位方向错误,所以, 有错误全文多上下文日志,否则看初始化流程,初步定位卡死的点
+~~~
 solver time out when solving following problem
 sof cq_queue[i].depth dist{2:=10,[3:4095]:/30,[5096:65535]:/30,4095:=10}; //范围重复
 sof cq_queue[i].depth dist{2:=10,[3:4095]:/30,[5096:65535]:/30,65536:=10};//错误,16bit最多表示65535
+~~~
 
 #### 7.Verilog 位拼接运算符{}语法要点总结
 [Verilog 位拼接运算符{}语法要点总结]
