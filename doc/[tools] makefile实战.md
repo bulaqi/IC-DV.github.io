@@ -52,8 +52,8 @@ $^   所有的依赖文件，以空格分开，不包含重复的依赖文件
 1. 在一条指令执行完后，加上@touch $@，可以生成一个与该命令同名的文件；好处:这种做法常见于编译TB中不太会改变内容，例如第三方的VIP，或项目后期稳定后的DUT
 2. 如果删掉路径下的tmp.h，紧接着手动touch tmp.h，重新生成一份该文件，再执行make elab，你会发现尽管当前存在compile_m1这个文件，但同名的命令还是被执行了,编译过程中会记录下这次用到的文件的“信息”，当删除了tmp.h再重新创建一个同名的文件（即使这个文件中什么都没有），系统还是会认为上一次编译时候看到的tmp.h已经不见了
 3. 被依赖的文件不只可以是这种空的touch出来的文件，还可以是任何我们指定的DUT或TB的文件，只要这些文件有变动，那么依赖关系就有变动
-4. eg:下图中elab命令依赖于compile_m1和compile_m2；第一次执行make elab后，会先执行compile_m1和compile_m2命令，再执行第30行的内容；当第二次执行make elab时，则不会执行compile_m1命令的内容，从而节省了时间；若还想执行compile_vip，删掉路径下该同名文件即可
-![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/50a9660b-86c3-4f52-a4a1-e02cd7c3df51)
+4. eg:下图中elab命令依赖于compile_m1和compile_m2；第一次执行make elab后，会先执行compile_m1和compile_m2命令，再执行第30行的内容；当第二次执行make elab时，则不会执行compile_m1命令的内容，从而节省了时间；若还想执行compile_vip，删掉路径下该同名文件即可.
+5. ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/50a9660b-86c3-4f52-a4a1-e02cd7c3df51)
 
 
 #### 8. 译中“域”的概念
