@@ -1,10 +1,10 @@
-### 1.hdl_path简介
+### 1.hdl_path背景
 在进行寄存器模型的后门操作时,必须提前设置后门操作路径,register model才能工作(访问design内部寄存器的前提是获取到它);
-#### 1 register的hdl_path/rtl路径由两部分构成,
+### 2.register的hdl_path/rtl路径组成
 -  reg的base path/block的路径
 -  reg本身自己的相对路径(reg的offset_path);
   
-##### 1. reg的base path/block的路径;
+#### 1. reg的base path/block的路径;
 1. 该path定义在reg所在的block中,也叫block路径;
 2. uvm_reg_block中有两个变量可以用来存放block路径,分别为:
    ~~~
@@ -18,7 +18,7 @@
 - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/ddd1babb-0b88-41aa-b144-e4eabe619de7)
 - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/b7dc43a2-e7d1-4514-a209-2ab98e2fc99e)
 
-##### 2. reg本身自己的相对路径(reg的offset_path);
+#### 2. reg本身自己的相对路径(reg的offset_path);
 1. uvm_reg类中有一个变量m_hdl_paths_pool用于保存reg自身设置的相对路径(通过调用add_hdl_path_slice设置相对路径); 
 2. reg的绝对路径为base_path+offset_path;
 3. 举例: reg_blk,add_hdl_path("tb"), reg1.add_hdl_path_slice("reg_boot"),最终reg1的绝对路径时tb.reg_boot(实际硬件中路径);
@@ -59,3 +59,4 @@
 
 
 ### 3. 传送门
+1. [hdl_path简介](https://www.cnblogs.com/csjt/p/15252851.html)
