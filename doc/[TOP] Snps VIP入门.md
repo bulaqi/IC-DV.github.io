@@ -44,12 +44,13 @@ gmake USE_SIMULATOR=vcsvlog directed_test WAVES=1
 
 - 这是一个以html形式展示的关于这个VIP的document，所有有关这个VIP中的class、function、task、attribute、UVM继承关系等等都能在这里面找到，在红框处搜索关键字即可
 - 举例:
-~~~
-我们现在想通过AXI slave VIP去获得我们DUT AXI master口发送出的数据
-联想到UVM TLM port的相关知识，我们去找找VIP中的analysis port，这样就可以拿到这个port经过的AXI transaction，继而获得transaction中的payload信息
-我们在TB env中例化的是svt_axi_system_env，我们在网页中搜索它，并更根据我们使用的实际情况一级一级查看，最终找到monitor里面适合的analysis port供我们使用
-~~~
-![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/215750a9-22fb-4ccd-a060-da74fff18c17)
+  1. 我们现在想通过AXI slave VIP去获得我们DUT AXI master口发送出的数据
+  2. 联想到UVM TLM port的相关知识，我们去找找VIP中的analysis port，这样就可以拿到这个port经过的AXI transaction，继而获得transaction中的payload信息
+  3. 我们在TB env中例化的是svt_axi_system_env，我们在网页中搜索它，并更根据我们使用的实际情况一级一级查看，最终找到monitor里面适合的analysis port供我们使用
+
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/755f33e9-0ec5-401c-a7df-eaafa4bb5111)
+
+
 
 
 ### 2.经验
