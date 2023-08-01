@@ -1,10 +1,10 @@
-### 1. sv 约束范围约束的时候，必须inside{[小：大]}， 如果写反编译器不会报错，也不会报约束失败
-### 2. super.configure_phase(),报错，super is not expect in this contex, 原因，**子类名称后忘记逗号**
-### 3. 约束中local的使用
+#### 1. sv 约束范围约束的时候，必须inside{[小：大]}， 如果写反编译器不会报错，也不会报约束失败
+####  2. super.configure_phase(),报错，super is not expect in this contex, 原因，**子类名称后忘记逗号**
+####  3. 约束中local的使用
     在使用内嵌约束randomize（）with {CONSTRAINT}时，约束体中的变量名的查找顺序默认是从被随机化对象开始查找，但如果调用randomize（）函数局部域中也有同名变量，那就需要使用local::来显式声明该变量来源于外部函数，而非被随机化的对象（在约束中也可用this/super来索引这些变量
-### 4. 队列的长度不要直接作为循环的条件，易错
-### 5 .非类的变量约束,rand 变量能约束类变量,不能约束内的函数变量
-### 6. 语法错误,编译器不会报错:
+#### 4. 队列的长度不要直接作为循环的条件，易错
+#### 5 .非类的变量约束,rand 变量能约束类变量,不能约束内的函数变量
+#### 6. 语法错误,编译器不会报错:
 ~~~
 task  xx_tc::main_phase(uvm_phae phase);
         int q_rand;//函数内只能定义为变量,不能用rand 修饰
@@ -19,12 +19,12 @@ task  xx_tc::main_phase(uvm_phae phase);
 	end
 endmodule
 ~~~
-### 6.约束失败导致的卡死,计算器卡死,导致平台卡死,无波形,固定卡在某个时间点,APB下配置的阶段,定位方向错误,所以, 有错误全文多上下文日志,否则看初始化流程,初步定位卡死的点
+#### 6.约束失败导致的卡死,计算器卡死,导致平台卡死,无波形,固定卡在某个时间点,APB下配置的阶段,定位方向错误,所以, 有错误全文多上下文日志,否则看初始化流程,初步定位卡死的点
 solver time out when solving following problem
 sof cq_queue[i].depth dist{2:=10,[3:4095]:/30,[5096:65535]:/30,4095:=10}; //范围重复
 sof cq_queue[i].depth dist{2:=10,[3:4095]:/30,[5096:65535]:/30,65536:=10};//错误,16bit最多表示65535
 
-### 7.Verilog 位拼接运算符{}语法要点总结
+#### 7.Verilog 位拼接运算符{}语法要点总结
 [Verilog 位拼接运算符{}语法要点总结]
 (https://blog.csdn.net/hanshuizhizi/article/details/116521728)
 ~~~
@@ -40,7 +40,7 @@ constrain qu_con {
 }
 ~~~
 
-### 8.复杂的约束,求解器约束失败,系统卡死
+#### 8.复杂的约束,求解器约束失败,系统卡死
 在transaction 内有如下约束
 ~~~
 ...
@@ -63,7 +63,7 @@ constrain qu_con {
 1. 将上述计算cq_queue[i].base_addr移至post_randomize
 2. 写新类,内部用randc,选择addr的初值
 
-### 9. for 循环内嵌套foreach
+#### 9. for 循环内嵌套foreach
 ~~~
 ...
 for(int i=0;i<5;i++) begin
@@ -74,13 +74,13 @@ end
 ...
 ~~~
 
-### 10. 结构体 auto_file 那个函数？
+#### 10. 结构体 auto_file 那个函数？
 无，不能传递结构体，只能传递函数，函数用file_object实现
 
-### 11. unpack  数组定位是那个方法？
+#### 11. unpack  数组定位是那个方法？
 packer.counter
 
-### 12.类里面只能是变量初始化和复制,不能在类内直接计算
+#### 12.类里面只能是变量初始化和复制,不能在类内直接计算
 ~~~
 class xx_test extends basic_tc4;
 int i =5;
@@ -90,7 +90,7 @@ if(i>5)                  //编译报错,类内不能直接赋值
 
 ~~~
 
-### 13. for 循环内用fork
+#### 13. for 循环内用fork
 - 函数传参必须是automatic
 - 被调函数也应该是automatic类型,否则被调函数内部变量会被公用
 ~~~
@@ -113,7 +113,7 @@ task automatic cal_pf_exp_burst_cnt(pf_id);
 endtask
 ~~~
 
-### 14. 尽量选择同步电路,慎重使用组合逻辑,监测上升沿
+#### 14. 尽量选择同步电路,慎重使用组合逻辑,监测上升沿
 背景:检测某型号的上升沿,采用@(posdege xx),
 ~~~
 while(1) begin
@@ -136,7 +136,7 @@ end
 ~~~
 
 
-### 15 .跨时钟域的处理
+#### 15 .跨时钟域的处理
 - 背景: elbi 接口ack 和rsp 握手时候,信号采丢了,系统时钟是500M,elbi 时钟是1G. 核心问题,**ack 下降沿采丢了,没有做信号宽度扩展**
 - 知识点: 跨时钟域的处理
   1. 单bit: 打一拍
@@ -145,7 +145,7 @@ end
   1. [芯片设计进阶之路——跨时钟信号处理方法](https://zhuanlan.zhihu.com/p/113832794)
   2. [跨异步时钟域的6种方法](https://blog.csdn.net/z951573431/article/details/117260698)
 
-### 16. 跨层级的约束注意问题(易犯错)
+#### 16. 跨层级的约束注意问题(易犯错)
 在用例中通过seq约束transaction中的结构体数组,需要注意,结构体元素和结构体数组都应该设置为rand 类型,否则报约束冲突错误
 
 ### 16. 跨层级的约束
@@ -153,7 +153,7 @@ end
 - 实现:尽量避免跨层级的约束,如果非要跨层级约束,建议修改为用例传参给下一级seq,
 - 然后在seq内约束tranaction,不建议直接约束
 
-### 17.正确理解rand 类型
+#### 17.正确理解rand 类型
 - 知识点: 只有rand 类型的数据才能被randmomzize ,
 - 背景:seq 中定义的变量如果是rand类型,则才能被randomize ,否则只能被之间赋值
 - 方式1: \
@@ -199,13 +199,13 @@ class xxx_sequence extends xxx_base_sequence
 	xxx_seq.msix_ch_bitmap_en == msix_ch_bitmap_en;
 	xxx_seq.randmize();
 ~~~
-### 18.assert 语法常见错误,多条件std约束时候,最后一个约束条件, 后必须有分号
+#### 18.assert 语法常见错误,多条件std约束时候,最后一个约束条件, 后必须有分号
 ~~~
 assert(std::randomize(target) with{target>10;target<20;}); //注意,多条件std约束时候,最后一个约束条件,targe<20 后必须有分号
 ~~~
 
 
-### 19. Makefile 编译的理解
+#### 19. Makefile 编译的理解
 编译时,指定sv的文件路径,如果该路径无sv文件,则编译错误,跳出编译
 总结:依赖关系必须是要对应
 ~~~
@@ -215,7 +215,7 @@ assert(std::randomize(target) with{target>10;target<20;}); //注意,多条件std
 修改:如果该路径无用例,则删除该路径;否则在路径下添加用例
 
 
-### 20. 慎用disabale fork禁用整个衍生进程
+#### 20. 慎用disabale fork禁用整个衍生进程
 ~~~
 fork
 	begin:ring_host_dbl_timeout
@@ -253,7 +253,7 @@ xxx_uvm_test_top.env.ahb_sys_env.master[0].sequencer[SEQREQZMB] SEQREQZMB] The t
 - 建议
   不建议,粗暴的之间disabel fork join 块,慎用
 
-### 21. 合理的选择实现死循环读取的操作,建议写成seq,并且合理的选择 fork_join的操作,尽量避免fore循环嵌套多次层的fork join,
+#### 21. 合理的选择实现死循环读取的操作,建议写成seq,并且合理的选择 fork_join的操作,尽量避免fore循环嵌套多次层的fork join,
 原因:如果最底层调用SEQ 读取接口,可以回报 xxx_uvm_test_top.env.elbi.sequencer[SEQREQZMB] SEQREQZMB] The task responsible for requesting a wait_for_grant on sequencer 'xxx' for sequence 'default_parent_seq' has been bkilled, to avolid a deadlock thee sequence will be removed form the arbitraction queues.
 
 ~~~
@@ -303,10 +303,10 @@ task automatic check_cqe_exit(int pf_id, int int_ch_id);
 endtask
 ~~~
 
-### 22. 背景检查线程应该写在哪里? rm? basic_tc? seq? xx_tc?
+#### 22. 背景检查线程应该写在哪里? rm? basic_tc? seq? xx_tc?
 根据aem项目经验,应该用seq实现,在用例中调用该seq,用例中控制该seq的启停,如果rm中有信号需要同步给tc,用全局变量或者event事件驱动
 
-### 23. 功能覆盖率,covergroup的bin设置的时候, 不能直接用变量传进去,会报运行错误
+#### 23. 功能覆盖率,covergroup的bin设置的时候, 不能直接用变量传进去,会报运行错误
 1. 问题
 ~~~
 covergroup cq_doordbl_overage_cov;
@@ -344,7 +344,7 @@ endgroup
 3. 原理总结
    bin仓是一个已经规定好的仓,目的是coverpoint是否在该范围,所以默认是常量,如果需要用到变量,需要特殊的处理,eg,参数传递
 
-24. fork join 循环调用错误的使用,注意点:
+#### 24. fork join 循环调用错误的使用,注意点:
     1. fork 内嵌套for循环,for 循环内的第一句应该就是automatic变量
     2. 后续条件中涉及cq_id 变量控制的,都应该替换为automatic变量
 ~~~
@@ -369,7 +369,7 @@ task automatic send_cq_axis(int pf_id,ref int send_iocq_hw_cnt[5]);
 endtask
 ~~~
 
-25. 循环启动衍生线程,且等待衍生线程的执行结果,通过全局变量实现,并行启动衍生线程,衍生线程置全部变量控制位,父线程循环检测完成状态
+#### 25. 循环启动衍生线程,且等待衍生线程的执行结果,通过全局变量实现,并行启动衍生线程,衍生线程置全部变量控制位,父线程循环检测完成状态
  - 1.正确方法示范:\   
 1.send_cq_axis.sv 循环启动多线程,设置并行线程,等待子函数运行结束,通过axi_rx_send_done全局变量控制
 ~~~
@@ -447,18 +447,18 @@ task automatic send_cqe_axis_per_ch(int pf_id,int cq_id,ref int send_iocq_hw_cnt
 	//axi_rx_send_done[pf_id][cq_id] = 1;  //子函数运行完成后对应为置1
 endtask
 ~~~
-26. override时候注意事项
+#### 26. override时候注意事项
     1. 新类定义的参数必须和原参数保持一致,与虚函数类似
     2. override的时候不需要体现参数
     3. override class和instanse 2中,如果直接是类重载,需要在类被创建前先重载,否则失效
-27. 代码覆盖率
+#### 27. 代码覆盖率
     1. 问题描述: 如果是硬连续,如果初始态为X态,过程中配置该值为1or0 ,因为是从x-->0/1,所以不会toggel 不会变化
     2. 解决方案: 给一个初始的值
     3. 需要注意的问题: 同步电路,在修改该dut 的值,建议采用阻塞复制 xxx <= 'hffff;
-28. seq_lib 中的方法和basic_test中的方法
+#### 28. seq_lib 中的方法和basic_test中的方法
     1. 问题eg, seq中使用read_reg,并在此函数上封装了其他接口,但是因为pack的关系,无法在用例中直接使用该方法
     2. 解决方案: 在basic_test内再次实现该方法,相当于有2套相同的方法,1套给用例使用,一套给seq使用
-29. 顶层连线注意事项
+#### 29. 顶层连线注意事项
      1. 错误示例,aem_top_th.sv,initi begin 只执行一次,期望是是将aem_fp0_flr_rstn_n_i信号用aem_pf_flr_o 和aem_rst_n_i 计算得到
         ~~~
         ...
@@ -482,12 +482,12 @@ endtask
        end
        ...
        ~~~
-30. 寄存器模式使用的注意事项,default_map的addr 可能累加计算,需要特别注意,真实值是 map的base_addr + reg的偏移
-31. type_id 是关键字,不能随便使用
-32. sv 通过 $system()可以调用系统命令,eg,在jump 到reset_phase后先删除本地日志
+#### 30. 寄存器模式使用的注意事项,default_map的addr 可能累加计算,需要特别注意,真实值是 map的base_addr + reg的偏移
+#### 31. type_id 是关键字,不能随便使用
+#### 32. sv 通过 $system()可以调用系统命令,eg,在jump 到reset_phase后先删除本地日志
     [systemVerilog的$system系统命令可以调用linux的命令](https://blog.csdn.net/cy413026/article/details/105055970)
-34. main_phase内跳转到reset_phase,main_phase不用dropobjection,UVM会自动清理objection,查看日志,有UVM_warning的打印提醒
-35. 同一条语句声明和例会类数组,需要注意,类的对象数组时候,需要注意
+#### 34. main_phase内跳转到reset_phase,main_phase不用dropobjection,UVM会自动清理objection,查看日志,有UVM_warning的打印提醒
+#### 35. 同一条语句声明和例会类数组,需要注意,类的对象数组时候,需要注意
     - 错误示例
     ~~~
     for(i=0; i<5; i++) begin
@@ -501,6 +501,9 @@ endtask
        cr_seq_[i] = clock_clk_set_seq::type_id::creat::($sformatf("cr_seq[$0d]",i)); //编译报错,因为clock_clk_set_seq cr_seq_[i]错,i是变量,出错
     end
     ~~~
-36. 寄存器模型后门读写 vs hdl_forece 系列 对比
+#### 36. 寄存器模型后门读写 vs hdl_forece 系列 对比
     - 寄存器模型后门读写:  针对寄存器列表中的值
     - hdl_forece 可以force dut 内的任何信号
+#### 37. poke的是对hdl_deposite 进行封装的
+#### 38. peek poke 是不消耗仿真时候的,如果需要看到效果,需要加一段延时代码
+39. 
