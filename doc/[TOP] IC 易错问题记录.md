@@ -245,7 +245,7 @@ fork
 			break;
 		end
 	end
-joinjoin_any
+join //join_any
 ~~~
 
 - 报错信息:
