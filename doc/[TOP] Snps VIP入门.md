@@ -47,6 +47,14 @@ gmake USE_SIMULATOR=vcsvlog directed_test WAVES=1
   1. 我们现在想通过AXI slave VIP去获得我们DUT AXI master口发送出的数据
   2. 联想到UVM TLM port的相关知识，我们去找找VIP中的analysis port，这样就可以拿到这个port经过的AXI transaction，继而获得transaction中的payload信息
   3. 我们在TB env中例化的是svt_axi_system_env，我们在网页中搜索它，并更根据我们使用的实际情况一级一级查看，最终找到monitor里面适合的analysis port供我们使用
+     ~~~
+     1. 搜索svt_axi_system_env,查看详情
+     2. 查看public attributes中的 svt_axi_slave_agent slave[$]
+     3. 查看类的定义 svt_axi_slave_agent,详情
+     4. 查看public attributes中的 svt_axi_port_monitor monitor
+     5. 查看svt_axi_port_monitor类的详情
+     6. 查看public attributes中的 uvm_analysis_port 5个属性,查看tlm_generic_payload_observer port的描述,闭环     
+     ~~~
 
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/755f33e9-0ec5-401c-a7df-eaafa4bb5111)
 
