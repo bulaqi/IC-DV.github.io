@@ -501,3 +501,6 @@ endtask
        cr_seq_[i] = clock_clk_set_seq::type_id::creat::($sformatf("cr_seq[$0d]",i)); //编译报错,因为clock_clk_set_seq cr_seq_[i]错,i是变量,出错
     end
     ~~~
+36. 寄存器模型后门读写 vs hdl_forece 系列 对比
+    - 寄存器模型后门读写:  针对寄存器列表中的值
+    - hdl_forece 可以force dut 内的任何信号
