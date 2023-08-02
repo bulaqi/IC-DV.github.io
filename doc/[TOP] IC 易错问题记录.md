@@ -486,7 +486,7 @@ endtask
        ~~~
 #### 30. 寄存器模式使用的注意事项,default_map的addr 可能累加计算,需要特别注意,真实值是 map的base_addr + reg的偏移
 #### 31. type_id 是关键字,不能随便使用
-#### 32. sv 通过 $system()可以调用系统命令,eg,在jump 到reset_phase后先删除本地日志
+#### 32. sv 通过 $system()可以调用shell命令,eg,在jump 到reset_phase后先删除本地日志
     [systemVerilog的$system系统命令可以调用linux的命令](https://blog.csdn.net/cy413026/article/details/105055970)
 #### 34. main_phase内跳转到reset_phase,main_phase不用dropobjection,UVM会自动清理objection,查看日志,有UVM_warning的打印提醒
 #### 35. 同一条语句声明和例会类数组,需要注意,类的对象数组时候,需要注意
