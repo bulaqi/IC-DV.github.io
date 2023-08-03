@@ -26,6 +26,10 @@
 
 7. 检查尽量黑盒测试,测试过程尽量不借助dut信号,确保scb中优先收到exp数据比act数据早
 8. 严格按照VO表进行推进,欢迎有新想法,新想法可以先记录,完成计划任务后再补新idea,要详细开发和架构多轮评审的意义
-
+9. dut全部的寄存 生成一个类,生成transaction;然后用该类生成dut_transaction
+10. 平台数据的比较, dut的过程记录新建2个类exp类和act类,在env内,类型uvm_objection,在shut_down_phase 调用compare函数比较
+    - exp类: 包含rm 计算值送入exp类,或者用例输入的类
+    - act类: 包含dut接口寄存器和act 口输出的数据
+      
 ### 3. 传送门:
 [we can do better](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/%5BTOP%5D%20we%20can%20do%20better.md)
