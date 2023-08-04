@@ -5,6 +5,7 @@ vim ~/.vimrc，然后在.vimrc文件中输入一行set clipboard=unnamedplus这�
  1. Terminal->vim : 双击选中,vim中 鼠标中间
  2.  vim ->Terminal: y 后,terminal shift+insert
 
+### 0. 分屏跳转,ctrl+w+s ,ctrl +w+y
 
 ###  1. gvim基础
 #### 1. 移动、标记、跳转
