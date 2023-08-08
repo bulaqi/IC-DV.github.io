@@ -519,3 +519,8 @@ endtask
 #### 43.  句柄 vs 对象
 - 1. 对象: 则是类的实例
 - 2. 句柄: 指向对象的“指针”，通过对象的句柄来访问对象
+#### 44.  mask的正反用法
+~~~
+wdata = ($urandom_range(32'h0,32'hffff_ffff) &mask)  | (val &^(~mask)))
+//解读:mask 为1,选择随机值, mask为0,不屏蔽,选取VAL值
+~~~
