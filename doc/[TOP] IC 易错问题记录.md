@@ -513,5 +513,6 @@ endtask
 #### 40. p_sequencer可以实现在seq 内访问uvm_component的数据
 - `uvm_declare_p_sequencer(my_sequencer) 注册 //使用宏定义my_sequencer
 - 使用时候,之间用p_sequencer 可以访问被调的sqr
+- sqr是env 组件的一部分,所以可以通过才sqr 配合get_parent 访问其他组件的数据.
 #### 41. get_parent 实现访问父uvm_component,实现兄弟组件间的数据共享
 #### 42. 重复相同的语句,可以考虑通过带参数的宏实现
