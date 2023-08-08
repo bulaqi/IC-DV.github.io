@@ -508,4 +508,9 @@ endtask
     - hdl_forece 可以force dut 内的任何信号
 #### 37. poke的是对hdl_deposite 进行封装的
 #### 38. peek poke 是不消耗仿真时候的,如果需要看到效果,需要加一段延时代码
-#### 39. 
+#### 39. verdi 单步调试技巧, 在stack 内找到要调试的线程,选中,然后F12调试
+- 注意:不能在期望的地方打断点,否则线程还是循环进入,要在将进入的子线程前断点,单步跳入,然后鼠标点击stack,F12 单步
+#### 40. p_sequencer可以实现在seq 内访问uvm_component的数据
+- `uvm_declare_p_sequencer(my_sequencer) 注册 //使用宏定义my_sequencer
+- 使用时候,之间用p_sequencer 可以访问被调的sqr
+#### 41. get_parent uvm_component 
