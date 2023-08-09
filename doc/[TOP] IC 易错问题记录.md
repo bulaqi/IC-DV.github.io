@@ -526,51 +526,8 @@ wdata = ($urandom_range(32'h0,32'hffff_ffff) &mask)  | (val &^(~mask)))
 ~~~
 
 #### 45. $test$plusargs 和 编译选项传递宏的区别, 
-- 总体比较
   1. 生效的阶段不同
   2. 启动的方式不同.$test$plusargs是+参数, 宏是 +define+参数
--  $test$plusargs
-~~~
-initial
-if ($test$plusargs("postprocess"))
-begin
-	$vcdpluson(0,design_1);
-	$vcdplusdeltacycleon;
-	$vcdplusglitchon;
-end
-~~~
-运行
-~~~
-simv +postprocess // 注意是+postprocess 
-~~~
-
--  宏传递, 是运行选项
-~~~
-module test;
- 
-    `ifdef A
-        parameter num = 123;
-        //XXX
-    `elsif B
-        parameter num = 456;
-        //XXX
-    `else
-        parameter num = 789;
-        //XXX
-    `endif
- 
-    initial begin
-        $display("num is %0d",num);
-    end
-endmodule
-~~~
-运行, +define+ X
-~~~
-在编译命令行中加入+define+A时，num打印值为123，+define+B时为456，定义其他或者不加+define+时打印789，XXX可以为自己的一些代码。
-~~~
-  
-  
--  传送门:
-  1. [认识系统函数$test$plusargs与$value$plusargs](https://blog.csdn.net/kevindas/article/details/80380144)
-  2. [vcs +define+ 简单用法](https://blog.csdn.net/Kizuna_AI/article/details/130103029)
-  3. [关于sv中宏定义`define的增强使用](https://blog.csdn.net/qq_26330025/article/details/124845367?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-124845367-blog-130103029.235%5Ev38%5Epc_relevant_yljh&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-124845367-blog-130103029.235%5Ev38%5Epc_relevant_yljh&utm_relevant_index=2)
+  3. 参考
+     [$test$plusargs 和 宏的区别](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/%5BSV%5D%20%24test%24plusargs%20%E5%92%8C%20%E5%AE%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20.md)
+     
