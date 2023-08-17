@@ -13,3 +13,4 @@ filelist列表中直接引用 xxx/xxx/fifo.v 则对文件中的module名没有�
 2. [VCS 加速编译的方法——VCS Partition Compile](https://blog.csdn.net/hh199203/article/details/123067052)
 3. [vcs 分离编译](https://blog.csdn.net/qq_41729871/article/details/125099963)
 4. [vcs编译重复定义文件问题](https://blog.csdn.net/zds0901/article/details/119346891)
+5. [VCS常用仿真选项开关及步骤总结 强烈推荐](https://mp.weixin.qq.com/s?__biz=MzkwNjM5NTM5Mw==&mid=2247484966&idx=1&sn=1a357b0d89b18d197c2afd57d945d33b&chksm=c0e86c48f79fe55e88bcaeaf29973f0e3624ae26e9443537dc0dd9c32e28c5ba61c6bbda74e9&scene=21#wechat_redirect)
