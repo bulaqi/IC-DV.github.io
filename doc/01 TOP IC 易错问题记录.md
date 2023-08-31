@@ -530,4 +530,7 @@ wdata = ($urandom_range(32'h0,32'hffff_ffff) &mask)  | (val &^(~mask)))
   2. 启动的方式不同.$test$plusargs是+参数, 宏是 +define+参数
   3. 参考
      [$test$plusargs 和 宏的区别](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/%5BSV%5D%20%24test%24plusargs%20%E5%92%8C%20%E5%AE%8F%E7%9A%84%E5%8C%BA%E5%88%AB%20.md)
-     
+#### 46. vcs 最小编译选项是vcs +full64 +sverilog
+ - 如果未加full,可能访问的是vcs1, 提示/opt/eda/synopsys/vcs-mx/N-2017.12-SP2/linux/bin/vcs1找不到
+ - 参考:https://blog.csdn.net/weixin_59105807/article/details/120190906
+#### 45.vcs debug_access_all是编译选项,非运行选项,如果误在运行选项内添加该选项,日志报warning 
