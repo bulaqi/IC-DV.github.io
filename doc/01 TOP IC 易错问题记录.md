@@ -533,8 +533,8 @@ wdata = ($urandom_range(32'h0,32'hffff_ffff) &mask)  | (val &^(~mask)))
 #### 46. vcs 最小编译选项是vcs +full64 +sverilog
  - 如果未加full,可能访问的是vcs1, 提示/opt/eda/synopsys/vcs-mx/N-2017.12-SP2/linux/bin/vcs1找不到
  - 参考:https://blog.csdn.net/weixin_59105807/article/details/120190906
-#### 45.vcs debug_access_all是编译选项,非运行选项,如果误在运行选项内添加该选项,日志报warning 
-#### 46.三步编译法,vlogan ->elab ->run, 分析,真正编译,运行.analysis
+#### 45. vcs debug_access_all是编译选项,非运行选项,如果误在运行选项内添加该选项,日志报warning 
+#### 46. 三步编译法,vlogan ->elab ->run, analysis生成过程文件,真正编译生成层次化的可执行文件,运行
 - vlogan
   analysis　phase中VCS会检查文件的语法错误，并将文件生成elaboration phase需要的中间文件，将这些中间文件保存在默认的library中（也可以用-work指定要保存的library
 - elaboration
@@ -543,3 +543,7 @@ wdata = ($urandom_range(32'h0,32'hffff_ffff) &mask)  | (val &^(~mask)))
   运行elaboration phase生成的二进制文件simv来运行仿真。
 
 - eg. [VCS仿真流程](https://www.cnblogs.com/east1203/p/11568460.html)
+#### 47. sv 在@事件控制中添加了iff修饰词，
+- 只有当iff后的条件为真时，@事件才会触发。注意，iff可以在always和always_ff下使用，但是不能在always_comb、always_latch中使用。
+- 参考:
+  1. [iff 限定符的使用指南](https://recclay.blog.csdn.net/article/details/123206032?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7EPayColumn-1-123206032-blog-111086864.235%5Ev38%5Epc_relevant_yljh&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7EPayColumn-1-123206032-blog-111086864.235%5Ev38%5Epc_relevant_yljh&utm_relevant_index=1)
