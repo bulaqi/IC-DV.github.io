@@ -14,6 +14,8 @@ vim ~/.vimrc，然后在.vimrc文件中输入一行set clipboard=unnamedplus这�
 ~~~
 #### 3. 分屏打开当前目录 :vsp %:p:h  
 
+
+
 ###  1. gvim基础
 #### 1. 移动、标记、跳转
  1. 字符间跳转：h, j, k, l
@@ -40,6 +42,15 @@ vim ~/.vimrc，然后在.vimrc文件中输入一行set clipboard=unnamedplus这�
 #### 2.  查找,	？	/	global
 
 #### 3. 基础编辑指令
+0. 删除
+~~~
+shift + ~：将光标所在位置的字母进行大小写转换；
+r：替换光标所在的一个字符；
+n + r：替换光标所在的n个字符替换；
+x：行内删除，向后删除，支持nx，支持p；
+X：行内删除，向前删除，支持nX，支持p；
+cw：删除当前光标所在单词，并进入插入模式。
+~~~
 0. 数字增加
 ~~~
 ctrl+ a /ctrl+x
