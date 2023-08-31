@@ -81,4 +81,5 @@ endclass
 
 
 ### - 参考
-[uvm_event的使用总结](https://blog.csdn.net/zyj0oo0/article/details/120264318)
+1. [uvm_event的使用总结](https://blog.csdn.net/zyj0oo0/article/details/120264318)
+2. [事件.pptx](https://github.com/bulaqi/IC-DV.github.io/files/12486444/default.pptx)
