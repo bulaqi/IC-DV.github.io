@@ -534,3 +534,12 @@ wdata = ($urandom_range(32'h0,32'hffff_ffff) &mask)  | (val &^(~mask)))
  - 如果未加full,可能访问的是vcs1, 提示/opt/eda/synopsys/vcs-mx/N-2017.12-SP2/linux/bin/vcs1找不到
  - 参考:https://blog.csdn.net/weixin_59105807/article/details/120190906
 #### 45.vcs debug_access_all是编译选项,非运行选项,如果误在运行选项内添加该选项,日志报warning 
+#### 46.三步编译法,vlogan ->elab ->run, 分析,真正编译,运行.analysis
+- vlogan
+  analysis　phase中VCS会检查文件的语法错误，并将文件生成elaboration phase需要的中间文件，将这些中间文件保存在默认的library中（也可以用-work指定要保存的library
+- elaboration
+  在此阶段，VCS MX使用分析期间生成的中间文件构建实例层次结构，并生成二进制可执行simv
+- run
+  运行elaboration phase生成的二进制文件simv来运行仿真。
+
+- eg. [VCS仿真流程](https://www.cnblogs.com/east1203/p/11568460.html)
