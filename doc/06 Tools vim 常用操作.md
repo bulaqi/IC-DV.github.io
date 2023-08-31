@@ -1,16 +1,18 @@
-### 0. Terminal和vim 交互
+### 常用操作
+#### 0. Terminal和vim 交互
 1. 设置
 vim ~/.vimrc，然后在.vimrc文件中输入一行set clipboard=unnamedplus这句话的意思是让vim的剪贴板与外部剪贴板连接
 2. 使用
  1. Terminal->vim : 双击选中,vim中 鼠标中间
  2.  vim ->Terminal: y 后,terminal shift+insert,或者选中,中间复制
 
-### 1. 分屏跳转,ctrl+w+s ,ctrl +w+v
-### 2. 当前窗口最大化: ctrl w |(shift |)  
+#### 1. 分屏跳转,ctrl+w+s ,ctrl +w+v
+#### 2. 当前窗口最大化: ctrl w |(shift |)  
 ~~~
 1. gvim一般是非同时操作,使用前先按下"Ctrl + w",
 2. | 需要用shift + | 实现。
 ~~~
+#### 3. 分屏打开当前目录 :vsp %:p:h  
 
 ###  1. gvim基础
 #### 1. 移动、标记、跳转
