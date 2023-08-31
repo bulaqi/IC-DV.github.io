@@ -13,6 +13,8 @@ vim ~/.vimrc，然后在.vimrc文件中输入一行set clipboard=unnamedplus这�
 2. | 需要用shift + | 实现。
 ~~~
 #### 3. 分屏打开当前目录 :vsp %:p:h  
+% 符号代表活动缓冲区的完整文件路径（参见 :h cmdlinespecial ） ， 按 <Tab> 键会将其展开， 使之显示为活动缓冲区的完整
+文件路径。 :h修饰符会去除文件名， 但保留路径中的其他部分
 
 
 
