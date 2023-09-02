@@ -551,7 +551,7 @@ wdata = ($urandom_range(32'h0,32'hffff_ffff) &mask)  | (val &^(~mask)))
 
 #### 49.  注意uvm_object 和uvm_componen的构造函数不同,因为uvm_componen是树型的,所以多一个parent的参数
 #### 50. 跨组件访问的时候,需要注意是否是单次将A组件内的值覆盖B组件,还是多次. 需要重新梳理该部分的机制,否则用while(1) 在每个clk 都赋值一次
-#### 51. 数量聚合和时间聚合的代码示例,等到一个就线程继续
+#### 51. 数量聚合和时间聚合的代码示例,等到一个条件满足父进程继续
 ~~~
 std::randmize(coal_num) with{coal_num inside {[1:8]};};
 std::randmize(cola_timeout) with{cola_timeout inside {[1:20]};};
@@ -572,3 +572,4 @@ fork
 join
 
 ~~~
+#### 52. 用例本身也是compent, 所以uvm组件可以通过tlm port 连接到 用例上
