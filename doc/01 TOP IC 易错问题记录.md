@@ -548,5 +548,27 @@ wdata = ($urandom_range(32'h0,32'hffff_ffff) &mask)  | (val &^(~mask)))
 - 参考:
   1. [iff 限定符的使用指南](https://recclay.blog.csdn.net/article/details/123206032?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7EPayColumn-1-123206032-blog-111086864.235%5Ev38%5Epc_relevant_yljh&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7EPayColumn-1-123206032-blog-111086864.235%5Ev38%5Epc_relevant_yljh&utm_relevant_index=1)
 #### 48. 注意uvm_object 和uvm_component  util注册的函数不同,混用会报错,在register时候报错
+
 #### 49.  注意uvm_object 和uvm_componen的构造函数不同,因为uvm_componen是树型的,所以多一个parent的参数
 #### 50. 跨组件访问的时候,需要注意是否是单次将A组件内的值覆盖B组件,还是多次. 需要重新梳理该部分的机制,否则用while(1) 在每个clk 都赋值一次
+#### 51. 数量聚合和时间聚合的代码示例,等到一个就线程继续
+~~~
+std::randmize(coal_num) with{coal_num inside {[1:8]};};
+std::randmize(cola_timeout) with{cola_timeout inside {[1:20]};};
+fork
+	process proc_a;
+	process proc_b;
+	begin
+		proc_a = process::self();
+		wait(act_sqe_q[sq_id].size >= coal_num);
+		proc_b.kill();
+	end
+	begin
+		proc_b = process::self();
+		repeat(100*cola_timeout) 
+			@(posedge vif.clk);
+		proc_a.kill();
+	end
+join
+
+~~~
