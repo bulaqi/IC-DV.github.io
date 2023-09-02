@@ -1,5 +1,6 @@
 ### 1. 基本知识点
-#### 1. 该类主要用于收集coverage,通过analysis export与monitor相连;
+#### 1.uvm_subscriber 特点 
+该类主要用于收集coverage,通过analysis export与monitor相连;
 
 
 ### 2. 传送门
