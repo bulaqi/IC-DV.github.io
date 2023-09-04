@@ -573,3 +573,4 @@ join
 
 ~~~
 #### 52. 用例本身也是compent, 所以uvm组件可以通过tlm port 连接到 用例上
+#### 53. 新建pahse 内的task(消耗仿真时间)没有被执行,请确认pahse 是不是没有raise objection 和drop objection
