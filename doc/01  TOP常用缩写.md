@@ -1,3 +1,4 @@
+### 1. 基础
 - calculate			calc		计算
 - addition			add			加
 - subtraction			sub			减
@@ -105,3 +106,7 @@
 - signal				sig			信号
 - information			info		信息
 - error				err			错误
+
+### 2. 传送门
+1. [编程语言中常用的变量命名缩写](https://blog.csdn.net/qq_37851620/article/details/94731227)
+
