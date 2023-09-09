@@ -2,4 +2,5 @@
 ### 2. 传送门
 ### 3. 附件
 
-[Uploading 验证 编码规范.xmind…]()
+
+[Uploading 验证 编码规范.zip…]()
