@@ -43,6 +43,10 @@ m_int_q m_int；
  
 typedef short m_sh_q[$];
 m_sh_q m_sh;
+
+typedef class aem_plus_nvme_ral_model aem_plus_nvme_ral_model_arr[5]; //编译报错,不要用修饰词class
+typedef aem_plus_nvme_ral_model aem_plus_nvme_ral_model_arr[5];
+
 ~~~
 定义了一个100个元素的int数组 m_int；
 
