@@ -1,4 +1,6 @@
 ### 常用操作
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/c81778c4-d6e3-4f08-ae6d-6ba8c857558b)
+
 #### 0. Terminal和vim 交互
 1. 设置
 vim ~/.vimrc，然后在.vimrc文件中输入一行set clipboard=unnamedplus这句话的意思是让vim的剪贴板与外部剪贴板连接
@@ -167,6 +169,7 @@ iab 添加常用语句
 
 
 ### 3. 传送门
+0. [vim实用技巧（第二版)](https://blog.csdn.net/saying0101_0010_0000/article/details/114528186#:~:text=1%20%E6%8A%80%E5%B7%A713%20%E5%9C%A8%E6%8F%92%E5%85%A5%E6%A8%A1%E5%BC%8F%E4%B8%AD%E5%8F%AF%E5%8D%B3%E6%97%B6%E6%9B%B4%E6%AD%A3%E9%94%99%E8%AF%AF%202%20%E6%8A%80%E5%B7%A714%20%E8%BF%94%E5%9B%9E%E6%99%AE%E9%80%9A%E6%A8%A1%E5%BC%8F%203%20%E7%BB%93%E8%AF%86%E6%8F%92%E5%85%A5-%E6%99%AE%E9%80%9A%E6%A8%A1%E5%BC%8F,%E9%9A%8F%E6%97%B6%E9%9A%8F%E5%9C%B0%E5%81%9A%E8%BF%90%E7%AE%97%207%20%E6%8A%80%E5%B7%A717%20%E7%94%A8%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E6%8F%92%E5%85%A5%E9%9D%9E%E5%B8%B8%E7%94%A8%E5%AD%97%E7%AC%A6%208%20%E6%8A%80%E5%B7%A718%20%E7%94%A8%E4%BA%8C%E5%90%88%E5%AD%97%E6%AF%8D%E6%8F%92%E5%85%A5%E9%9D%9E%E5%B8%B8%E7%94%A8%E5%AD%97%E7%AC%A6%20%E6%9B%B4%E5%A4%9A%E9%A1%B9%E7%9B%AE)
 1. [vim中三类文本对象 句，段落，节的区别](https://blog.csdn.net/iteye_3607/article/details/82204909#:~:text=vim%E4%B8%AD%E4%B8%89%E7%B1%BB%E6%96%87%E6%9C%AC%E5%AF%B9%E8%B1%A1%20%E5%8F%A5%EF%BC%8C%E6%AE%B5%E8%90%BD%EF%BC%8C%E8%8A%82%E7%9A%84%E5%8C%BA%E5%88%AB%20iteye_3607%20%E4%BA%8E%202011-11-15%2014%3A59%3A00%20%E5%8F%91%E5%B8%83%201042,%27%3F%27%20before%20the%20spaces%2Ctabs%20or%20end%20of%20line.)
 2. [如何在vim中使用系统剪贴板](https://blog.csdn.net/qq_44884716/article/details/111707347)
 3. [vim使用】分屏命令、操作分屏](https://www.cnblogs.com/greamrod/p/12565193.html)
