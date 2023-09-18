@@ -16,23 +16,39 @@
   -  第三种是在agent中声明一个ap， 但是不实例化它， 让其指向monitor中的ap。 在env中可以直接连接agent的ap到scoreboard的imp
 - 总结:第一种最简单， 但是其层次关系并不好， 第二种稍显麻烦， 第三种既具有明显的层次关系， 同时其实现也较简单
 #### 2. 问题: 由于接收到的两路数据应该做不同的处理， 所以这个新的IMP也要有一个write任务与其对应。 但是write只有一个， 怎么办? ---uvm_analysis_imp_dec
-
+my_scoreboard.sv
 ~~~
-文件： src/ch4/section4.3/4.3.3/my_scoreboard.sv
-4 `uvm_analysis_imp_decl(_monitor)
-5 `uvm_analysis_imp_decl(_model)
-6 class my_scoreboard extends uvm_scoreboard;
-7 my_transaction expect_queue[$];
-8 9
-uvm_analysis_imp_monitor#(my_transaction, my_scoreboard) monitor_imp;
-10 uvm_analysis_imp_model#(my_transaction, my_scoreboard) model_imp;
-…
-15 extern function void write_monitor(my_transaction tr);
-16 extern function void write_model(my_transaction tr);
-17 extern virtual task main_phase(uvm_phase phase);
-29918 endclass
+`uvm_analysis_imp_decl(_monitor)
+`uvm_analysis_imp_decl(_model)
+class my_scoreboard extends uvm_scoreboard;
+	my_transaction expect_queue[$];
+
+	m_analysis_imp_monitor#(my_transaction, my_scoreboard) monitor_imp;
+	uvm_analysis_imp_model#(my_transaction, my_scoreboard) model_imp;
+
+	extern function void write_monitor(my_transaction tr);
+	extern function void write_model(my_transaction tr);
+	extern virtual task main_phase(uvm_phase phase);
+endclass
 ~~~
 
+- 通过宏uvm_analysis_imp_decl声明了两个后缀_monitor和_model。
+- UVM会根据这两个后缀定义两个新的IMP类：uvm_analysis_imp_monitor和uvm_analysis_imp_model，并在my_scoreboard中分别实例化这两个类： monitor_imp和model_imp。
+- 当与monitor_imp相连接的analysis_port执行write函数时， 会自动调用write_monitor函数，-
+- 与model_imp相连接的analysis_port执行write函数时， 会自动调用write_model函数
+~~~
+function void my_scoreboard::write_model(my_transaction tr);
+	expect_queue.push_back(tr);
+endfunction
+
+function void my_scoreboard::write_monitor(my_transaction tr);
+	my_transaction tmp_tran;
+	bit result;
+	if(expect_queue.size() > 0) begin
+	...
+	end
+endfunction
+~~~
 
 ### 2. 扩展
 ### 3. TLM_FIFO VS TLM anyssic端口
