@@ -1,3 +1,7 @@
+### 0. 心得
+- 非兄弟组件通信方便,只需要在需要通信的组件内 分别定义 analysis_port和uvm_analysis_imp_xxport 即可 ,不涉及tlm_fifo
+-  使用write 实现,而不是put,get
+  
 ### 1. 基础知识
 #### 1. UVM中的analysis端口
 ##### 1. 区别
@@ -40,7 +44,7 @@ my_scoreboard.sv
 class my_scoreboard extends uvm_scoreboard;
 	my_transaction expect_queue[$];
 
-	m_analysis_imp_monitor#(my_transaction, my_scoreboard) monitor_imp;
+	uvm_analysis_imp_monitor#(my_transaction, my_scoreboard) monitor_imp;
 	uvm_analysis_imp_model#(my_transaction, my_scoreboard) model_imp;
 
 	extern function void write_monitor(my_transaction tr);
