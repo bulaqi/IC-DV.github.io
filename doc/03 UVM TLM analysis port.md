@@ -14,6 +14,23 @@
   -  第一种是直接在env中跨层次引用monitor中的ap
   -  第二种是在agent中声明一个ap并实例化它， 在connect_phase将其与monitor的ap相连， 并可以在env中把agent的ap直接连接到scoreboard的imp
   -  第三种是在agent中声明一个ap， 但是不实例化它， 让其指向monitor中的ap。 在env中可以直接连接agent的ap到scoreboard的imp
+~~~
+//my_agent 组件
+class my_agent extends uvm_agent ;
+	uvm_analysis_port #(my_transaction) ap;
+…
+	function void my_agent::connect_phase(uvm_phase phase);
+		ap = mon.ap;
+…
+	endfunction
+endclass
+
+//my_env 组件
+function void my_env::connect_phase(uvm_phase phase);
+	o_agt.ap.connect(scb.scb_imp);
+	…
+endfunction
+~~~
 - 总结:第一种最简单， 但是其层次关系并不好， 第二种稍显麻烦， 第三种既具有明显的层次关系， 同时其实现也较简单
 #### 2. 问题: 由于接收到的两路数据应该做不同的处理， 所以这个新的IMP也要有一个write任务与其对应。 但是write只有一个， 怎么办? ---uvm_analysis_imp_dec
 my_scoreboard.sv
