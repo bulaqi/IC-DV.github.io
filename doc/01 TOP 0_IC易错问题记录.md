@@ -580,4 +580,5 @@ join
 - 背景,定义了接口数据,类型是logic,但是未赋初值,在使用的时候判断 if(vif.fulsh_state != 1)
 - 注意,接口未赋初值是x太,x态 !-1 ,还是x态,目的是结果为1才进入if语句
 - 参考 1. [SystemVerilog 中的相等运算符：== or === ？](https://www.cnblogs.com/bitlogic/p/14589903.html)
+#### 56. 用例卡死
 
