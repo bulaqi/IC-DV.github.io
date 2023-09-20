@@ -580,5 +580,58 @@ join
 - 背景,定义了接口数据,类型是logic,但是未赋初值,在使用的时候判断 if(vif.fulsh_state != 1)
 - 注意,接口未赋初值是x太,x态 !-1 ,还是x态,目的是结果为1才进入if语句
 - 参考 1. [SystemVerilog 中的相等运算符：== or === ？](https://www.cnblogs.com/bitlogic/p/14589903.html)
-#### 56. 用例卡死
+#### 56. 端口get和try_get
+- 背景: 在用例中有port 接口get 平台msix的数据,msix数据个数未知, 仿真时间持续推进,用例的main_pahse 未正常结束
+- 分析: 对传输数量未知的port使用时候,需要考虑时间的推进,建议用try_get
+- 总结: 对传输数量未知的port使用时候,需要考虑时间的推进,建议用try_get
+~~~
+ //用例
+task xxtc::mian_phase(uvm_phase pahse);
+	fork
+		chk_amix_bus_idle(5000,axim_wr_bus_idle_flag); // axim_wr_bus_idle_flag是全局变量, 超时等待标记,置1表示总线空,平台结束
+		for(int pf_id; pf_id<5; pf_id++) begin
+			//write_reg("NVME_TDBL",pf_id);
+		end
+		proc_msix_msg(0);// 内部根据axim_wr_bus_idle_flag状态跳出循环
+	joinsss
+endtaks
+
+// 错误代码
+task xxtc::chk_amix_bus_idle();
+	...
+	while(1)
+		@(posdege vif.clk);
+		if(axim_wr_bus_idle_flag== 1)
+			break;
+		msix_info_inport.get(req);  //如果在axim_wr_bus_idle_flag==0 时候,在此死等,程序挂死		
+$cast(msix_msg_item,req.clone);
+		len = req.lens;
+		for(int i=0; i<len ;i ++) begin
+			xx_proc();
+		end
+		break;
+	end
+	...
+endtask
+
+// 正确代码
+task xxtc::chk_amix_bus_idle();
+	...
+	while(1) begin
+		@(posdege vif.clk);
+		if(axim_wr_bus_idle_flag== 1)
+			break;
+		while(msix_info_inport.try_get(req))begin //改为try_get,未get到数据后,跳过,继续外循环判断
+			$cast(msix_msg_item,req.clone);
+			len = req.lens;
+			for(int i=0; i<len ;i ++) begin
+				xx_proc();
+			end
+		end
+		break;
+	end
+	...
+endtask
+
+~~~
 
