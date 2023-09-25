@@ -1,3 +1,5 @@
+### 0. lsof lsof(list open files)可以列出当前系统中进程打开的所有文件
+
 ### 1. moudle的使用
 ### 2. 查找某文件名后删除： find ../tc -name "icrun.cfg" -delete
 ### 3. linux sed命令 批量替换目录下的所有文件
