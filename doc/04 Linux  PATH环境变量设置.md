@@ -17,3 +17,6 @@ Export PATH="$PATH:/NEW_PATH"
 ~~~
 ### 传送门
 1. [Linux系统设置PATH环境变量(3种方法)](https://www.nhooo.com/note/qa34st.html)
+2. [Linux中环境变量的设置——setenv/export](https://blog.csdn.net/qq_41595735/article/details/90239159)
+
+
