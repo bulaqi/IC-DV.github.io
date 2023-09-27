@@ -29,6 +29,7 @@ Export PATH="$PATH:/NEW_PATH"
    - setenv的影响范围范围: 通过此函数并不能添加或修改 shell 进程的环境变量，或者说通过setenv函数设置的环境变量只在本进程，而且是本次执行中有效。如果在某一次运行程序时执行了setenv函数，进程终止后再次运行该程序，上次的设置是无效的，上次设置的环境变量是不能读到的。
    - 语法 setenv [变量名称] [变量值]
    - setenv修改环境变量, 环境变量可传递给子shell. setenv有点类似于bash中export一个变量
+   - unsetenv 变量名 取消设置
 3. #### set,尽量选择setenv
    - set来定义局部变量, 使用setenv可以定义环境变量，局部变量只对本shell有效, 不能传递给子shell，
    
