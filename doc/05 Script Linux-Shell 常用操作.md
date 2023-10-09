@@ -1,3 +1,5 @@
+
+
 ### 0. lsof lsof(list open files)可以列出当前系统中进程打开的所有文件
   - lsof +D .// 列出当前目录下打开的文件
 
@@ -32,3 +34,6 @@ grep -rl
 mkdir -p xx //-p 确保目录名称存在，不存在的就建一个
 ### 6.强制执行命令,无需确认,命令前加\
 \rm core.sv 
+### 7. wc -l 统计行数
+bjobs -w | wc -l 
+[linux下wc -l 命令](https://blog.csdn.net/Moonlight_16/article/details/125527386)
