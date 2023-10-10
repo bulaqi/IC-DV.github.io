@@ -16,7 +16,7 @@
 4. 查看该组件名称,因get_parent返回的是组件句柄,需要用调用get_full_name()函数实现
    ~~~
       $cast(u_cq_env,get_parent());
-      $cast(env,u_cq_env.get_parent());
+      $cast(env,u_cq_env.get_parent()); //逐层调
       `uvm_info(this.get_full_name(),sformatf("env pwd=%s",eng.get_full_name()),UVM_MEDIUM);
    ~~~
    
