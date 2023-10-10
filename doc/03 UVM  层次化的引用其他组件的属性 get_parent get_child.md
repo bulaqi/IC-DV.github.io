@@ -16,5 +16,5 @@
 ### 2. get_child
 ### 
 ### 传送门
-1. [UVM 怎么层次化引用其他component类中的属性](https://www.cnblogs.com/liutang2010/p/15870606.html))
+1. [UVM 怎么层次化引用其他component类中的属性](https://www.cnblogs.com/liutang2010/p/15870606.html)
 2. [层次化相关函数](https://blog.csdn.net/tingtang13/article/details/46441873)
