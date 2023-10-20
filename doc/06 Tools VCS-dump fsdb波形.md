@@ -1,4 +1,4 @@
-### 方法
+1. ### 理论方法
 #### 1. testbench中控制dump fsdb
  1. testbench中加入的代码
    ~~~
@@ -83,6 +83,21 @@ run 10us
 quit                                      # 需要使用quit，irun不自动结束
 ~~~
 
+### 2. tcl 经验
+#### 1. dump 波形
+~~~
+dump -add {aem_top_tb} -depth 0 -scope "." --aggregate
+~~~
+#### 2. 加载其他debug_tcl.do 文件
+~~~
+if {[file exit debug_tcl.do] == 1 } {
+   do debug_tcl.do
+}
+~~~
+#### 3. TCL 仿真的3中模式
+1. verdi_mode / ve_mode  batch_mode
+2. [info command stateVerdiChangeCB == "stateVerdiChangeCB"], 通过参数确认进入的是那种方式,见参考资料2
 
-### 传送门
+### 3. 传送门
 1. [VCS dump fsdb 波形](https://blog.csdn.net/hh199203/article/details/114981486)
+2. [TCL学习之info命令](https://blog.csdn.net/iamsarah/article/details/70920625)
