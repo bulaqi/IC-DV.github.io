@@ -38,3 +38,11 @@ mkdir -p xx //-p 确保目录名称存在，不存在的就建一个
 ### 7. wc -l 统计行数
 bjobs -w | wc -l 
 [linux下wc -l 命令](https://blog.csdn.net/Moonlight_16/article/details/125527386)
+### 8. find 命令和grep 的组合使用
+~~~
+find -type f -name "*.sv" | grep -rn  axi_master_wr_sequence
+find  -name "*.sv" | grep -rn  axi_master_wr_sequence
+find 命令参数解析
+-name pattern：按文件名查找，支持使用通配符 * 和 ?。
+-type type：按文件类型查找，可以是 f（普通文件）、d（目录）、l（符号链接）等
+~~~
