@@ -6,7 +6,12 @@
 
 #### 2. $fsdbDumpvars([depth, instance][, “option”])*
 
-depth表示要加载波形的层次；0表示当前instance下的所有变量一级其他module实例的波形，1表示当前instance中的变量的波形，不包括当前instance中的其他module实例的波形，2表示包含当前instance以及其中的第一级子instance的波形；以此类推。
+depth表示要加载波形的层次；
+~~~
+0表示当前instance下的所有变量一级其他module实例的波形，
+1表示当前instance中的变量的波形，不包括当前instance中的其他module实例的波形，
+2表示包含当前instance以及其中的第一级子instance的波形；以此类推。
+~~~
 instance指定要加载波形的module名。
 option加载波形的选项，如：
 +IO_Only – 只加载IO port信号；
@@ -47,6 +52,8 @@ new_file_name—创建一个新的波形文件，将波形加载到这个文件�
 类似于$fsdbDumpvars，这个方法支持将需要加载波形的instance写在文件中。
 text_file_name—文本文件，指定要dump波形的instance；
 option—同$fsdbDumpvars中的option参数；
+#### 8. $fsdbDumpSVA(depth,instance,"option")，dump指定模块的assertion
+- $fsdbDumpSVA(1,system.arbiter,"+fsdbfile=SVA.fsdb"),将该instance下所有assert全部dump到该fsdb中  可以用+fsdbfile=SVA.fsdb dump到新的fsdb文件中
 
 
 ### 传送门
