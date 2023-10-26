@@ -637,11 +637,11 @@ endtask
 #### 57.include 本质是文件展开,是预编译
 - 传送门 [程序员应如何理解include](https://zhuanlan.zhihu.com/p/191616105)
 
-#### 57.package内 不能内嵌module
+#### 58.package内 不能内嵌module
 - 报错信息:'endmodule'之前在模块中找到'module'关键字
 - 解决方法: 将`include线移动到module上方或endmodule下方
 - ['endmodule'之前在模块中找到'module'关键字](https://www.soinside.com/question/qyjXGrDyuVXR9eJ4PSpNEY)
-#### 57.interface的例化和声明的区别
+#### 59.interface的例化和声明的区别
 - interface是一组双向信号的组合,使用loigc数量类型,使用过程语句驱动
 - interface　不是类，不需要构造函数，不要new 或者create
 - 例化
