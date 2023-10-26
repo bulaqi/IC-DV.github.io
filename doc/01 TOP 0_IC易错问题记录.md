@@ -634,7 +634,9 @@ task xxtc::chk_amix_bus_idle();
 endtask
 
 ~~~
-#### 57.include 本质是文件展开
+#### 57.include 本质是文件展开,是预编译
+- 传送门 [程序员应如何理解include](https://zhuanlan.zhihu.com/p/191616105)
+
 #### 57.package内 不能内嵌module
 - 报错信息:'endmodule'之前在模块中找到'module'关键字
 - 解决方法: 将`include线移动到module上方或endmodule下方
