@@ -634,4 +634,36 @@ task xxtc::chk_amix_bus_idle();
 endtask
 
 ~~~
+#### 57.include 本质是文件展开
+#### 57.package内 不能内嵌module
+- 报错信息:'endmodule'之前在模块中找到'module'关键字
+- 解决方法: 将`include线移动到module上方或endmodule下方
+- ['endmodule'之前在模块中找到'module'关键字](https://www.soinside.com/question/qyjXGrDyuVXR9eJ4PSpNEY)
+#### 57.interface的例化和声明的区别
+- interface是一组双向信号的组合,使用loigc数量类型,使用过程语句驱动
+- interface　不是类，不需要构造函数，不要new 或者create
+- 例化
+  ~~~
+  //定义
+  interface ticket_if(input logic clk,rst_n,[5:0]m_in,output logic ticket_out,[5:0]m_out);
+    
+    logic [5:0]sum;
 
+    task change(input logic [5:0]in_data,
+                          output logic [5:0]out_data );
+                          
+             out_data = in_data - 6;
+    endtask //automatic
+
+    modport ticket_ports(input clk,rst_n,m_in,
+            output ticket_out,m_out,sum,
+            import task change(input logic [5:0]in_data,
+                               output logic [5:0]out_data )
+            );
+  endinterface //interfacename
+  ...
+  //ticket_if ports(.*);如果信号名称一样，你也可以直接按照这种方式来例化
+  ticket_if ports(.clk(clk),.rst_n(rst_n),.m_in(m_in),.ticket_out(ticket_out),.m_out(m_out));
+  ticket u_ticket(ports.ticket_ports);
+  ...
+  ~~~
