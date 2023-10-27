@@ -641,6 +641,7 @@ endtask
 - 报错信息:'endmodule'之前在模块中找到'module'关键字
 - 解决方法: 将`include线移动到module上方或endmodule下方
 - ['endmodule'之前在模块中找到'module'关键字](https://www.soinside.com/question/qyjXGrDyuVXR9eJ4PSpNEY)
+
 #### 59.interface的例化和声明的区别
 - interface是一组双向信号的组合,使用loigc数量类型,使用过程语句驱动
 - interface　不是类，不需要构造函数，不要new 或者create
@@ -669,3 +670,12 @@ endtask
   ticket u_ticket(ports.ticket_ports);
   ...
   ~~~
+#### 60.override注意事项,被重载的类必须是重载类的父类。--- 非严格的条件
+- 结论:被重载的类必须是重载类的父类,不是必须的,实操,兄弟seq之间可以被重载,猜测,只要满足继承的关系,不会出现空方法,空属性即可
+- 知识点
+~~~
+1. 无论是重载的类（parrot）还是被重载的类（bird），都要在定义时注册到factory机制中。
+2. 重载的类（bird）在实例化时，要使用factory机制式的实例化方式，而不能使用传统的new方式
+3. 最重要的是，重载的类（parrot）要与被重载的类（bird）有派生关系。重载的类必须派生自被重载的类，被重载的类必须是重载类的父类。
+4. component与object之间互相不能重载。虽然uvm_component是派生自uvm_object，但是这两者的血缘关系太远了，远到根本不能重载。从两者的new参数的函数就可以看出来，二者互相重载时，多出来的一个parent参数会使factory机制无所适从
+~~~
