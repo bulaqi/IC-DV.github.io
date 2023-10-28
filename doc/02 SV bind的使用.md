@@ -7,6 +7,7 @@
 ~~~
 test_sva #(.DATA_WIDTH(8)) U_test_sva(clk, rst_n);
 ~~~
+#### 3. 如果需要内部的信号,可以拉把内部信号的module bind到assert_module 模块
 
 ### 2. 注意事项
 #### 1. sva_module 把接口 作为参数出入sva_module时候需要待全路径
