@@ -680,4 +680,5 @@ endtask
 4. component与object之间互相不能重载。虽然uvm_component是派生自uvm_object，但是这两者的血缘关系太远了，远到根本不能重载。从两者的new参数的函数就可以看出来，二者互相重载时，多出来的一个parent参数会使factory机制无所适从
 ~~~
 #### 61.仿真GUI dump 波形的,可以设置,在instance 页签,hierarchy页面,选中需要dump的模块,右击选中dump
-
+#### 62. module 不能定义在package内,否则编译器报错
+- ['endmodule'之前在模块中找到'module'关键字](https://www.soinside.com/question/qyjXGrDyuVXR9eJ4PSpNEY)
