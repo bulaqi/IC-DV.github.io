@@ -682,3 +682,7 @@ endtask
 #### 61.仿真GUI dump 波形的,可以设置,在instance 页签,hierarchy页面,选中需要dump的模块,右击选中dump
 #### 62. module 不能定义在package内,否则编译器报错
 - ['endmodule'之前在模块中找到'module'关键字](https://www.soinside.com/question/qyjXGrDyuVXR9eJ4PSpNEY)
+#### 63. 正确的理解port,interface 内的logic 变量,不是port,是局部变量,
+- 根据端口的方向，端口类型有 3 种： 输入（input），输出（output）和双向端口（inout）
+- 端口是模块与外界交互的接口。对于外部环境来说，模块内部是不可见的，对模块的调用只能通过端口连接进行。
+- [Verilog 模块与端口](https://www.runoob.com/w3cnote/verilog-module-port.html)
