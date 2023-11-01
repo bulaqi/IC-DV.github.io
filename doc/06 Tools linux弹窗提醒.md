@@ -1,16 +1,20 @@
 ### 1. 基础知识
-
-xhost 是用来控制X server访问权限的，这个命令将允许别的用户启动的图形程序将图形显示在当前屏幕上.。通常当你从hostA登陆到hostB上运行hostB上的应用程序时，做为应用程序来说，hostA是client,但是作为图形来说，是在hostA上显示的，需要使用hostA的Xserver,所以hostA是
-server.因此在登陆到hostB前，需要在hostA上运行xhost +，来使其它用户能够访问hostA的Xserver.
+- xhost 是用来控制X server访问权限的，这个命令将允许别的用户启动的图形程序将图形显示在当前屏幕上.。
+- 你从hostA登陆到hostB上运行hostB上的应用程序时，做为应用程序来说，hostA是client,但是作为图形来说，是在hostA上显示的，需要使用hostA的Xserver,所以hostA是server.因此在登陆到hostB前，需要在hostA上运行xhost +，来使其它用户能够访问hostA的Xserver.
+- 指令
+~~~
 xhost + 是使所有用户都能访问Xserver.
 xhost + ip使ip上的用户能够访问Xserver.
 xhost + nis:user@domain使domain上的nis用户user能够访问
 xhost + inet:user@domain使domain上的inet用户能够访问。
+~~~
+- eg:
 在2台Linux机器之间, 如果设置服务器端配置文件/etc/ssh/sshd_config中包含
 X11Forwarding no
 客户端配置文件/etc/ssh/ssh_config包含
 ForwardX11 yes
 则从客户端ssh到服务器端后会自动设置DISPLAY环境变量, 允许在服务器端执行的图形程序将图形显示在客户端上. 在服务器上查看环境变量显示如下(这个结果不同的时候并不相同)
+
 ### 2. 经验分享
 #### 1. 报错:No protocol specified xhost: unable to open display
 - [No protocol specified xhost: unable to open display](https://www.cnblogs.com/vzhangxk/p/11220385.html)
