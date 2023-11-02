@@ -38,7 +38,11 @@ mkdir -p xx //-p 确保目录名称存在，不存在的就建一个
 ### 7. wc -l 统计行数
 bjobs -w | wc -l 
 [linux下wc -l 命令](https://blog.csdn.net/Moonlight_16/article/details/125527386)
-### 8. find 命令和grep 的组合使用
+### 8. grep 的组合使用
+~~~
+grep -rn  axi_master_wr_sequence  *axi*
+~~~
+### 9. find 命令和grep 的组合使用
 ~~~
 find -type f -name "*.sv" | grep -rn  axi_master_wr_sequence
 find  -name "*.sv" | grep -rn  axi_master_wr_sequence
@@ -47,7 +51,7 @@ find 命令参数解析
 -type type：按文件类型查找，可以是 f（普通文件）、d（目录）、l（符号链接）等
 ~~~
 
-### 8. kill,pkill, xkill
+### 10. kill,pkill, xkill
 - kill命令会发送一个信号给该pid的进程。 // kill 6228
 - pkill命令，它可以基于进程的名字或者其他的属性来杀掉进程. // pkill terminal
 - xkill,图形化杀进程,xkill会将鼠标指针变成一个特殊符号，类似于“X”。只需在你要杀掉的窗口上点击，它就会杀掉它与server端的通信，
