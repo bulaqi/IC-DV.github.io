@@ -686,3 +686,14 @@ endtask
 - 根据端口的方向，端口类型有 3 种： 输入（input），输出（output）和双向端口（inout）
 - 端口是模块与外界交互的接口。对于外部环境来说，模块内部是不可见的，对模块的调用只能通过端口连接进行。
 - [Verilog 模块与端口](https://www.runoob.com/w3cnote/verilog-module-port.html)
+#### 64. rand_mode vs constrain_mode
+- rand class的rand_mod
+~~~
+class必须先声明为 rand 型；
+对于多级rand class层次，rand_mode会作用于当前对象的整个层次结构；
+如果多个rand 型类的句柄指向同一个rand型对象，那么需要对所有指向此rand型对象的rand型句柄调用rand_mode方法；
+~~~
+- constraint_mode(0)，关闭约束
+- 区:不随机的语法: xx.rand_mode(1)  or   xx.constraint_mode(0)
+- 传送门
+  [systemverilog 中rand class的rand_mode](https://zhuanlan.zhihu.com/p/324216890)
