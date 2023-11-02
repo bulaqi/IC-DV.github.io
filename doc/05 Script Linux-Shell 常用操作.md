@@ -46,3 +46,10 @@ find 命令参数解析
 -name pattern：按文件名查找，支持使用通配符 * 和 ?。
 -type type：按文件类型查找，可以是 f（普通文件）、d（目录）、l（符号链接）等
 ~~~
+
+### 8. kill,pkill, xkill
+- kill命令会发送一个信号给该pid的进程。 // kill 6228
+- pkill命令，它可以基于进程的名字或者其他的属性来杀掉进程. // pkill terminal
+- xkill,图形化杀进程,xkill会将鼠标指针变成一个特殊符号，类似于“X”。只需在你要杀掉的窗口上点击，它就会杀掉它与server端的通信，
+- [精通Linux的“kill”命令](https://linux.cn/article-2116-1.html)
+- [如何使用xkill命令杀掉Linux进程/未响应的程序](https://linux.cn/article-5605-1.html)
