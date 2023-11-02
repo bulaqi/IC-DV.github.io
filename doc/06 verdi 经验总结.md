@@ -17,11 +17,22 @@
 - 在stack 内找到要调试的线程,鼠标选中( )
 - 然后F12调试 注意:不能在期望的地方打断点,否则线程还是循环进入,要在将进入的子线程前断点,单步跳入,然后鼠标点击stack,F12 单步
 - 注意,进来的时候,待调试的循环和loop_id 匹配后不要再打断点了
-  
+
+#### 4. verdi调试不同的case
+- tools -> prefrence -> simulation 修改UVM_TEST 运行选项后,再重新simulation -> invoke simulator
+
+
+#### 5. verdi只能退出界面,添加新的case，
+- simulation -> kill ->invoke ,然后 --force list
+
+
+
+
 ### 2. 经验
 
 ### 3. 传送门
 #### 3.1 单点特性
+1. [verdi调试不同的case](https://mp.weixin.qq.com/s/oxckmBUT8qm0Ysttyu5frA)
 
 #### 3.2 专有特性
 1. [Verdi用法小结 强烈推荐](https://mp.weixin.qq.com/s?__biz=MzkwNjM5NTM5Mw==&mid=2247485117&idx=1&sn=02408c4d577c4709660b32f2fc8e9b8a&chksm=c0e86cd3f79fe5c523b8dbf83ba0f5fb77d9c38bcd5babc3676aa6e08251f10ea8c54182728c&scene=21#wechat_redirect)
