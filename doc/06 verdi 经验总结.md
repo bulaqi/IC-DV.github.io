@@ -22,8 +22,9 @@
 - tools -> prefrence -> simulation 修改UVM_TEST 运行选项后,再重新simulation -> invoke simulator
 
 
-#### 5. verdi只能退出界面,添加新的case，
-- simulation -> kill ->invoke ,然后 --force list
+#### 5. verdi不退出界面,添加新的case
+- simulation -> kill -> rebuild an resetart
+- 实测: 效率比较低,类似完全编译
 
 
 
@@ -33,6 +34,7 @@
 ### 3. 传送门
 #### 3.1 单点特性
 1. [verdi调试不同的case](https://mp.weixin.qq.com/s/oxckmBUT8qm0Ysttyu5frA)
+2. [verdi不退出界面,添加新的case](https://mp.weixin.qq.com/s/oxckmBUT8qm0Ysttyu5frA)
 
 #### 3.2 专有特性
 1. [Verdi用法小结 强烈推荐](https://mp.weixin.qq.com/s?__biz=MzkwNjM5NTM5Mw==&mid=2247485117&idx=1&sn=02408c4d577c4709660b32f2fc8e9b8a&chksm=c0e86cd3f79fe5c523b8dbf83ba0f5fb77d9c38bcd5babc3676aa6e08251f10ea8c54182728c&scene=21#wechat_redirect)
