@@ -174,3 +174,4 @@ iab 添加常用语句
 2. [vim中三类文本对象 句，段落，节的区别](https://blog.csdn.net/iteye_3607/article/details/82204909#:~:text=vim%E4%B8%AD%E4%B8%89%E7%B1%BB%E6%96%87%E6%9C%AC%E5%AF%B9%E8%B1%A1%20%E5%8F%A5%EF%BC%8C%E6%AE%B5%E8%90%BD%EF%BC%8C%E8%8A%82%E7%9A%84%E5%8C%BA%E5%88%AB%20iteye_3607%20%E4%BA%8E%202011-11-15%2014%3A59%3A00%20%E5%8F%91%E5%B8%83%201042,%27%3F%27%20before%20the%20spaces%2Ctabs%20or%20end%20of%20line.)
 3. [如何在vim中使用系统剪贴板](https://blog.csdn.net/qq_44884716/article/details/111707347)
 4. [vim使用 分屏命令、操作分屏](https://www.cnblogs.com/greamrod/p/12565193.html)
+5. [Vim的剪贴板“unnamed”和“unnamedplus”设置有什么区别？](http://cn.voidcc.com/question/p-pyanmqcl-bhx.html)
