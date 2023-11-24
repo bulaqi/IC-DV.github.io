@@ -718,9 +718,10 @@ class必须先声明为 rand 型；
 - 背景:将if(pf_bitmap_en[pf_id] && (pf_init_seq.pf_cfk_pkt_p[pf_id].if_tyep == HW_MODE)) 替换成if(pf_bitmap_en[pf_id] && (init_seq.pf_mode == MULTI_MODE))
 - eg:
   ~~~
-  sed -i 's/if(pf_bitmap_en\[pf_id\] \&\& (pf_init_seq.pf_cfk_pkt_p\[pf_id\].if_tyep == HW_MODE)/if(pf_bitmap_en[pf_id] && (init_seq.pf_mode == MULTI_MODE))/gI' *.SV
+  sed -i 's/if(pf_bitmap_en\[pf_id\] \&\& (pf_init_seq.pf_cfk_pkt_p\[pf_id\].if_tyep == HW_MODE)/if(pf_bitmap_en[pf_id] \&\& (init_seq.pf_mode == MULTI_MODE))/gI' *.SV
   //只需要将& 和[]转义,.本身也可以代替.所以,严格要求的前提下也可以不转义
   //如果对()转义则匹配不上, 原因() 可能引发子表达式
+  //如果没有将替换值&&转义,则会出现多次重复匹配的问题
   ~~~
 - 传送门
   1.[正则表达式 子表达式](https://geek-docs.com/regexp/regexp-tutorials/regular-expression-subexpression.html#google_vignette)
