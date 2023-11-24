@@ -713,3 +713,14 @@ class必须先声明为 rand 型；
   sed、awk、grep运行的机制是,先shell,才是3个命令,所以用单引号括起来具体的命令,交给sed、awk、grep处理,结构清晰,推荐使用
 - 传送门:
  1. [Linux中三种引号(单引号、双引号、反引号)的区别](https://blog.csdn.net/mahoon411/article/details/125426155?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-125426155-blog-122901636.235%5Ev38%5Epc_relevant_yljh&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-125426155-blog-122901636.235%5Ev38%5Epc_relevant_yljh&utm_relevant_index=2)
+
+#### 66.sed脚本的替换
+- 背景:将if(pf_bitmap_en[pf_id] && (pf_init_seq.pf_cfk_pkt_p[pf_id].if_tyep == HW_MODE)) 替换成if(pf_bitmap_en[pf_id] && (init_seq.pf_mode == MULTI_MODE))
+- eg:
+  ~~~
+  sed -i 's/if(pf_bitmap_en\[pf_id\] \&\& (pf_init_seq.pf_cfk_pkt_p\[pf_id\].if_tyep == HW_MODE)/if(pf_bitmap_en[pf_id] && (init_seq.pf_mode == MULTI_MODE))/gI' *.SV
+  //只需要将& 和[]转义,.本身也可以代替.所以,严格要求的前提下也可以不转义
+  //如果对()转义则匹配不上, 原因() 可能引发子表达式
+  ~~~
+- 传送门
+  1.[正则表达式 子表达式](https://geek-docs.com/regexp/regexp-tutorials/regular-expression-subexpression.html#google_vignette)
