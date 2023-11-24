@@ -707,7 +707,7 @@ class必须先声明为 rand 型；
   sed -i s/"bit[4:0]"/"bit[`MAX_PF_CUN-1 : 0]"/gI *.SV //失败
   //首先sed 是独立命令,后面跟参数,建议整理括起来, 建议修改为 sed -i "s/bit[4:0]"/"bit[`MAX_PF_CUN-1 : 0]/gI" *.SV
   //单引号s/"bit[4:0]"/"bit[`MAX_PF_CUN-1 : 0],命令内部需要匹配原字符,[]需要被转义,所以修改为sed -i 's/bit\[4:0\]/bit[`MAX_PF_CUN-1 : 0]'/gI *.SV
-  //替换的值bit[`MAX_PF_CUN-1 : 0]'中的[]实践是可以不加的,即被替换的目标/替换的值要求不一致,后期如找到归零请补充
+  //替换的值bit[`MAX_PF_CUN-1 : 0]'中的[]实践是可以不加的,即被替换的目标/替换的值要求不一致,后期如找到归零请补充,& 在正则中有特殊意义(待确认),所以需要转义,[]本身作为替换表达式,影响不大
   ~~~
 - 总结
   sed、awk、grep运行的机制是,先shell,才是3个命令,所以用单引号括起来具体的命令,交给sed、awk、grep处理,结构清晰,推荐使用
@@ -721,7 +721,7 @@ class必须先声明为 rand 型；
   sed -i 's/if(pf_bitmap_en\[pf_id\] \&\& (pf_init_seq.pf_cfk_pkt_p\[pf_id\].if_tyep == HW_MODE)/if(pf_bitmap_en[pf_id] \&\& (init_seq.pf_mode == MULTI_MODE))/gI' *.SV
   //只需要将& 和[]转义,.本身也可以代替.所以,严格要求的前提下也可以不转义
   //如果对()转义则匹配不上, 原因() 可能引发子表达式
-  //如果没有将替换值&&转义,则会出现多次重复匹配的问题
+  //如果没有将替换值&&转义,则会出现多次重复匹配的问题, 原因& 在正则中有特殊意义(待确认),所以需要转义,[]本身作为替换表达式,影响不大
   ~~~
 - 传送门
-  1.[正则表达式 子表达式](https://geek-docs.com/regexp/regexp-tutorials/regular-expression-subexpression.html#google_vignette)
+  1. [正则表达式 子表达式](https://geek-docs.com/regexp/regexp-tutorials/regular-expression-subexpression.html#google_vignette)
