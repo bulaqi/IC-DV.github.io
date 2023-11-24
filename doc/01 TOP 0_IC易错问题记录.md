@@ -697,3 +697,17 @@ class必须先声明为 rand 型；
 - 区:不随机的语法: xx.rand_mode(1)  or   xx.constraint_mode(0)
 - 传送门
   [systemverilog 中rand class的rand_mode](https://zhuanlan.zhihu.com/p/324216890)
+#### 65.sed、awk、grep 尽量配合单引号使用
+- 双引号:保护特殊元字符和通配符不被shell解析，但是允许变量和命令的解析，以及转义符的解析
+- 单引号: 内不允许任何变量、元字符、通配符、转义符被shell解析，均被原样输出
+- 经验
+  ~~~
+  shell脚本:
+  sed -i s/"bit[4:0]"/"bit[`MAX_PF_CUN-1 : 0]"/gI *.SV //失败
+  //首先sed 是独立命令,后面跟参数,建议整理括起来, 建议修改为 sed -i "s/bit[4:0]"/"bit[`MAX_PF_CUN-1 : 0]/gI" *.SV
+  //单引号s/"bit[4:0]"/"bit[`MAX_PF_CUN-1 : 0],命令内部需要匹配原字符,[]需要被转义,所以修改为sed -i 's/bit\[4:0\]/bit[`MAX_PF_CUN-1 : 0]'/gI *.SV
+  //替换的值bit[`MAX_PF_CUN-1 : 0]'中的[]实践是可以不加的,即被替换的目标/替换的值要求不一致,后期如找到归零请补充
+  ~~~
+
+- 传送门:
+ 1. [Linux中三种引号(单引号、双引号、反引号)的区别](https://blog.csdn.net/mahoon411/article/details/125426155?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-125426155-blog-122901636.235%5Ev38%5Epc_relevant_yljh&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-125426155-blog-122901636.235%5Ev38%5Epc_relevant_yljh&utm_relevant_index=2)
