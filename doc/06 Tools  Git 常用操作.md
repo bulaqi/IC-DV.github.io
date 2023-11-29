@@ -51,6 +51,7 @@ git status //此时查看就出现了暂存前修改文件
 19. git blame [filename]
 20. git reset --soft HEAD^  //回退已commit 但未push的
 21. git reset HEAD <fiel>   // 回退已经add,但是未commit的
+22. git config -–global log.decorate auto //git log 显示tag
 ~~~
 
 ### 3. git 上库(autostash)
@@ -187,3 +188,4 @@ git diff 版本号1 版本号2 src : 查看两个版本之间的文件夹 src �
 4. [git本地创建多个分支互不干扰](https://www.cnblogs.com/BonnieWss/p/10711835.html)
 5. [git撤销、还原、放弃本地文件修改](https://link.zhihu.com/?target=https%3A//blog.csdn.net/qq_27674439/article/details/121124869)
 6. [Git基础-git diff 比较文件的差异](https://blog.csdn.net/qq_39505245/article/details/119899171)
+7. [git log详细使用参数，查看某个文件修改具体内容,decorate](https://blog.csdn.net/helloxiaozhe/article/details/80563427)
