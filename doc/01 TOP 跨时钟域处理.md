@@ -290,7 +290,7 @@ end
 endmodule
 ~~~
 4. 仿真结果
-![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/f48df870-f95c-430c-9fc7-c91ef98202f1)
+- ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/f48df870-f95c-430c-9fc7-c91ef98202f1)
 
 
 
