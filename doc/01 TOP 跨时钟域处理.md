@@ -21,7 +21,130 @@
 ##### 3. code
 1. rtl
 ~~~
-module handshake_sync ( 
+odule asyn_process ( 
+    input clk1 , //快时钟信号
+    input read , //信号，快时钟阈的
+    input clk2 , //慢时钟信号
+
+    input sys_rst_n , //复位信号，低电平有效
+    output wire read_sync_pulse //输出信号
+);
+
+ //reg define
+ reg read_dly1 ;
+ reg read_dly2 ;
+ reg read_or ;
+
+ reg read_sync ;
+ reg read_sync_dly1 ;
+ reg read_sync_dly2 ;
+
+ //*****************************************************
+ //**                   main code
+ //*****************************************************
+ always @(posedge clk1 or negedge sys_rst_n) begin
+    if (sys_rst_n ==1'b0) 
+        read_dly1 <= 1'b0;
+    else 
+        read_dly1 <=read;
+ end
+
+ always @(posedge clk1 or negedge sys_rst_n) begin
+    if (sys_rst_n ==1'b0) 
+        read_dly2 <= 1'b0;
+    else 
+        read_dly2 <= read_dly1 ;
+ end
+
+ always @(posedge clk1 or negedge sys_rst_n) begin
+    if (sys_rst_n ==1'b0) 
+        read_or <= 1'b0;
+    else 
+        read_or <= read | read_dly1 | read_dly2;
+ end
+
+ always @(posedge clk2 or negedge sys_rst_n) begin
+    if (sys_rst_n ==1'b0) begin
+        read_sync <= 1'b0;
+    end
+    else 
+        read_sync <= read_or;
+ end
+
+ always @(posedge clk2 or negedge sys_rst_n) begin
+    if (sys_rst_n ==1'b0) 
+        read_sync_dly1 <= 1'b0;
+    else
+        read_sync_dly1 <= read_sync;
+ end
+
+ always @(posedge clk2 or negedge sys_rst_n) begin
+    if (sys_rst_n ==1'b0) 
+        read_sync_dly2<= 1'b0;
+    else 
+        read_sync_dly2 <= read_sync_dly1;
+ end
+
+ assign read_sync_pulse = read_sync_dly1 & ~read_sync_dly2;
+
+ endmodule
+~~~
+2. 测试代码
+~~~
+`timescale 1ns / 1ps
+
+module TB();
+
+reg sys_clk1; 
+reg sys_clk2; 
+reg sys_rst_n; 
+reg read ;
+initial begin
+    sys_clk1 = 1'b0;
+    sys_clk2 = 1'b0;
+    sys_rst_n = 1'b0;
+
+    read = 1'b0;
+
+    #200
+    sys_rst_n = 1'b1;
+
+    #100
+    read = 1'b1;
+
+    #20
+    read = 1'b0;
+    #100
+    read = 1'b1;
+    #20
+    read = 1'b0;
+
+end
+
+ always #10 sys_clk1 = ~sys_clk1;
+ always #30 sys_clk2 = ~sys_clk2;
+
+ asyn_process u_asyn_process(
+    .clk1 (sys_clk1 ),
+    .clk2 (sys_clk2 ),
+    .sys_rst_n (sys_rst_n),
+    .read (read ),
+    .read_sync_pulse(read_sync_pulse )
+ );
+endmodule
+~~~
+3. 仿真结果
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/1618853f-281c-469f-b64d-91993c050118)
+注意，在波形仿真中是不会出现亚稳态的，但是在实际电路中，亚稳态是实实在在存在的，一定要严格遵守亚稳态的处理规则。
+
+
+#### 2. 慢时钟域>>>快时钟域
+#### 1. 原理
+
+#### 2.code
+1. rtl
+   ~~~
+   odule handshake_sync ( 
     input clk1 , //快时钟信号
     input sys_rst_n , //复位信号，低电平有效
     input read , //信号，快时钟阈的
@@ -87,8 +210,8 @@ end
 assign read_sync_pulse = req_in2 & ~req_in2_dly1;
 
 endmodule
-~~~
-2. 测试代码
+   ~~~
+3. 测试代码
 ~~~
 `timescale 1ns / 1ps
 
@@ -133,9 +256,8 @@ end
 
 endmodule
 ~~~
-
-
-#### 2. 慢时钟域>>>快时钟域
+4. 仿真结果
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/f48df870-f95c-430c-9fc7-c91ef98202f1)
 
 
 
