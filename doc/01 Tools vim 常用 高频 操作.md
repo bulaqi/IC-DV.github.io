@@ -11,6 +11,10 @@
 - 选中 {} 中的内容 vi {
 - 选中 ""中的内容 vi"
 - 一键美化格式 =
+- map H ^        //H直接调到行首
+- mao L $        //L直接调到行尾
+
+- 
 
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/c85ccb5d-dd33-45fa-a521-b5dad75995a2)
 
