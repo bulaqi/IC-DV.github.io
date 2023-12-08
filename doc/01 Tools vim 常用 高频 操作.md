@@ -7,6 +7,7 @@
 - /\AHB 区分大小写
 - ma  `a
 - 宏录制: qaaihell<esc>q  @a   //q 进入宏, a: 宏名称, 插入模式命令hell<esc>  q 结束  @a:运行名称为a的宏
+- 括号移动 % 
 - 选中 () 中的内容 vi (        // v:vision 模式, i :in  (
 - 选中 {} 中的内容 vi {
 - 选中 ""中的内容 vi"
