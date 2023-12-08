@@ -133,9 +133,9 @@ end
  );
 endmodule
 ~~~
-3. 仿真结果
-![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/1618853f-281c-469f-b64d-91993c050118)
-注意，在波形仿真中是不会出现亚稳态的，但是在实际电路中，亚稳态是实实在在存在的，一定要严格遵守亚稳态的处理规则。
+3. 仿真结果   
+- ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/1618853f-281c-469f-b64d-91993c050118)
+- 注意，在波形仿真中是不会出现亚稳态的，但是在实际电路中，亚稳态是实实在在存在的，一定要严格遵守亚稳态的处理规则。
 
 
 #### 2. 慢时钟域>>>快时钟域
@@ -143,8 +143,8 @@ endmodule
 
 #### 2.code
 1. rtl
-   ~~~
-   odule handshake_sync ( 
+~~~
+module handshake_sync ( 
     input clk1 , //快时钟信号
     input sys_rst_n , //复位信号，低电平有效
     input read , //信号，快时钟阈的
@@ -206,11 +206,10 @@ always @(posedge clk1 or negedge sys_rst_n) begin
 end
 
 //4、dout信号的产生
-
 assign read_sync_pulse = req_in2 & ~req_in2_dly1;
-
 endmodule
-   ~~~
+~~~
+
 3. 测试代码
 ~~~
 `timescale 1ns / 1ps
