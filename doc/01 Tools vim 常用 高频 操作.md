@@ -10,3 +10,6 @@
 
 - 
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/c85ccb5d-dd33-45fa-a521-b5dad75995a2)
+
+### 传送门:
+1. [个人 Linux 偷懒技巧集合](https://my.oschina.net/u/3356529/blog/10142491)
