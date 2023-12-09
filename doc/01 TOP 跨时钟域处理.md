@@ -325,3 +325,4 @@ endmodule
 1. [跨时钟域同步2---单bit信号同步实战(快到慢+慢到快)](https://zhuanlan.zhihu.com/p/452183878)
 2. [IC面试中常被问到：跨时钟域信号处理——握手协议)](https://zhuanlan.zhihu.com/p/53799967)
 3. [IC面试中常被问到——跨时钟域信号如何处理？](https://mp.weixin.qq.com/s?__biz=MzIxMzg0MDk0Mg==&mid=2247483904&idx=1&sn=198f0071e5a87740022e8bdc528cfb93&chksm=97b1e741a0c66e57607bdffa4d179e758b52ef6c6b8d1e328cf35db70040ea47d16ae69d2e13&scene=21#wechat_redirect)
+4. [跨时钟域同步3---多bit信号同步(延迟采样法/慢到快)](https://zhuanlan.zhihu.com/p/452187232)
