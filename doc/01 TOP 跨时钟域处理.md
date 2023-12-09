@@ -17,10 +17,11 @@
 ###### 2. 时序图
 对 READ_SYNC 打 2 拍目的是消除亚稳态，打两拍之后的亚稳态概率已经非常非常小了，由于有电路噪声，所以寄存器会恢复到固定电平。我们画出如下的时序图。
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/4863385b-a3ad-4997-bf29-e262fe097314)
+###### 3. 时序图
+个人理解的限制: 原始快时钟的采样信号, 翻转速率有关系,不能太快,不能影响到展宽后的信号重叠
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/b2d0f5b2-ed37-4ad9-bab7-50aede16c2d1)
 
-
-
-##### 3. code
+##### 4. code
 1. rtl
 ~~~
 odule asyn_process ( 
