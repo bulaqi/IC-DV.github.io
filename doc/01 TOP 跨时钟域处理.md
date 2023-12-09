@@ -178,9 +178,9 @@ d_req 信号一直拉高，经过clk_out时钟域两级DFF 同步器后，得到
 ~~~
 问题1：
 always@(posedge clk_in or negedge rst_n) begin
-  if(rst_n==1'b0) d_reg<=1'b0;
-  else if (d_in==1'b1) d_reg<=1'b1;
-  else if (d_ack==1'b1) d_reg<=1'b0;
+  if(rst_n==1'b0) d_reg<=1'b0;  // 复位
+  else if (d_in==1'b1) d_reg<=1'b1;  // 注意:如果d_in==1 ,d_reg<=1, 但是d_in !=1,不满足该条件,跳过赋值语句
+  else if (d_ack==1'b1) d_reg<=1'b0;  // d_ack ==1 ,d_reg 情况,如果 d_ack!=1, 不影响d_reg状态,暗含d_reg 会一致保持之前的状态,产生类似打拍后,多个信号与或的效果
 end
 
 问题2：
