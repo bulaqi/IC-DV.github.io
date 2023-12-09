@@ -16,7 +16,9 @@
 ~~~
 ###### 2. 时序图
 对 READ_SYNC 打 2 拍目的是消除亚稳态，打两拍之后的亚稳态概率已经非常非常小了，由于有电路噪声，所以寄存器会恢复到固定电平。我们画出如下的时序图。
-![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/fa9ef2e0-d872-4dd5-be2e-11510f9b5b27)
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/4863385b-a3ad-4997-bf29-e262fe097314)
+
+
 
 ##### 3. code
 1. rtl
@@ -291,7 +293,7 @@ end
 endmodule
 ~~~
 4. 仿真结果
-- ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/f48df870-f95c-430c-9fc7-c91ef98202f1)
+- ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/abb8173f-608a-4199-91ae-8d79bd11be08)
 
 
 
