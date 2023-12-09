@@ -174,7 +174,25 @@ d_req 信号一直拉高，经过clk_out时钟域两级DFF 同步器后，得到
 3. 假设时钟域clka比clkb 频率高，如果输入信号的两个相邻脉冲D0和D1非常较近，如下图所示，如果使用握手协议处理，会发生怎样的事情？
 4. 问题3里面，如果要确保D1数据一定要被能传送到clkb，电路该如何实现？
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/92138167-a541-457c-bd6f-e3bd9fba1a12)
+5. 答案
+~~~
+问题1：
+always@(posedge clk_in or negedge rst_n) begin
+  if(rst_n==1'b0) d_reg<=1'b0;
+  else if (d_in==1'b1) d_reg<=1'b1;
+  else if (d_ack==1'b1) d_reg<=1'b0;
+end
 
+问题2：
+assign d_out=d_req_sync & (~d_req_sync_d);
+
+问题3：
+不能接收到数据D2。因为两者的展宽信号重叠了。
+
+问题4：
+数据类信号的异步处理用异步FIFO？
+补充一下，如果应用可以接受，改变优先级，牺牲D0,传输D1 。
+~~~
 
 
 
