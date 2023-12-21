@@ -5,7 +5,9 @@ gf:   (go to file)显示光标处的文件
 :b1（bn）返回前一次的显示
 :r !命令  //在 vim 中执行系统命令，并把命令结果导入光标所在行
 :r 文件名 把文件内容导入到光标位置
- 
+:e ctrl+d 查看当前目录下的文件
+:explore  打开当前目录文件
+:ctrl + d  查看可选命令
 
  个人配置
  :map ui i `uvm_info("TRACE", $sformatf("",), UVM_LOW)
