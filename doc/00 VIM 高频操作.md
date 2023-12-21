@@ -1,4 +1,5 @@
  系统快捷键
+ ~~~
 CTRL+N      自动扩展字符串  
 *:  自动查找鼠标位置当前的字符串
 gf:   (go to file)显示光标处的文件
@@ -8,8 +9,11 @@ gf:   (go to file)显示光标处的文件
 :e ctrl+d 查看当前目录下的文件
 :explore  打开当前目录文件
 :ctrl + d  查看可选命令
+ctrl+p/ ctrl+n  字符自动补齐( 强烈推荐)
+~~~~
 
  个人配置
+ ~~~
  :map ui i `uvm_info("TRACE", $sformatf("",), UVM_LOW)
  :map ue i `uvm_error(get_full_name(), $sformatf("",))
  :map uf i `uvm_fatal(get_full_name(), $sformatf("",))
@@ -20,3 +24,4 @@ gf:   (go to file)显示光标处的文件
 
 
  map 中ctr的表达, Ctrl+P ---> “^P”为定义快捷键Ctrl+P
+~~~
