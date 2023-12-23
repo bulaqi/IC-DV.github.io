@@ -725,3 +725,5 @@ class必须先声明为 rand 型；
   ~~~
 - 传送门
   1. [正则表达式 子表达式](https://geek-docs.com/regexp/regexp-tutorials/regular-expression-subexpression.html#google_vignette)
+ 
+#### 67. uvm_oject 调用compare函数, 对比失败, 会打印UVM_info, 报MISCMP,乱序比较可能会产生海量日志,解决方案,才可以!= 或者== 比较, set_report_id_verbosity只能针对uvm_comp才可以
