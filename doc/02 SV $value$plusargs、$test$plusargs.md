@@ -1,45 +1,43 @@
 ### 1. 基础知识
 
 #### 1. 命令行输入
-参数形式上与其他仿真器参数不同，因为它们以加号(+)字符开头
+  参数形式上与其他仿真器参数不同，因为它们以加号(+)字符开头
 #### 2. $test$plusargs (string)  -- 用于只输入字符串时
 1. 说明
    - 子符串在系统函数的参数中指定为字符串或被解释为字符串的非实数变量
    - $test$plusargs执行的是从输入字符串开头开始的部分匹配。
 3. eg1 :
-- code
-~~~
-`timescale 1ns/1ps  
-module test ();
-initial begin
-    if ($test$plusargs("HELLO")) $display("Hello argument found.");
-    if ($test$plusargs("HE")) $display("The HE subset string is detected.");
-    if ($test$plusargs("H")) $display("Argument starting with H found.");
-    if ($test$plusargs("HELLO_HERE"))$display("Long argument.");
-    if ($test$plusargs("HI")) $display("Simple greeting.");
-    if ($test$plusargs("LO")) $display("Does not match.");
-end 
-endmodule
-~~~
-- 结果
-![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/374f4767-134a-48b4-a803-96871bce8530)
-
+   - code
+   ~~~
+   `timescale 1ns/1ps  
+   module test ();
+   initial begin
+       if ($test$plusargs("HELLO")) $display("Hello argument found.");
+       if ($test$plusargs("HE")) $display("The HE subset string is detected.");
+       if ($test$plusargs("H")) $display("Argument starting with H found.");
+       if ($test$plusargs("HELLO_HERE"))$display("Long argument.");
+       if ($test$plusargs("HI")) $display("Simple greeting.");
+       if ($test$plusargs("LO")) $display("Does not match.");
+   end 
+   endmodule
+   ~~~
+   - 结果
+      ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/374f4767-134a-48b4-a803-96871bce8530)
 4. eg2
-- code
-~~~
-  执行仿真时在命令后增加+HELLO会产生下面的输出：
-~~~
-- 结果
-~~~
-Hello argument found.:
-The HE subset string is detected.
-Argument starting with H found.
-~~~
+   - code
+   ~~~
+     执行仿真时在命令后增加+HELLO会产生下面的输出：
+   ~~~
+   - 结果
+   ~~~
+   Hello argument found.:
+   The HE subset string is detected.
+   Argument starting with H found.
+   ~~~
 5. 可以输入多个参数：
    ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/b6fa01f6-87b4-45b1-b148-55c808aa6f3d)
 
-
-   
+  
   
 #### 3. $value$plusargs (user_string, variable)  -- 既可以输入字符串也可以输入各种进制的参数
 1. 说明
