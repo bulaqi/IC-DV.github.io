@@ -739,3 +739,8 @@ else
 - 解决方案:
   1. 删除uvm宏的分号
   2. if else 用begin_end 括起来
+#### 69. PCIE地址对齐
+- PCIE addr要求DW对齐,pcie tlp addr的限制
+  ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/82d33a24-6f46-4211-9467-41bf515ebb97)
+- 传送门
+  [[PCIe]地址边界与地址对齐](https://aijishu.com/a/1060000000351663)
