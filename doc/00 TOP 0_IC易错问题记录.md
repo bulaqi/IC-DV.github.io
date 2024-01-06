@@ -744,7 +744,7 @@ else
   ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/82d33a24-6f46-4211-9467-41bf515ebb97)
 - 传送门
   [[PCIe]地址边界与地址对齐](https://aijishu.com/a/1060000000351663)
-#### 70. 请注意参数的方向P
+#### 70. 请task 和函数 多个参数方向不同的时候,需要特别注意参数的方向,请默认指定方向input/output
 - 错误范例
   ~~~
   extern virtual task automatic read_reg_nvme_f(string reg_name, string field_name, output uvme_reg_data_t rdata, ctrl_id='hf,input bit is_bac=0); //ctrl_id 未定义方向,默认方向左对齐,为ouput
