@@ -744,3 +744,12 @@ else
   ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/82d33a24-6f46-4211-9467-41bf515ebb97)
 - 传送门
   [[PCIe]地址边界与地址对齐](https://aijishu.com/a/1060000000351663)
+#### 70. 请注意参数的方向P
+- 错误范例
+  ~~~
+  extern virtual task automatic read_reg_nvme_f(string reg_name, string field_name, output uvme_reg_data_t rdata, ctrl_id='hf,input bit is_bac=0); //ctrl_id 未定义方向,默认方向左对齐,为ouput
+  ~~~
+- 正确范例
+  ~~~
+  extern virtual task automatic read_reg_nvme_f(string reg_name, string field_name, output uvme_reg_data_t rdata, input ctrl_id='hf,input bit is_bac=0); //ctrl_id 定义为input
+  ~~~
