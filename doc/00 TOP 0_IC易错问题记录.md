@@ -754,7 +754,6 @@ else
   extern virtual task automatic read_reg_nvme_f(string reg_name, string field_name, output uvme_reg_data_t rdata, input ctrl_id='hf,input bit is_bac=0); //ctrl_id 定义为input
   ~~~
 #### 71. sort的踩坑,sort排序一定要分出大小，当指定列内容相同时，会自动以其他列作为排序标准, 会自动跳过-k 指定的域段
-eg
 1. 原始数据test如下
    - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/9dd8f829-de99-4fbd-9ef5-fbbfa015b4eb)
 3. 期望,按照第一列排序,如果第一列相同,则顺序相对顺序不变
@@ -762,3 +761,5 @@ eg
    - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/2262ad93-0fce-41a4-930f-b3a56290fa9e)
 5. sort 结果分析, 虽然-k 指定列,第一列,但是列1 如果数据都是都是01,无法分开,sort命令则自动忽略-k 指定的域段,用下个域段比较, 直到sort 出结果,然后就是如上结果
 6. 解决思路, 在第一列后添加行号, 然后sort排序,eg,列1 分不出来,则列2(行号)一定可以区分出来
+   - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/dea23a5f-c6b6-4f1b-a4b4-2623b605a949)
+
