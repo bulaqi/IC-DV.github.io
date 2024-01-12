@@ -763,3 +763,7 @@ else
 6. 解决思路, 在第一列后添加行号, 然后sort排序,eg,列1 分不出来,则列2(行号)一定可以区分出来
    - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/dea23a5f-c6b6-4f1b-a4b4-2623b605a949)
 
+#### 72. 验证思路
+- 不是所以的数据都要用scb精确比对,换个思路可能方法更简单,
+- 某些不RM中不容易精确计算的的域段,可以采用交叉覆盖,直接采用act transaction 之间的规律, 其他域段精确比较,保证总体ok
+- eg,cqe 的phase_tag,在hw/sw 混发的情况下, rm计算该域段有难度, 但是,如果该域段不参与scb的精确比对,详细act输出的,每一个cqe都分析,该域段是否需要翻转,就足够了,scb保证他域段正常,phase_tag单独算
