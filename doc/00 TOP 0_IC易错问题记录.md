@@ -811,4 +811,6 @@ else
  #### 73. 多行宏,在行尾的反斜杠“ \ ”之后不能有空格或字符，否则编译器会报错。  
  ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/d7cd8570-c4c2-45ed-8d2a-a208131702c6)
 
+ #### 73. 多行宏展开,同名变量易错,小心实际用的是临时变量
+ ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/4a3ba8c1-9b90-4dec-91c5-29276e31ea51)
 
