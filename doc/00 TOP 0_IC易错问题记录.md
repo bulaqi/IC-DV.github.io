@@ -808,4 +808,6 @@ else
   		axis_iocq_seq[CQ_ID].start(vsequencer);\
         end \
   ~~~
-   
+ #### 73. 多行宏,在行尾的反斜杠“ \ ”之后不能有空格或字符，否则编译器会报错。  
+ ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/17424970-3ab8-4b3e-b6d0-85222eb41e3c)
+
