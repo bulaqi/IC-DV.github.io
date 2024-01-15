@@ -767,3 +767,45 @@ else
 - 不是所以的数据都要用scb精确比对,换个思路可能方法更简单,
 - 某些不RM中不容易精确计算的的域段,可以采用交叉覆盖,直接采用act transaction 之间的规律, 其他域段精确比较,保证总体ok
 - eg,cqe 的phase_tag,在hw/sw 混发的情况下, rm计算该域段有难度, 但是,如果该域段不参与scb的精确比对,详细act输出的,每一个cqe都分析,该域段是否需要翻转,就足够了,scb保证他域段正常,phase_tag单独算
+#### 73. 宏函数在fork join 内应该注意用begin end 括起来,否则结果可能不符合预期
+1. 宏定义
+  ~~~
+  `define SEND_CQ_HW(HW_SEQ_TYEPE, PF_ID, CQ_ID, TO_SEND_CNT) \
+  	axis_iocq_seq[CQ_ID] = HW_SEQ_TYEPE::type_id::creat(sformat("axis_iocq_seq[%0d]",CQ_ID));\
+  	axis_iocq_seq[CQ_ID].pf_id = PF_ID; \
+ 	axis_iocq_seq[CQ_ID].cq_id = CQ_ID; \
+  	axis_iocq_seq[CQ_ID].max_cnt_to_send = TO_SEND_CNT; \
+  	axis_iocq_seq[CQ_ID].start(vsequencer);\
+  ~~~
+2.  使用
+  ~~~
+  	aem_axis_iocq_sgl_burst_with_large_burst_gasp_sq_dec_sequence axis_iocq_seq[64*4];
+	...
+	fork
+	    #1 	 `SEND_CQ_HW(aem_axis_iocq_sgl_burst_with_large_burst_gasp_sq_dec_sequence,pf_id,0,loop_cnt)
+	join
+ 	...	
+  ~~~
+3.  结果报错,`SEND_CQ_HW 报空指针,如果上述行不包括#1 ,则正常
+4.  分析,`SEND_CQ_HW是展开,如果是上述的问题,宏展开如下,,全部行并行执行, 第一行creat延时1us 执行, axis_iocq_seq[CQ_ID].start(vsequencer) 0时刻执行,因为暂时没有create,需要会报空指针
+   ~~~
+	fork
+  		#1us axis_iocq_seq[CQ_ID] = HW_SEQ_TYEPE::type_id::creat(sformat("axis_iocq_seq[%0d]",CQ_ID));\
+  		axis_iocq_seq[CQ_ID].pf_id = PF_ID; \
+ 		axis_iocq_seq[CQ_ID].cq_id = CQ_ID; \
+  		axis_iocq_seq[CQ_ID].max_cnt_to_send = TO_SEND_CNT; \
+  		axis_iocq_seq[CQ_ID].start(vsequencer);\
+        join		
+   ~~~
+5.  解决方案,`SEND_CQ_HW 内容用begin end 括起来,让整体并行执行
+  ~~~
+  `define SEND_CQ_HW(HW_SEQ_TYEPE, PF_ID, CQ_ID, TO_SEND_CNT) \
+        begin \
+  		axis_iocq_seq[CQ_ID] = HW_SEQ_TYEPE::type_id::creat(sformat("axis_iocq_seq[%0d]",CQ_ID));\
+  		axis_iocq_seq[CQ_ID].pf_id = PF_ID; \
+ 		axis_iocq_seq[CQ_ID].cq_id = CQ_ID; \
+  		axis_iocq_seq[CQ_ID].max_cnt_to_send = TO_SEND_CNT; \
+  		axis_iocq_seq[CQ_ID].start(vsequencer);\
+        end \
+  ~~~
+   
