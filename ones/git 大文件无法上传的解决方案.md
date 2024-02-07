@@ -11,3 +11,4 @@
 限制说明: hard-limit和soft-limit,如下图分别是5M和2M ,如果上传文件大于0-2M,正常上传,超过2M-5M会提醒,不会影响上传; 超过5M 会无法上传
 
 修改方案: 将hard-limit默认size 调大.如,改为10000000, 即10M
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/d9c65166-9fcd-4894-a9eb-02fa8a66bf86)
