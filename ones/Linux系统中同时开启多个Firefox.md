@@ -1,0 +1,1 @@
+1. [想在Linux系统中同时开启多个Firefox?](https://blog.csdn.net/booklijian/article/details/106625645)

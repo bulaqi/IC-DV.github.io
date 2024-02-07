@@ -1,0 +1,1 @@
+1.[Linux系统检查查看桌面环境](https://www.cnblogs.com/kerrycode/p/4790021.html)
