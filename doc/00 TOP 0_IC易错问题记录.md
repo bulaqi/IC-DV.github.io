@@ -814,7 +814,7 @@ else
  #### 73. 多行宏展开,同名变量易错,小心实际用的是临时变量
  ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/4a3ba8c1-9b90-4dec-91c5-29276e31ea51)
 
-  #### 74. 复杂数据类型汇总,请特别注意 对象和普通属性的区别
+ #### 74. 复杂数据类型汇总,请特别注意 对象和普通属性的区别
   - 句柄,类的指针,属性,是数组,非类的属性,
   - 初始化的区别: 句柄的对象需要例化, 属性不需要例化
   - 复制的区别: 句柄赋值后可以实时感知变化, 属性赋值是单次有效,后续非实时
@@ -823,5 +823,6 @@ else
   - 
 	![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/d8e472e0-d3ad-462f-bbfe-d216502c294e)
 
-  
+ #### 75. tlm 组件通讯,不一定是在posedge取到的数据
+  - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/cb631281-1366-4ae8-a2dd-8de0b3739b1e)
 
