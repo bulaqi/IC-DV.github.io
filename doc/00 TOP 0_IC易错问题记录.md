@@ -825,4 +825,6 @@ else
 
  #### 75. tlm 组件通讯,不一定是在posedge取到的数据
   - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/cb631281-1366-4ae8-a2dd-8de0b3739b1e)
+ 
+ #### 76. 不同类型class 声明为一个相同的变量, VCS编译器会按照第一个类定义为变量,后面的不会覆盖前面的,后面的其实的重复定义,请特别注意!
 
