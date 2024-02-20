@@ -604,12 +604,12 @@ task xxtc::chk_amix_bus_idle();
 		if(axim_wr_bus_idle_flag== 1)
 			break;
 		msix_info_inport.get(req);  //如果在axim_wr_bus_idle_flag==0 时候,在此死等,程序挂死		
-$cast(msix_msg_item,req.clone);
+                $cast(msix_msg_item,req.clone);
 		len = req.lens;
 		for(int i=0; i<len ;i ++) begin
 			xx_proc();
 		end
-		break;
+		//break;
 	end
 	...
 endtask
@@ -628,7 +628,7 @@ task xxtc::chk_amix_bus_idle();
 				xx_proc();
 			end
 		end
-		break;
+		//break;
 	end
 	...
 endtask
