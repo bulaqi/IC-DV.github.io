@@ -820,8 +820,7 @@ else
   - 复制的区别: 句柄赋值后可以实时感知变化, 属性赋值是单次有效,后续非实时
   - 属性如果联动关联,2个方法,①建议用该属性的类的句柄去操作(推荐) ②每个cycle都去复制(不推荐)
   - 易错点: 类定定义的属性,svt_axi_transaction axi_trans_axis_q[64][$]; 注意svt_axi_transaction axi_trans_axis_q[i][$]是数组,是类属性,内部装数组,不需要new,跨类实时引用的时候,需要实时赋值
-  - 
-	![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/d8e472e0-d3ad-462f-bbfe-d216502c294e)
+  - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/d8e472e0-d3ad-462f-bbfe-d216502c294e)
 
  #### 75. tlm 组件通讯,不一定是在posedge取到的数据
   - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/cb631281-1366-4ae8-a2dd-8de0b3739b1e)
