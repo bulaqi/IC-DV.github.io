@@ -827,4 +827,10 @@ else
   - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/cb631281-1366-4ae8-a2dd-8de0b3739b1e)
  
  #### 76. 不同类型class 声明为一个相同的变量, VCS编译器会按照第一个类定义为变量,后面的不会覆盖前面的,后面的其实的重复定义,请特别注意!
-
+ #### 77. uvm中void‘的使用方法
+ ~~~
+ uvm中void’(A_port.try_put(tr))
+ ~~~
+ - 注释：其中使用void’的意义表示不考虑返回值。对于括号中有返回值的函数，加上void’操作符的意思就是告诉仿真器这个函数虽然有返回值，但是我不需要这个返回值。
+ - 优点：加上这个的唯一好处是可以让仿真器闭嘴：本来函数有返回值，但是你不使用，这时仿真器会抛出警告。加上void’可以关闭警告，让仿真log更干净。
+ - 传送门： [uvm中void‘的使用方法](https://blog.csdn.net/michael177/article/details/120809007)
