@@ -835,5 +835,6 @@ else
  - 传送门： [uvm中void‘的使用方法](https://blog.csdn.net/michael177/article/details/120809007)
  #### 78. uvm 挂死，最终timeout超时的问题定位，---AHB 总线冲突，其中A进程持续读，导致B进展持续写的，无法接入，原子操作，get到信号量
  ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/e13c6023-9a32-4193-b9af-a058ca8be8a6)
+ ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/8d8f7a66-a56d-4c36-999e-c4d00d7109f8)
 
  
