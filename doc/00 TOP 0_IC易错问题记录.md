@@ -837,4 +837,14 @@ else
  ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/e13c6023-9a32-4193-b9af-a058ca8be8a6)
  ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/8d8f7a66-a56d-4c36-999e-c4d00d7109f8)
 
+  #### 79.   FIFO的类型对比
+- 分类：uvm_tlm_analysis_fifo和 uvm_tlm_fifo。 
+- 本质：FIFO是一个component，所以其前两个参数是uvm_component的new函数中的两个参数。 第三个参数是size， 用于设定FIFO缓存的上限， 在默认的情况下为1。 若要把缓存设置为无限大小， 将传入的size参数设置为0即可。 通过size函数可以返回这
+个上限值。
+- 区别：
+    1. 前者有一个analysis_export端口， 并且有一个write函数， 而后者没有
+    2. uvm_tlm_analysis_fifo：默认size：0， uvm_tlm_fifo默认size：1uvm 挂死，最终timeout超时的问题定位，---AHB 总线冲突，其中A进程持续读，导致B进展持续写的，无法接入，原子操作，get到信号量  
+
+  #### 80.   平台组件设计思路
+  在平台内尽量减少用，clk, 因为阻塞端口，应该是基于有数据就处理的原则，而不是按照clk处理，除非特殊情况
  
