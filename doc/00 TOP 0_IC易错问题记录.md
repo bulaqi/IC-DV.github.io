@@ -848,3 +848,15 @@ else
   #### 80.   平台组件设计思路
   在平台内尽量减少用，clk, 因为阻塞端口，应该是基于有数据就处理的原则，而不是按照clk处理，除非特殊情况
  
+  #### 81.   std randomize 可以对多个变量同时约束， std::randomize(val_1,val_2,val_3) with {xxx}
+  ~~~
+	sucess = std::randomize(val_1,val_2,val_3) with { 
+	val_1 inside { A ,B ,C};
+	val_2 dist { A := 2 ,B := 5 ,C := 4 };
+	val_3 inside {[0:{32{1'b}}]}; 
+	};
+	
+	if(  sucess == 0 ) begin
+	`uvm_fatal("TEST", " randomization failed")
+	end
+  ~~~
