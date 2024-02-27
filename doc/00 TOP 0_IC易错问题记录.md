@@ -860,3 +860,11 @@ else
 	`uvm_fatal("TEST", " randomization failed")
 	end
   ~~~
+  #### 82. reset 时候，sequencer 报错，The task responsible for requesting a wait_for_grant on sequencer 错误
+     -  调用，相关sequencer的stop_sequences方法
+     -  错误：
+     ~~~
+	[SEQREQZMB] The task responsible for requesting a wait_for_grant on sequencer ‘uvm_test_top.m_env.m_xxx_agent.m_sequencer’ for sequence
+        ‘case_rstn_rand_vseq’ has been killed, to avoid a deadlock the sequence will be removed from the arbitration queues. 
+     ~~~
+     -  传送门:https://blog.csdn.net/qiuzhongyu123/article/details/121498199
