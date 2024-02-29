@@ -1,5 +1,3 @@
-
-
 ### 0. lsof lsof(list open files)可以列出当前系统中进程打开的所有文件
   - lsof +D .// 列出当前目录下打开的文件
 
