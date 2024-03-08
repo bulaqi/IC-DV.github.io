@@ -1,6 +1,6 @@
 ### 1. 知识点
 #### 1. SystemVerilog仅使用类型的   名称   来确定类的类型等效性。例如，假设我下面有这两个类定义A和B：
-     ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/ac294ee9-fc40-4f46-a16c-8d8238519b98)
+   ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/ac294ee9-fc40-4f46-a16c-8d8238519b98)
 
 #### 2. SystemVerilog认为这两个类定义是不相等的类型，因为它们的名称不同，即使它们的内容或类主体是相同的。
 - 类的名称不仅包括简单名称A和B，名称还包括定义的声明范围。
