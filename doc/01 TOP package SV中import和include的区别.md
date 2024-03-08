@@ -11,7 +11,10 @@
 
 #### 3. 在将A类包含在每个package中之后，将得到A类的两个定义，因为使用include只是在文件中剪切和粘贴文本的快捷方式，所以结果毫无疑问与上图一样。从包中导入名称不会重复文本。这样就可以从另一个软件包中看到该名称，而无需复制定义。
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/56a6947c-57b5-4839-81f6-2c8129b04325)
-- 类A在package P中声明，并且仅在package P中声明。变量R::a1和S::a1是类型兼容的，因为它们都是P::A类型。SystemVerilog中的package提供了保存和共享数据、参数和方法的机制，可以在多个module、class、program和interface中重用。package中声明的内容都属于这个package作用域（scope）。在使用这些内容时，需要先import这个package，然后通过package引用。
+- 类A在package P中声明，并且仅在package P中声明。
+- 变量R::a1和S::a1是类型兼容的，因为它们都是P::A类型
+- SystemVerilog中的package提供了保存和共享数据、参数和方法的机制，可以在多个module、class、program和interface中重用。p
+- ackage中声明的内容都属于这个package作用域（scope）。在使用这些内容时，需要先import这个package，然后通过package引用。
 
 
 
