@@ -6,8 +6,10 @@
 - 类的名称不仅包括简单名称A和B，名称还包括定义的声明范围。
 - 当你在package中声明一个类时，package名称将成为该类名称的前缀 <br />
      ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/ec2a2ed7-dd00-41f8-b643-ab0ced7a3628)
-- eg: 不兼容举例，有A类的两个定义，一个定义为P::A，另一个定义为Q::A。而且变量P::a1和Q::a1是类型不兼容的，引用了两个不同的A类。使用包含文件重写以上示例将导致相同的情况，即还是两个不兼容的类定义。 <br />
+- eg:
+     1. 不兼容举例，有A类的两个定义，一个定义为P::A，另一个定义为Q::A。而且变量P::a1和Q::a1是类型不兼容的，引用了两个不同的A类。使用包含文件重写以上示例将导致相同的情况，即还是两个不兼容的类定义。 <br />
      ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/6d422653-30c9-48cc-a7dc-41d5c843d7ac)
+     2. 问题： A 类没有包含在package中
 
 #### 3. 在将A类包含在每个package中之后，将得到A类的两个定义，因为使用include只是在文件中剪切和粘贴文本的快捷方式，所以结果毫无疑问与上图一样。从包中导入名称不会重复文本。这样就可以从另一个软件包中看到该名称，而无需复制定义。
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/56a6947c-57b5-4839-81f6-2c8129b04325)
