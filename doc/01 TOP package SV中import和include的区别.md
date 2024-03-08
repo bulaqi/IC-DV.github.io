@@ -27,9 +27,9 @@
 - package中声明的内容都属于这个package作用域（scope）。在使用这些内容时，需要先import这个package，然后通过package引用。
 
 ### 4. 实战使用
-1. package内的include文件：在package内，前面是import library，比如“import uvm_pkg::*”，紧接着即使include文件，通常会把本目录下相关的文件都include进来，比如virtual sequence文件，testcase文件。
+1. package的封装应用：在package内，前面是import 所依赖library，比如“import uvm_pkg::*”，紧接着即使include 自定义的文件，通常会把本目录下相关的文件都include进来，比如virtual sequence文件，testcase文件。
 2. package外的include文件：这种用法在我们现在的环境中使用不多，目前最常用的是include interface文件，比如，在xxx_env_pkg文件的最开头，include "xxx_if.sv"
-3. 为了文件管理方法，将部分code写到一个单独的文件中，然后在主文件中直接include进来，相当于将多个文件合并成一个文件。比如，一个subsys要用到很多API，而这些API共有A, B，C三类，分别由3个人完成，则可以写成api_a.sv, api_b.sv, api_c.sv，在l0_basic_vseq.sv中，将这三个文件include进来。
+3. SV 文件只include 其他sv文件： 为了文件管理方法，将部分code写到一个单独的文件中，然后在主文件中直接include进来，相当于将多个文件合并成一个文件。比如，一个subsys要用到很多API，而这些API共有A, B，C三类，分别由3个人完成，则可以写成api_a.sv, api_b.sv, api_c.sv，在l0_basic_vseq.sv中，将这三个文件include进来。
 
 ### 3. 传送门
 1.  [SV中import和include的区别](https://blog.csdn.net/Andy_ICer/article/details/115679314)
