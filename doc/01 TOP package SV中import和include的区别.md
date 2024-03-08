@@ -9,16 +9,12 @@
 - eg:
      1. 不兼容举例，有A类的两个定义，一个定义为P::A，另一个定义为Q::A。而且变量P::a1和Q::a1是类型不兼容的，引用了两个不同的A类。使用包含文件重写以上示例将导致相同的情况，即还是两个不兼容的类定义。 <br />
      ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/6d422653-30c9-48cc-a7dc-41d5c843d7ac) <br>
-     2. 问题： A 类没有包含在package中, 在将A类包含在每个package中之后，将得到A类的两个定义，因为使用include只是在文件中剪切和粘贴文本的快捷方式
+     2. 问题： A 类没有包含在package中, 在将A类包含在每个package中之后，将得到A类的两个定义，因为使用include只是在文件中剪切和粘贴文本的快捷方式,所以结果毫无疑问与图2一样
 
 #### 3.将功能类用pack 封装，然后从包中导入名称不会重复文本。这样就可以从另一个软件包中看到该名称，而无需复制定义。
 ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/56a6947c-57b5-4839-81f6-2c8129b04325)
 - 类A在package P中声明，并且仅在package P中声明。
 - 变量R::a1和S::a1是类型兼容的，因为它们都是P::A类型
-- SystemVerilog中的package提供了保存和共享数据、参数和方法的机制，可以在多个module、class、program和interface中重用。p
-- ackage中声明的内容都属于这个package作用域（scope）。在使用这些内容时，需要先import这个package，然后通过package引用。
-
-
 
 ### 2. 总结
 - include将文件中所有文本原样插入包含的文件中。这是一个预处理语句，`include在import之前执行。他的主要作用就是在package中平铺其他文件，从而在编译时能够将多个文件中定义的类置于这个包中，形成一种逻辑上的包含关系。
@@ -31,6 +27,9 @@
 2. package外的include文件：这种用法在我们现在的环境中使用不多，目前最常用的是include interface文件，比如，在xxx_env_pkg文件的最开头，include "xxx_if.sv"
 3. 为了文件管理方法，将部分code写到一个单独的文件中，然后在主文件中直接include进来，相当于将多个文件合并成一个文件。比如，一个subsys要用到很多API，而这些API共有A, B，C三类，分别由3个人完成，则可以写成api_a.sv, api_b.sv, api_c.sv，在l0_basic_vseq.sv中，将这三个文件include进来。
 
+### 3.经验
+- SystemVerilog中的package提供了保存和共享数据、参数和方法的机制，可以在多个module、class、program和interface中重用。
+- package中声明的内容都属于这个package作用域（scope）。在使用这些内容时，需要先import这个package，然后通过package引用。
 
 ### 3. 传送门
 1.  [SV中import和include的区别](https://blog.csdn.net/Andy_ICer/article/details/115679314)
