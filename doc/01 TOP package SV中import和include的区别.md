@@ -17,19 +17,19 @@
 - 变量R::a1和S::a1是类型兼容的，因为它们都是P::A类型
 
 ### 2. 总结
-- include将文件中所有文本原样插入包含的文件中。这是一个预处理语句，`include在import之前执行。他的主要作用就是在package中平铺其他文件，从而在编译时能够将多个文件中定义的类置于这个包中，形成一种逻辑上的包含关系。
-
+- include将文件中所有文本原样插入包含的文件中。这是一个预处理语句，`include在import之前执行。主要作用就是在package中平铺其他文件，从而在编译时能够将多个文件中定义的类置于这个包中，形成一种逻辑上的包含关系。
 - import不会复制文本内容。但是import可package中内容引入import语句所在的作用域，以帮助编译器能够识别被引用的类，并共享数据。
     
-在我们的TB中，include通常分为以下几类：
 
+
+### 3.本质
+- SystemVerilog中的package提供了保存和共享数据、参数和方法的机制，可以在多个module、class、program和interface中重用。
+- package中声明的内容都属于这个package作用域（scope）。在使用这些内容时，需要先import这个package，然后通过package引用。
+
+### 4. 实战使用
 1. package内的include文件：在package内，前面是import library，比如“import uvm_pkg::*”，紧接着即使include文件，通常会把本目录下相关的文件都include进来，比如virtual sequence文件，testcase文件。
 2. package外的include文件：这种用法在我们现在的环境中使用不多，目前最常用的是include interface文件，比如，在xxx_env_pkg文件的最开头，include "xxx_if.sv"
 3. 为了文件管理方法，将部分code写到一个单独的文件中，然后在主文件中直接include进来，相当于将多个文件合并成一个文件。比如，一个subsys要用到很多API，而这些API共有A, B，C三类，分别由3个人完成，则可以写成api_a.sv, api_b.sv, api_c.sv，在l0_basic_vseq.sv中，将这三个文件include进来。
-
-### 3.经验
-- SystemVerilog中的package提供了保存和共享数据、参数和方法的机制，可以在多个module、class、program和interface中重用。
-- package中声明的内容都属于这个package作用域（scope）。在使用这些内容时，需要先import这个package，然后通过package引用。
 
 ### 3. 传送门
 1.  [SV中import和include的区别](https://blog.csdn.net/Andy_ICer/article/details/115679314)
