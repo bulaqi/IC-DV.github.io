@@ -872,5 +872,8 @@ else
       - 错误： -do simrun.do -do debug.tcl
       - 正确： -在simrun.do 内调用debug.tcl
       ~~~
-  	if{[file]}	
+  	//simrun.do
+  	if{[file exists debug_tcl,do] == 1} {
+		do debug_tcl.dp
+  	}	
       ~~~
