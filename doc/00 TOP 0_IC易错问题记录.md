@@ -868,3 +868,9 @@ else
         ‘case_rstn_rand_vseq’ has been killed, to avoid a deadlock the sequence will be removed from the arbitration queues. 
      ~~~
      -  传送门:https://blog.csdn.net/qiuzhongyu123/article/details/121498199
+  #### 83. vcs run_option -do simrun.do  指定tcl 文件不能重复指定，只能包含调用
+      - 错误： -do simrun.do -do debug.tcl
+      - 正确： -在simrun.do 内调用debug.tcl
+      ~~~
+  	if{[file]}	
+      ~~~
