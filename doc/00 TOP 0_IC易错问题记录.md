@@ -877,3 +877,24 @@ else
 		do debug_tcl.dp
   	}	
       ~~~
+  #### 84. set_timeout的使用
+  0. 基础概念
+     function void set_timeout(time timeout, bit override=1)
+  2. eg
+	~~~
+	18 function void base_test::build_phase(uvm_phase phase);
+	19 super.build_phase(phase);
+	20 env = my_env::type_id::create("env", this);
+	21 uvm_top.set_timeout(500ns, 0);
+	22 endfunction
+	~~~
+     set_timeout函数有两个参数， 第一个参数是要设置的时间， 第二个参数表示此设置是否可以被其后的其他set_timeout语句覆盖。 如上的代码将超时的时间定为500ns。 如果达到500ns时， 测试用例还没有运行完毕， 则会给出一条uvm_fatal的提示信息， 并退出仿真。
+
+  #### 85. sv 中的time类型
+   1. 基础概念
+      - 无符号数64位的变量（time）
+      - 时间进度10ns
+      - 可以表示的最大时间：584.5年
+   3. 传输门
+      1. [sv 中的time类型](https://wenku.csdn.net/answer/17117f7e419c4910a2c10a9762c4edc3)
+      2. [SystemVerilog数据类型](https://zhuanlan.zhihu.com/p/146178041)
