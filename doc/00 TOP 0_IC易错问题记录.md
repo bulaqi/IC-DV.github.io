@@ -878,7 +878,7 @@ else
   	}	
       ~~~
   #### 84. set_timeout的使用
-  0. 基础概念
+  1. 基础概念
      function void set_timeout(time timeout, bit override=1)
   2. eg
 	~~~
@@ -888,7 +888,7 @@ else
 	21 uvm_top.set_timeout(500ns, 0);
 	22 endfunction
 	~~~
-     set_timeout函数有两个参数， 第一个参数是要设置的时间， 第二个参数表示此设置是否可以被其后的其他set_timeout语句覆盖。 如上的代码将超时的时间定为500ns。 如果达到500ns时， 测试用例还没有运行完毕， 则会给出一条uvm_fatal的提示信息， 并退出仿真。
+  3. set_timeout函数有两个参数， 第一个参数是要设置的时间， 第二个参数表示此设置是否可以被其后的其他set_timeout语句覆盖。 如上的代码将超时的时间定为500ns。 如果达到500ns时， 测试用例还没有运行完毕， 则会给出一条uvm_fatal的提示信息， 并退出仿真。
 
   #### 85. sv 中的time类型
    1. 基础概念
