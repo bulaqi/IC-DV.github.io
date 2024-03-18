@@ -30,6 +30,8 @@
 10. 平台数据的比较, dut的过程记录新建2个类exp类和act类,在env内,类型uvm_objection,在shut_down_phase 调用compare函数比较
     - exp类: 包含rm 计算值送入exp类,或者用例输入的类
     - act类: 包含dut接口寄存器和act 口输出的数据
+11. 重复考虑功能覆盖率，将需要采集的数据封装成class, 通过tlm 传到 cov 组件
+12. 平台搭建，考虑reset的时候复位，需要清理环境的全局统计数据，否则重启后数据对比失败
       
 ### 3. 传送门:
 [we can do better](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/%5BTOP%5D%20we%20can%20do%20better.md)
