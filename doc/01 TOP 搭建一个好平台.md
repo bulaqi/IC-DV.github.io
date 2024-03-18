@@ -32,6 +32,9 @@
     - act类: 包含dut接口寄存器和act 口输出的数据
 11. 重复考虑功能覆盖率，将需要采集的数据封装成class, 通过tlm 传到 cov 组件
 12. 平台搭建，考虑reset的时候复位，需要清理环境的全局统计数据，否则重启后数据对比失败
+13. 典型seq， 需要尽可能的考虑到每次参数都可以被传参修改，细化约束
+14.  reset平台需要重复考虑，是否是采用jump_phase 还是用run_phase 模块控制
+15.  
       
 ### 3. 传送门:
 [we can do better](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/%5BTOP%5D%20we%20can%20do%20better.md)
