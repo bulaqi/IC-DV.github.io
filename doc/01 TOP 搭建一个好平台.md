@@ -34,7 +34,8 @@
 12. 平台搭建，考虑reset的时候复位，需要清理环境的全局统计数据，否则重启后数据对比失败
 13. 典型seq， 需要尽可能的考虑到每次参数都可以被传参修改，细化约束
 14.  reset平台需要重复考虑，是否是采用jump_phase 还是用run_phase 模块控制
-15.  
+15.  平台尽量通用传输，未使能的通道，请设计设计走特殊分支；
+16.  激励seq 应该分层应该合理，尽量在可能得最顶层用不同的id参数隔离，子函数通过层层传递的参数并行工作， 注意下层都需要用automatic 修改task/function
       
 ### 3. 传送门:
 [we can do better](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/%5BTOP%5D%20we%20can%20do%20better.md)
