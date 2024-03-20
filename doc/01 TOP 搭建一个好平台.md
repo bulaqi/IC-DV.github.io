@@ -36,6 +36,12 @@
 14.  reset平台需要重复考虑，是否是采用jump_phase 还是用run_phase 模块控制
 15.  平台尽量通用传输，未使能的通道，请设计设计走特殊分支；
 16.  激励seq 应该分层应该合理，尽量在可能得最顶层用不同的id参数隔离，子函数通过层层传递的参数并行工作， 注意下层都需要用automatic 修改task/function
-      
+
+### 3.好用例的若干项措施
+1.  用例灵活的的注错方式，要求动态注错，override 或者是callback
+2.  多次复位，需要在在第一次复位后，应该完整的传一次完整的数据，完全比对，确保一次过程强制复位不会影响后续的正常传输
+3.  reset用例就应该考虑覆盖率 toggle的情况，尤其是aix addr的高bit翻转等，即adrr 应该从f->0, 0->f 都覆盖
+4.  axi 反压情况，brsponse 和 bvalid等应该是动态打范围变化的，而不是被约束在某个范围内随机
+
 ### 3. 传送门:
 [we can do better](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/%5BTOP%5D%20we%20can%20do%20better.md)
