@@ -26,6 +26,8 @@
 - simulation -> kill -> rebuild an resetart
 - 实测: 效率比较低,类似完全编译
 
+#### 6. verdi 显示信号类型
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/f9b6c0e9-e1d4-4df2-8d02-2001c73d0faa)
 
 
 
