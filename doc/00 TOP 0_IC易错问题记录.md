@@ -898,3 +898,18 @@ else
    3. 传输门
       1. [sv 中的time类型](https://wenku.csdn.net/answer/17117f7e419c4910a2c10a9762c4edc3)
       2. [SystemVerilog数据类型](https://zhuanlan.zhihu.com/p/146178041)
+  #### 86. systemverilog  队列sum 求和注意点
+    1. 经验：队列sum 求和注意点：代码修改思路应该是将逻辑表达式的结果强制转换成int型，如：
+   	count = d.sum(x) with (int'(x > 7));
+
+    2.  知识点：
+  	~~~
+   	array.sum with (express) 的理解：sum的数据源来自array，针对express求和，结果数据类型也取决于express。套用这个框架理解以下各种状况。
+	array.sum with (item > x), 是对item>x的表达式结果求和，这是一个逻辑表达式，结果为一个逻辑值。求和结果的数据类型与表达式item > x 一致，即一位逻辑值
+	array.sum with ((item > x)? item:0)，是对item > x ? item:0求和，这个表达式的结果是item（如果大于x）或者0(如果不大于x）
+	array.sum with (item), 对item求和，结果数据类型和item一致
+	array.sum with (int'(item)), 对int'(item)求和，即item转为int型后求和，结果数据类型也和表达式表达的数据类型即int型一致
+	array.sum with ((item >x) * item), 对表达式结果即满足item >x的item求和，和值的结果类型与表达式结果item的数据类型一致
+        ~~~
+    3. 传送门
+        [systemverilog 再谈数组求和](https://zhuanlan.zhihu.com/p/57413839)
