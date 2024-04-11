@@ -913,3 +913,7 @@ else
         ~~~
     3. 传送门
         [systemverilog 再谈数组求和](https://zhuanlan.zhihu.com/p/57413839)
+ #### 87. fsdb fsdbAutoSwitchDumpfile 波形拆分
+    1. fsdbAutoSwitchDumpfile file_size—波形文件大小限制，单位为MB，最小为10M，若值小于10M则默认10M；
+    2. 传送门
+      [FSDB dump]([https://blog.csdn.net/zyn1347806/article/details/105554103](https://blog.csdn.net/zyn1347806/article/details/105554103))
