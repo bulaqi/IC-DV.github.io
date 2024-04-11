@@ -83,7 +83,7 @@ run 10us
 quit                                      # 需要使用quit，irun不自动结束
 ~~~
 
-### 2. tcl 经验
+### 2. ucli 调用tcl 经验
 #### 1. dump 波形
 ~~~
 dump -add {aem_top_tb} -depth 0 -scope "." --aggregate
@@ -101,3 +101,4 @@ if {[file exit debug_tcl.do] == 1 } {
 ### 3. 传送门
 1. [VCS dump fsdb 波形](https://blog.csdn.net/hh199203/article/details/114981486)
 2. [TCL学习之info命令](https://blog.csdn.net/iamsarah/article/details/70920625)
+3. [常用UCLI 命令汇总](https://blog.csdn.net/qq_16423857/article/details/123508360?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-123508360-blog-123585226.235%5Ev43%5Epc_blog_bottom_relevance_base5&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-123508360-blog-123585226.235%5Ev43%5Epc_blog_bottom_relevance_base5&utm_relevant_index=1)
