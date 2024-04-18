@@ -915,5 +915,7 @@ else
         [systemverilog 再谈数组求和](https://zhuanlan.zhihu.com/p/57413839)
  #### 87. fsdb fsdbAutoSwitchDumpfile 波形拆分
   1. fsdbAutoSwitchDumpfile 参数file_size—波形文件大小限制，单位为MB，最小为10M，若值小于10M则默认10M；
-  2. 传送门
+  2. eg
+     ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/b5506de6-7d1b-4c3c-9a72-868defd7d8e7)
+  4. 传送门
      [FSDB dump](https://blog.csdn.net/zyn1347806/article/details/105554103)
