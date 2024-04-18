@@ -17,6 +17,13 @@
    
 #### 3. 仿真控制
 1. 使用 save/restore 机制：在仿真过程中定期保存状态，以便在出现问题时可以从最近的保存点恢复，而不必重新仿真。
+2. check_point的使用
+
+#### 4. 回归策略
+1. 基础功能完成后，再打开dfx的选项
+   
+#### 5. 业务逻辑
+1. 基础功能+ 性能 +  dfx
 
 #### 4. 综合手段
 1. 硬件仿真加速平台：使用如 Veloce 这样的硬件仿真加速平台，以提高仿真速度。
@@ -24,7 +31,10 @@
 3. 分布式仿真：采用分布式仿真技术，可以显著提高仿真速度，尤其适用于带宽密集型应用
 
 ### 2. 经验
+#
+
 ### 3. 传送门
+0. [代码逻辑优化的梳理]（）
 1. [vcs-accelerate](https://francisz.cn/2020/10/11/vcs-accelerate)
 2. [验证仿真提速系列--SystemVerilog编码层面提速的若干策略](https://zhuanlan.zhihu.com/p/384492472)
 3. [SystemVerilog仿真速率提升_vivado systemverilog仿真速度](https://blog.csdn.net/Michael177/article/details/125473167)
