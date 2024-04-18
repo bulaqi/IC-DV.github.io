@@ -1,5 +1,5 @@
 ### 1. 知识点
-0. 调试阶段关闭不必要的选项，xproc,jitter,cov，debug_all等，
+0. 调试阶段关闭不必要的选项，xproc,jitter,cov，debug_access 等，
 1. 多核并行仿真：使用 -j 选项来指定处理器的数量以加速仿真。例如，-j4 表示使用4个处理器进行并行仿真。
 2. 细粒度并行性 (FGP)：通过 -fgp 选项启用，可以与 -j 选项结合使用以进一步提升仿真速度。例如，vcs -fgp -full64 <otherOptions>% simv -fgp=num_threads:4,num_fsdb_threads:4。
 3. 使用 save/restore 机制：在仿真过程中定期保存状态，以便在出现问题时可以从最近的保存点恢复，而不必重新仿真。
