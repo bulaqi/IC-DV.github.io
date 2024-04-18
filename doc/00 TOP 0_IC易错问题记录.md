@@ -921,7 +921,7 @@ else
      [FSDB dump](https://blog.csdn.net/zyn1347806/article/details/105554103)
 ### 88. verdi显示毛刺 
   1. 基础知识
-    -  ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/f61aeea6-54c9-40a8-8cc4-49d35f672da6)
+    - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/f61aeea6-54c9-40a8-8cc4-49d35f672da6)
   2. 经验
   3. 传送门
      1. [在Verdi中找出Glitch](https://blog.csdn.net/gsjthxy/article/details/115)
