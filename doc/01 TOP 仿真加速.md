@@ -34,14 +34,14 @@
 #
 
 ### 3. 传送门
-0. [代码逻辑优化的梳理]（https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/01%20TOP%20%E4%BB%BF%E7%9C%9F%E5%8A%A0%E9%80%9F.md）
-1. [vcs-accelerate](https://francisz.cn/2020/10/11/vcs-accelerate)
-2. [验证仿真提速系列--SystemVerilog编码层面提速的若干策略](https://zhuanlan.zhihu.com/p/384492472)
-3. [SystemVerilog仿真速率提升_vivado systemverilog仿真速度](https://blog.csdn.net/Michael177/article/details/125473167)
-4. [DVCon-US-2020】以接口为中心的软硬件协同SoC验证](https://developer.aliyun.com/article/1072936)
-5. [[SV]Verilog仿真中增加延时的方法总结及案例分析 - CSDN博客](https://blog.csdn.net/gsjthxy/article/details/106029996)
-6. [为什么我的SystemVerilog仿真还是很慢？ - CSDN博客](https://blog.csdn.net/kevindas/article/details/107753486)
-7. [SystemVerilog LRM 学习笔记 -- SV Scheduler仿真调度 ](https://blog.csdn.net/wonder_coole/article/details/82182850)
-8. [使用 Veloce 加快网络 ASIC 验证速度 - Siemens Resource](https://resources.sw.siemens.com/zh-CN/white-paper-faster-network-verification-with-veloce)
-9. [编译与仿真加速 - XiangShan 官方文档](https://xiangshan-doc.readthedocs.io/zh-cn/latest/tools/compile-and-sim/)
+1. 代码逻辑优化的梳理 https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/01%20TOP%20%E4%BB%BF%E7%9C%9F%E5%8A%A0%E9%80%9F.md
+2. [vcs-accelerate](https://francisz.cn/2020/10/11/vcs-accelerate)
+3. [验证仿真提速系列--SystemVerilog编码层面提速的若干策略](https://zhuanlan.zhihu.com/p/384492472)
+4. [SystemVerilog仿真速率提升_vivado systemverilog仿真速度](https://blog.csdn.net/Michael177/article/details/125473167)
+5. [DVCon-US-2020】以接口为中心的软硬件协同SoC验证](https://developer.aliyun.com/article/1072936)
+6. [[SV]Verilog仿真中增加延时的方法总结及案例分析 - CSDN博客](https://blog.csdn.net/gsjthxy/article/details/106029996)
+7. [为什么我的SystemVerilog仿真还是很慢？ - CSDN博客](https://blog.csdn.net/kevindas/article/details/107753486)
+8. [SystemVerilog LRM 学习笔记 -- SV Scheduler仿真调度 ](https://blog.csdn.net/wonder_coole/article/details/82182850)
+9. [使用 Veloce 加快网络 ASIC 验证速度 - Siemens Resource](https://resources.sw.siemens.com/zh-CN/white-paper-faster-network-verification-with-veloce)
+10. [编译与仿真加速 - XiangShan 官方文档](https://xiangshan-doc.readthedocs.io/zh-cn/latest/tools/compile-and-sim/)
 10 [：VCS：助力英伟达开启Multi-Die系统仿真二倍速 - Synopsys](https://www.synopsys.com/zh-cn/blogs/chip-design/vcs-multi-die.html)
