@@ -17,7 +17,7 @@
 
 ### 2. 经验
 ### 3. 传送门
-1. [vcs-accelerate] (https://francisz.cn/2020/10/11/vcs-accelerate)
+1. [vcs-accelerate](https://francisz.cn/2020/10/11/vcs-accelerate)
 2. [验证仿真提速系列--SystemVerilog编码层面提速的若干策略](https://zhuanlan.zhihu.com/p/384492472)
 3. [SystemVerilog仿真速率提升_vivado systemverilog仿真速度](https://blog.csdn.net/Michael177/article/details/125473167)
 4. [DVCon-US-2020】以接口为中心的软硬件协同SoC验证](https://developer.aliyun.com/article/1072936)
