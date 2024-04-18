@@ -34,7 +34,7 @@
 #
 
 ### 3. 传送门
-0. [代码逻辑优化的梳理]（）
+0. [代码逻辑优化的梳理]（https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/01%20TOP%20%E4%BB%BF%E7%9C%9F%E5%8A%A0%E9%80%9F.md）
 1. [vcs-accelerate](https://francisz.cn/2020/10/11/vcs-accelerate)
 2. [验证仿真提速系列--SystemVerilog编码层面提速的若干策略](https://zhuanlan.zhihu.com/p/384492472)
 3. [SystemVerilog仿真速率提升_vivado systemverilog仿真速度](https://blog.csdn.net/Michael177/article/details/125473167)
