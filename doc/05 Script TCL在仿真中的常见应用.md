@@ -40,6 +40,8 @@ dump -add {aem_top_tb} -depth 0 -scope "." -aggregates
 checkpoint -add "init"
 run 1ps
 add_wave aem_top_tb.th.dut_inst.aem_core_clk_i #添加信号波形
+# force xxx.xxx.xxx 0x70000 -cancel 350us  // 350us 后取消
+# force xxx.xxx.xxx 0x70000  -freeze //保持，未使用过
 checkpoint -add "init 1"
 run 10ns
 checkpoint -add "init 10ns"
