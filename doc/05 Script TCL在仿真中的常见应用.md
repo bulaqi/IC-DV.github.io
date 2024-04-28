@@ -2,8 +2,9 @@
 ### 2. 添加checkpoint, checkpoint -add "checkpoint_1"
 ### 3. 运行,run
 ### 4. stop
+### 5. 自动加载rc 文件,  wvRestoreSignal xx.rc
 
-### 5. 常用命令示例
+### 6. 常用命令示例
 ~~~
 1.open_db
 2.close_db
@@ -34,14 +35,15 @@
 27.open_session
 28.config
 ~~~
-### 6. 常用举例
+### 7. 常用举例
 ~~~
 dump -add {aem_top_tb} -depth 0 -scope "." -aggregates
 checkpoint -add "init"
 run 1ps
 add_wave aem_top_tb.th.dut_inst.aem_core_clk_i #添加信号波形
-# force xxx.xxx.xxx 0x70000 -cancel 350us  // 350us 后取消
-# force xxx.xxx.xxx 0x70000  -freeze //保持，未使用过
+# force xxx.xxx.xxx 'h70000 -cancel 350us  // 350us 后取消，注意16进制数字必须是'hff 而不是0xfff
+# force xxx.xxx.xxx 'h70000  -freeze //保持，未使用过
+# force {xxx.xx.xx.xx.addr[63:0]} 'h0777 -deposit
 checkpoint -add "init 1"
 run 10ns
 checkpoint -add "init 10ns"
