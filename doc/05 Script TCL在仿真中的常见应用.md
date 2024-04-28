@@ -43,7 +43,7 @@ run 1ps
 add_wave aem_top_tb.th.dut_inst.aem_core_clk_i #添加信号波形
 # force xxx.xxx.xxx 'h70000 -cancel 350us  // 350us 后取消，注意16进制数字必须是'hff 而不是0xfff
 # force xxx.xxx.xxx 'h70000  -freeze //保持，未使用过
-# force {xxx.xx.xx.xx.addr[63:0]} 'h0777 -deposit
+# force {xxx.xx.xx.xx.addr[63:0]} 'h0777 -deposit //信号有位宽，必须用大括号括起来
 checkpoint -add "init 1"
 run 10ns
 checkpoint -add "init 10ns"
