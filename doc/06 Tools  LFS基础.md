@@ -198,3 +198,5 @@ bjobs还有一些常用的选项，
 ![image](https://user-images.githubusercontent.com/55919713/236450750-716c96fa-dddd-4302-8205-7ae608ec7fd8.png)
 ![image](https://user-images.githubusercontent.com/55919713/236450802-2a3296f6-fd9c-47e0-a26c-193da53e6515.png)
 
+#### 十三、传送门
+1. [LSF作业调度系统的使用](https://hmli.ustc.edu.cn/doc/training/lsf.pdf)
