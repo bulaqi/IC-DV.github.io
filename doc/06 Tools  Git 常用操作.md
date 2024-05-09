@@ -52,7 +52,7 @@ git status //此时查看就出现了暂存前修改文件
 20. git reset --soft HEAD^  //回退已commit 但未push的
 21. git reset HEAD <fiel>   // 回退已经add,但是未commit的
 22. git config -–global log.decorate auto //git log 显示tag
-23. git add  .    git commit --amand    git push origin HEAD:refs/for/master  //第二次提交如上操作，不会产生新的commit_id
+23. git add  .    git commit --amend    git push origin HEAD:refs/for/master  //第二次提交如上操作，不会产生新的commit_id
 ~~~
 
 ### 3. git 上库(autostash)
