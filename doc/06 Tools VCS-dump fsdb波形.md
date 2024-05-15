@@ -14,6 +14,19 @@
 	    end
    end
    ~~~
+
+   ~~~
+   initial
+	    if($test$plusargs("dumpfsdb=%d",dump_fsdb))
+	    begin
+		#dump_fsdb;
+		//$fsdbAutoSwitchDumpfile(1024*10,"inter.fsdb",10, "inter.fsdb.log"); //根据大小切割波形，最大1024*10M,最大10个波形文件
+		$fsdbAutoSwitchDumpfile(200,"inter.fsdb",10, "+by_sim_period+us"); //根据仿真时间dump 波形，每200 us dump 一个fsdb文件，最大10个波形文件
+		$fsdbDumpvarsToFile("dump.list"); // 运行模块下有dump.list文件指定dump范围
+	    	$fsdbDumpon; 
+	    end
+   end
+   ~~~
  2. 开启记录波形
     只需要在仿真命令后面加上如下命令即可，这里的DUMP_FSDB字符串，要和上面代码if中判断条件的字符串保持一致。
     ~~~
@@ -102,3 +115,4 @@ if {[file exit debug_tcl.do] == 1 } {
 1. [VCS dump fsdb 波形](https://blog.csdn.net/hh199203/article/details/114981486)
 2. [TCL学习之info命令](https://blog.csdn.net/iamsarah/article/details/70920625)
 3. [常用UCLI 命令汇总](https://blog.csdn.net/qq_16423857/article/details/123508360?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-123508360-blog-123585226.235%5Ev43%5Epc_blog_bottom_relevance_base5&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-123508360-blog-123585226.235%5Ev43%5Epc_blog_bottom_relevance_base5&utm_relevant_index=1)
+4. [如何按照时间自动切割FSDB文件](https://www.bilibili.com/video/BV14j411d73J/?spm_id_from=333.337.search-card.all.click&vd_source=4961046a0ef4f6531d203062fb9d2390)
