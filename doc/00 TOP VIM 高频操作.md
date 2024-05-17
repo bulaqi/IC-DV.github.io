@@ -1,9 +1,14 @@
- 系统快捷键
- ~~~
+### 1. 系统快捷键
+#### 1. 编辑常用命令
+~~~
 CTRL+N      自动扩展字符串  
 *:  自动查找鼠标位置当前的字符串
 gf:   (go to file)显示光标处的文件
 gd:   高亮
+~~~~
+
+#### 2. 运行命令
+~~~
 :b1（bn）返回前一次的显示
 :r !命令  //在 vim 中执行系统命令，并把命令结果导入光标所在行
 :r 文件名 把文件内容导入到光标位置
@@ -11,10 +16,11 @@ gd:   高亮
 :explore  打开当前目录文件
 :ctrl + d  查看可选命令
 ctrl+p/ ctrl+n  字符自动补齐( 强烈推荐)
-~~~~
+~~~
 
- 个人配置
- ~~~
+
+#### 3. 个人配置
+~~~
  :map ui i `uvm_info("TRACE", $sformatf("",), UVM_LOW)
  :map ue i `uvm_error(get_full_name(), $sformatf("",))
  :map uf i `uvm_fatal(get_full_name(), $sformatf("",))
