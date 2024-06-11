@@ -13,6 +13,8 @@ uvm_printer_knobs为特定的printer提供了相应的knobs变量.里面部分�
 - header:当print an object时是否会调用print_header函数.
 - footer:printe an object时是否调用print_footer函数.
 - full_name:print变量的full name还是the leaf name.
+- depth:递归打印的深度，默认值-1,代表打印全部的变量
+- mcd：文件句柄，默认是系统标出输出，修改此，可以将数据打印到指定文件
 
 #### 3.uvm_printer使用示例
 1. 在调用uvm_top.print_topology()函数（拓扑）时,可以不指定uvm_printer参数;
