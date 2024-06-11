@@ -24,7 +24,7 @@ uvm_printer_knobs为特定的printer提供了相应的knobs变量.里面部分�
 
 ### 2. 经验
 #### 1. uvm_printer_knobs.cmd的使用
-1. 自定义printer
+- 自定义printer
    ~~~
    class tx_data_printer extends uvm_table_printer;
       function new(string fileName="cp_date.txt")
@@ -32,7 +32,7 @@ uvm_printer_knobs为特定的printer提供了相应的knobs变量.里面部分�
       knobs.mcd = $fopen(fileName,"+W")
    endclass
    ~~~
-2. 使用
+- 使用
    - eg,scb 类内声明该printer
    ~~~
    tx_data_printer u_tx_data_printer;
