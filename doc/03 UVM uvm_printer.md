@@ -24,7 +24,27 @@ uvm_printer_knobs为特定的printer提供了相应的knobs变量.里面部分�
 
 ### 2. 经验
 #### 1. uvm_printer_knobs.cmd的使用
-
+1. 自定义printer
+   ~~~
+   class tx_data_printer extends uvm_table_printer;
+      function new(string fileName="cp_date.txt")
+      super.new();
+      knobs.mcd = $fopen(fileName,"+W")
+   endclass
+   ~~~
+2. 使用
+   - eg,scb 类内声明该printer
+   ~~~
+   tx_data_printer u_tx_data_printer;
+   ~~~
+   - 使用
+   ~~~
+   rm_file_name = $sformatf("./log/ref/tx_ref_%x",cid);
+   u_tx_data_printer = new(rm_file_name);
+   tx_trans.sprint(u_tx_data_printer);
+   $fflush(u_tx_data_printer,knobs.mcb);
+   $fclose(u_tx_data_printer,knobs.mcb);
+   ~~~
 ### 3. 传送门
 1. [uvm_printer及使用](https://www.cnblogs.com/csjt/p/16206598.html)
 2. [uvm_table_printer的用法_全部数组值打印](https://www.cnblogs.com/Alfred-HOO/articles/17524269.html)
