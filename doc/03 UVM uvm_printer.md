@@ -13,7 +13,7 @@ uvm_printer_knobs为特定的printer提供了相应的knobs变量.里面部分�
 - header:当print an object时是否会调用print_header函数.
 - footer:printe an object时是否调用print_footer函数.
 - full_name:print变量的full name还是the leaf name.
-- depth:递归打印的深度，默认值-1,代表打印全部的变量
+- depth:递归打印的深度，默认值-1,代表打印全部的变量, 参加传送门,参考文献2
 - mcd：文件句柄，默认是系统标出输出，修改此，可以将数据打印到指定文件
 
 #### 3.uvm_printer使用示例
@@ -23,6 +23,8 @@ uvm_printer_knobs为特定的printer提供了相应的knobs变量.里面部分�
 
 
 ### 2. 经验
+#### 1. uvm_printer_knobs.cmd的使用
+
 ### 3. 传送门
 1. [uvm_printer及使用](https://www.cnblogs.com/csjt/p/16206598.html)
 2. [uvm_table_printer的用法_全部数组值打印](https://www.cnblogs.com/Alfred-HOO/articles/17524269.html)
