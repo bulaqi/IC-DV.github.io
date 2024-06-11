@@ -1,0 +1,120 @@
+Command: ./simv -l sim.log +UVM_TESTNAME=virtual_sequence_test
+Chronologic VCS simulator copyright 1991-2014
+Contains Synopsys proprietary information.
+Compiler version I-2014.03; Runtime version I-2014.03;  Apr 17 12:40 2022
+UVM_INFO /home/IC/uvm_library/1800.2-2017-1.1/src/base/uvm_root.svh(449) @ 0: reporter [UVM/RELNOTES] 
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  This implementation of the UVM Library deviates from the 1800.2-2017
+  standard.  See the DEVIATIONS.md file contained in the release
+  for more details.
+
+----------------------------------------------------------------
+Accellera:1800.2-2017:UVM:1.1
+
+All copyright owners for this kit are listed in NOTICE.txt
+All Rights Reserved Worldwide
+----------------------------------------------------------------
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_INFO @ 0: reporter [RNTST] Running test virtual_sequence_test...
+VCD+ Writer I-2014.03 Copyright (c) 1991-2014 by Synopsys Inc.
+UVM_INFO testbench/tb_classes/sequence/reset_sequence.svh(15) @ 70: uvm_test_top.env_h.agent_h.sequencer_h@@reset_seq [RESET SEQ] Reset completed ! 
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 130: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: f7  B: e3   op: xor_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(55) @ 130: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: f7  B: e3   op: xor_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 130: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is xor_op, A is f7, B is e3, exp_result is 0014
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(72) @ 130: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] PASS: A: f7  B: e3   op: xor_op = 0000 ==>  Actual result: 0014/Predicted result: 0014
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 190: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: f7  B: de   op: and_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(55) @ 190: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: f7  B: de   op: and_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 190: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is and_op, A is f7, B is de, exp_result is 00d6
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(72) @ 190: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] PASS: A: f7  B: de   op: and_op = 0000 ==>  Actual result: 00d6/Predicted result: 00d6
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 250: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: db  B: 74   op: and_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(55) @ 250: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: db  B: 74   op: and_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 250: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is and_op, A is db, B is 74, exp_result is 0050
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(72) @ 250: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] PASS: A: db  B: 74   op: and_op = 0000 ==>  Actual result: 0050/Predicted result: 0050
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 370: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: 4c  B: 9a   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(55) @ 370: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: 4c  B: 9a   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 370: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is mul_op, A is 4c, B is 9a, exp_result is 2db8
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(72) @ 370: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] PASS: A: 4c  B: 9a   op: mul_op = 0000 ==>  Actual result: 2db8/Predicted result: 2db8
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 430: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: 2c  B: b5   op: and_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(55) @ 430: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: 2c  B: b5   op: and_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 430: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is and_op, A is 2c, B is b5, exp_result is 0024
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(72) @ 430: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] PASS: A: 2c  B: b5   op: and_op = 0000 ==>  Actual result: 0024/Predicted result: 0024
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 550: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: ae  B: 24   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(55) @ 550: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: ae  B: 24   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 550: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is mul_op, A is ae, B is 24, exp_result is 1878
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(72) @ 550: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] PASS: A: ae  B: 24   op: mul_op = 0000 ==>  Actual result: 1878/Predicted result: 1878
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 610: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: 3e  B: b3   op: xor_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(55) @ 610: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: 3e  B: b3   op: xor_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 610: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is xor_op, A is 3e, B is b3, exp_result is 008d
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(72) @ 610: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] PASS: A: 3e  B: b3   op: xor_op = 0000 ==>  Actual result: 008d/Predicted result: 008d
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 790: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: 96  B: 16   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(55) @ 790: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: 96  B: 16   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 790: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is mul_op, A is 96, B is 16, exp_result is 0ce4
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(72) @ 790: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] PASS: A: 96  B: 16   op: mul_op = 0000 ==>  Actual result: 0ce4/Predicted result: 0ce4
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 910: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: 21  B: 9e   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(55) @ 910: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: 21  B: 9e   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 910: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is mul_op, A is 21, B is 9e, exp_result is 145e
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(72) @ 910: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] PASS: A: 21  B: 9e   op: mul_op = 0000 ==>  Actual result: 145e/Predicted result: 145e
+UVM_INFO testbench/tb_classes/component/bus_monitor.svh(42) @ 950: uvm_test_top.env_h.bus_agent_h.monitor_h [BUS MONITOR] bus_op: bus_wr   addr: 01   rd_data: 0000    wr_data: 1111
+UVM_INFO testbench/tb_classes/component/bus_driver.svh(19) @ 970: uvm_test_top.env_h.bus_agent_h.driver_h [driver_h] drive bus item is bus_op: bus_wr   addr: 01   rd_data: 0000    wr_data: 1111
+UVM_INFO testbench/tb_classes/component/bus_monitor.svh(42) @ 1030: uvm_test_top.env_h.bus_agent_h.monitor_h [BUS MONITOR] bus_op: bus_rd   addr: 01   rd_data: 1111    wr_data: 0000
+UVM_INFO testbench/tb_classes/component/bus_driver.svh(19) @ 1030: uvm_test_top.env_h.bus_agent_h.driver_h [driver_h] drive bus item is bus_op: bus_rd   addr: 01   rd_data: 1111    wr_data: 0000
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(17) @ 1030: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] reg_A value is 1111
+UVM_INFO testbench/tb_classes/component/bus_monitor.svh(42) @ 1070: uvm_test_top.env_h.bus_agent_h.monitor_h [BUS MONITOR] bus_op: bus_wr   addr: 02   rd_data: 1111    wr_data: 2222
+UVM_INFO testbench/tb_classes/component/bus_driver.svh(19) @ 1090: uvm_test_top.env_h.bus_agent_h.driver_h [driver_h] drive bus item is bus_op: bus_wr   addr: 02   rd_data: 1111    wr_data: 2222
+UVM_INFO testbench/tb_classes/component/bus_monitor.svh(42) @ 1150: uvm_test_top.env_h.bus_agent_h.monitor_h [BUS MONITOR] bus_op: bus_rd   addr: 02   rd_data: 2222    wr_data: 0000
+UVM_INFO testbench/tb_classes/component/bus_driver.svh(19) @ 1150: uvm_test_top.env_h.bus_agent_h.driver_h [driver_h] drive bus item is bus_op: bus_rd   addr: 02   rd_data: 2222    wr_data: 0000
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(20) @ 1150: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] reg_B value is 2222
+UVM_INFO testbench/tb_classes/component/bus_monitor.svh(42) @ 1190: uvm_test_top.env_h.bus_agent_h.monitor_h [BUS MONITOR] bus_op: bus_wr   addr: 03   rd_data: 2222    wr_data: 3333
+UVM_INFO testbench/tb_classes/component/bus_driver.svh(19) @ 1210: uvm_test_top.env_h.bus_agent_h.driver_h [driver_h] drive bus item is bus_op: bus_wr   addr: 03   rd_data: 2222    wr_data: 3333
+UVM_INFO testbench/tb_classes/component/bus_monitor.svh(42) @ 1270: uvm_test_top.env_h.bus_agent_h.monitor_h [BUS MONITOR] bus_op: bus_rd   addr: 03   rd_data: 3333    wr_data: 0000
+UVM_INFO testbench/tb_classes/component/bus_driver.svh(19) @ 1270: uvm_test_top.env_h.bus_agent_h.driver_h [driver_h] drive bus item is bus_op: bus_rd   addr: 03   rd_data: 3333    wr_data: 0000
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(23) @ 1270: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] reg_C value is 3333
+UVM_INFO testbench/tb_classes/component/bus_monitor.svh(42) @ 1310: uvm_test_top.env_h.bus_agent_h.monitor_h [BUS MONITOR] bus_op: bus_wr   addr: 00   rd_data: 3333    wr_data: 0001
+UVM_INFO testbench/tb_classes/component/bus_driver.svh(19) @ 1330: uvm_test_top.env_h.bus_agent_h.driver_h [driver_h] drive bus item is bus_op: bus_wr   addr: 00   rd_data: 3333    wr_data: 0001
+UVM_INFO testbench/tb_classes/component/bus_monitor.svh(42) @ 1390: uvm_test_top.env_h.bus_agent_h.monitor_h [BUS MONITOR] bus_op: bus_rd   addr: 00   rd_data: 0001    wr_data: 0000
+UVM_INFO testbench/tb_classes/component/bus_driver.svh(19) @ 1390: uvm_test_top.env_h.bus_agent_h.driver_h [driver_h] drive bus item is bus_op: bus_rd   addr: 00   rd_data: 0001    wr_data: 0000
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(28) @ 1390: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] reg_state value is 0001
+UVM_INFO testbench/tb_classes/component/bus_monitor.svh(42) @ 1430: uvm_test_top.env_h.bus_agent_h.monitor_h [BUS MONITOR] bus_op: bus_wr   addr: 08   rd_data: 0001    wr_data: 4444
+UVM_INFO testbench/tb_classes/component/bus_driver.svh(19) @ 1450: uvm_test_top.env_h.bus_agent_h.driver_h [driver_h] drive bus item is bus_op: bus_wr   addr: 08   rd_data: 0001    wr_data: 4444
+UVM_INFO testbench/tb_classes/component/bus_monitor.svh(42) @ 1510: uvm_test_top.env_h.bus_agent_h.monitor_h [BUS MONITOR] bus_op: bus_rd   addr: 08   rd_data: 4444    wr_data: 0000
+UVM_INFO testbench/tb_classes/component/bus_driver.svh(19) @ 1510: uvm_test_top.env_h.bus_agent_h.driver_h [driver_h] drive bus item is bus_op: bus_rd   addr: 08   rd_data: 4444    wr_data: 0000
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(36) @ 1510: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] reg_A value is 4444
+UVM_INFO testbench/tb_classes/component/bus_monitor.svh(42) @ 1550: uvm_test_top.env_h.bus_agent_h.monitor_h [BUS MONITOR] bus_op: bus_wr   addr: 09   rd_data: 4444    wr_data: 5555
+UVM_INFO testbench/tb_classes/component/bus_driver.svh(19) @ 1570: uvm_test_top.env_h.bus_agent_h.driver_h [driver_h] drive bus item is bus_op: bus_wr   addr: 09   rd_data: 4444    wr_data: 5555
+UVM_INFO testbench/tb_classes/component/bus_monitor.svh(42) @ 1630: uvm_test_top.env_h.bus_agent_h.monitor_h [BUS MONITOR] bus_op: bus_rd   addr: 09   rd_data: 5555    wr_data: 0000
+UVM_INFO testbench/tb_classes/component/bus_driver.svh(19) @ 1630: uvm_test_top.env_h.bus_agent_h.driver_h [driver_h] drive bus item is bus_op: bus_rd   addr: 09   rd_data: 5555    wr_data: 0000
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(39) @ 1630: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] reg_B value is 5555
+UVM_INFO testbench/tb_classes/component/bus_monitor.svh(42) @ 1670: uvm_test_top.env_h.bus_agent_h.monitor_h [BUS MONITOR] bus_op: bus_wr   addr: 0a   rd_data: 5555    wr_data: 6666
+UVM_INFO testbench/tb_classes/component/bus_driver.svh(19) @ 1690: uvm_test_top.env_h.bus_agent_h.driver_h [driver_h] drive bus item is bus_op: bus_wr   addr: 0a   rd_data: 5555    wr_data: 6666
+UVM_INFO testbench/tb_classes/component/bus_monitor.svh(42) @ 1750: uvm_test_top.env_h.bus_agent_h.monitor_h [BUS MONITOR] bus_op: bus_rd   addr: 0a   rd_data: 6666    wr_data: 0000
+UVM_INFO testbench/tb_classes/component/bus_driver.svh(19) @ 1750: uvm_test_top.env_h.bus_agent_h.driver_h [driver_h] drive bus item is bus_op: bus_rd   addr: 0a   rd_data: 6666    wr_data: 0000
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(42) @ 1750: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] reg_C value is 6666
+UVM_INFO /home/IC/uvm_library/1800.2-2017-1.1/src/base/uvm_report_server.svh(864) @ 1750: reporter [UVM/REPORT/SERVER] 
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :   74
+UVM_WARNING :    0
+UVM_ERROR :    0
+UVM_FATAL :    0
+** Report counts by id
+[BUS MONITOR]    14
+[BUS SEQ]     7
+[COMMAND MONITOR]     9
+[RESET SEQ]     1
+[RNTST]     1
+[SCOREBOARD]     9
+[SELF CHECKER]     9
+[UVM/RELNOTES]     1
+[driver_h]    14
+[scoreboard_h]     9
+
+$finish called from file "/home/IC/uvm_library/1800.2-2017-1.1/src/base/uvm_root.svh", line 585.
+$finish at simulation time                 1750
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 1750 ns
+CPU Time:      0.390 seconds;       Data structure size:   0.3Mb
+Sun Apr 17 12:40:58 2022

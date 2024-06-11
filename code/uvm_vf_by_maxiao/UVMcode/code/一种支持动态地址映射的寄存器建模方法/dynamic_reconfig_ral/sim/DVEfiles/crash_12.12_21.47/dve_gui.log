@@ -1,0 +1,59 @@
+The design has assertions or cover properties.
+The assertion browser can be used to view them. Click on the assertion toolbar button or use the menu 'Window->Panes->Assertion' to open it.
+The file '/home/IC/ch24/24.22/sim/vcdplus.vpd' was opened successfully.
+The file '/home/IC/ch24/24.22/sim/vcdplus.vpd' was opened successfully.
+---------------------------------------------
+
+The tool has just exited abnormally:
+
+
+Release = 'I-2014.03'  Architecture = 'linux'  Program = 'DVE'
+
+'161970681 161997854 162000173 5533319 146613419 147360333'
+
+---------------------------------------------
+=======================DVE Context and Call Stack=========================
+Command line: /opt/Synopsys/VCS2014/gui/dve/linux/bin/dve.exe
+
+--- Stack trace follows:
+[Thread debugging using libthread_db enabled]
+[New Thread 0xf63aeb70 (LWP 13951)]
+0xf77c4430 in __kernel_vsyscall ()
+
+Thread 2 (Thread 0xf63aeb70 (LWP 13951)):
+#0  0xf77c4430 in __kernel_vsyscall ()
+#1  0xf6b817c4 in pthread_cond_timedwait@@GLIBC_2.3.2 () from /lib/libpthread.so.0
+#2  0x0a3f3471 in ?? ()
+#3  0x0a3f3924 in QThread::msleep(unsigned long) ()
+#4  0x08b8bc5a in ag::dveXThread::run() ()
+#5  0x0a3f3643 in QThreadInstance::start(void*) ()
+#6  0xf6b7db69 in start_thread () from /lib/libpthread.so.0
+#7  0x005fbcbe in clone () from /lib/libc.so.6
+
+Thread 1 (Thread 0xf63bd750 (LWP 13826)):
+#0  0xf77c4430 in __kernel_vsyscall ()
+#1  0x005ba32b in waitpid () from /lib/libc.so.6
+#2  0x00553c53 in do_system () from /lib/libc.so.6
+#3  0x00553fe2 in system () from /lib/libc.so.6
+#4  0xf6b8598d in system () from /lib/libpthread.so.0
+#5  0xf757779b in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313e639d2928478c79b3f673f99203bcf8be64600612100082236bffb2007f1e0ef9 () from /opt/Synopsys/VCS2014/linux/lib/liberrorinf.so
+#6  0xf7577dc9 in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313e81c34e9ac4c8988ef4a6e067b3aa9271e9f15440f9e8f69ebc77e2fd65860faa () from /opt/Synopsys/VCS2014/linux/lib/liberrorinf.so
+#7  0xf7578a58 in SNPSle_10ee25eff68cd8461c9146fa1d0b35e87067f3c8015b313efba706aab251478fa49e66610e453774633a6c152e7ef778f2202cda681f3d4e () from /opt/Synopsys/VCS2014/linux/lib/liberrorinf.so
+#8  0xf7571fed in SNPSle_d35ca1ff70d465c2b9b1a72eee90a506bd67bc4db6f8ee5099f1cf2dacc6a71a () from /opt/Synopsys/VCS2014/linux/lib/liberrorinf.so
+#9  0x09a7e3c2 in ag::logErrorMessage(ag::errorType, QString const&, bool) ()
+#10 0x09a7ed2d in ?? ()
+#11 0x00546e87 in exit () from /lib/libc.so.6
+#12 0x08bd24ab in VCS_EXIT ()
+#13 0x08c88a4d in SigHandler ()
+#14 <signal handler called>
+#15 0xf77c4430 in __kernel_vsyscall ()
+#16 0x005f4011 in select () from /lib/libc.so.6
+#17 0x0a3bb7d5 in QEventLoop::processEvents(unsigned int) ()
+#18 0x08bd10d9 in ag::ovaEventLoop::processEvents(unsigned int) ()
+#19 0x0a40ad98 in QEventLoop::enterLoop() ()
+#20 0x0a40ad24 in QEventLoop::exec() ()
+#21 0x08bd0aef in run_cci_event_loop ()
+#22 0x08b8cdad in ag::ovaAppInst::enterEventLoop(int, char**) ()
+#23 0x088f2c09 in main ()
+No context available
+==========================================================================

@@ -1,0 +1,1 @@
+  CREATE_STREAM @0 {NAME:random_seq T:Transactions SCOPE:uvm_test_top.env_h.agent_h.sequencer_h STREAM:814}
