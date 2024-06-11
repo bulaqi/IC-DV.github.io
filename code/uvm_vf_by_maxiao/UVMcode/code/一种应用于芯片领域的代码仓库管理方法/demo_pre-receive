@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Place this script in gitlab server directory -> <path_to_your_gitlab_server_root>/hooks/pre-receive.d
+# Create directory,if it does not exists -> mkdir -p <path_to_your_gitlab_server_root>/hooks/pre-receive.d
+
+# Get input data passed along pre-receive hook
+read old_sha new_sha refname
+
+# Default separator is ' ', change to ','
+IFS=","
+
+# Use env variable GL_USERNAME to get the matching details from users csv file
+# This file can be easily generated from the database that you have configured for your gitlab instance.
+# It contains records in following format - <username>,<user_email>,<user_name>
+IFS=', ' read -r -a validuserarray <<< `grep -i "$GL_USERNAME," /tmp/gituser.csv `
+valid_user_email=${validuserarray[1]}
+valid_user_name=${validuserarray[2]}
+
+# Get the last log user details from git log
+IFS=', ' read -r -a incoming_committer_array <<< `git log -1 "$new_sha" --pretty=%ce,%cn | tr '[:upper:]' '[:lower:]'`
+IFS=', ' read -r -a incoming_author_array <<< `git log -1 "$new_sha" --pretty=%ae,%an | tr '[:upper:]' '[:lower:]'`
+
+# If no match found, fail the push
+if [[ ${#validuserarray[@]} < 3 ]]; then
+    echo "GL-HOOK-ERR: You are not authorised to perform this action."
+    exit 1
+fi
+
+# Ensure no conflict markers are there
+if git diff "$old_sha" "$new_sha" | grep -qE '^\+(<<<<<<<|>>>>>>>)'; then
+    echo "GL-HOOK-ERR: Code has conflict markers. Please resolve and retry."
+    exit 1
+fi
+
+# Validate author email ends with domain.com
+if ! [[ "${incoming_author_array[0]}" =~ ^[A-Za-z0-9.]+[@]domain\.com$ ]]; then
+        echo "GL-HOOK-ERR: Author email address ${incoming_author_array[0]} is invalid."
+        exit 1
+fi
+
+# Validate committer email
+if [ "${valid_user_email}" != "${incoming_committer_array[0]}" ]; then
+    echo "GL-HOOK-ERR: Committer email address ${incoming_committer_array[0]} is invalid."
+    exit 1
+fi
+
+# Validate committer name
+if [ "${valid_user_name}" != "${incoming_committer_array[1]}" ]; then
+    echo "GL-HOOK-ERR: Committer name ${incoming_committer_array[1]} is invalid."
+    exit 1
+fi
+exit 0

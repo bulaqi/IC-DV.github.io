@@ -1,0 +1,52 @@
+#!/usr/bin/python3
+import os,sys,re
+import subprocess
+
+class Githook():
+    def __init__(self):
+        # get git args
+        self.args=input()
+        self.parent_commit_id = self.args.split()[0]
+        self.curent_commit_id = self.args.split()[1]
+        self.branch = self.args.split()[2]
+        self.username = os.environ.get('GL_USERNAME')
+        self.commmit_files = ''
+
+    def get_shell_output(self, cmd):
+        status, ret = subprocess.getstatusoutput(cmd)
+        return status, ret
+
+    def check_conflict_markers(self):
+        status, ret = self.get_shell_output("git diff %s %s | grep -qE '^\+(<<<<<<<|>>>>>>>)'" % (self.parent_commit_id, self.curent_commit_id))
+        if status == 0:
+            print(f'GL-HOOK-ERR: Hi {self.username}, your code has conflict markers. Please resolve and retry.')
+            exit(1)
+
+    def get_commit_files(self):
+        status, ret = self.get_shell_output("git diff %s %s --name-only" % (self.parent_commit_id, self.curent_commit_id))
+        self.commit_files = ret
+
+    def run_basic_test_for_commit_files_corresponding_tb(self):
+        pass
+
+    def report_log_info(self):
+        pass
+
+    def exit_pre_receive(self):
+        exit(0)
+
+    def run_pre_receive_flow(self):
+        self.get_commit_files()
+        self.check_conflict_markers()
+        self.run_basic_test_for_commit_files_corresponding_tb()
+        self.report_log_info()
+        self.exit_pre_receive()
+
+def main():
+    githook = Githook()
+    githook.run_pre_receive_flow()
+
+if __name__ == '__main__':
+    main()
+
+

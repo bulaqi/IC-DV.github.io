@@ -1,0 +1,177 @@
+Command: ./simv -l sim.log +UVM_TESTNAME=demo_test
+Chronologic VCS simulator copyright 1991-2014
+Contains Synopsys proprietary information.
+Compiler version I-2014.03; Runtime version I-2014.03;  Mar 10 16:53 2022
+UVM_INFO /opt/Synopsys/uvm-1.2/src/base/uvm_root.svh(392) @ 0: reporter [UVM/RELNOTES] 
+----------------------------------------------------------------
+UVM-1.2
+(C) 2007-2014 Mentor Graphics Corporation
+(C) 2007-2014 Cadence Design Systems, Inc.
+(C) 2006-2014 Synopsys, Inc.
+(C) 2011-2013 Cypress Semiconductor Corp.
+(C) 2013-2014 NVIDIA Corporation
+----------------------------------------------------------------
+
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_NO_DEPRECATED undefined.
+  See http://www.eda.org/svdb/view.php?id=3313 for more details.
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_OBJECT_DO_NOT_NEED_CONSTRUCTOR undefined.
+  See http://www.eda.org/svdb/view.php?id=3770 for more details.
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_INFO @ 0: reporter [RNTST] Running test demo_test...
+VCD+ Writer I-2014.03 Copyright (c) 1991-2014 by Synopsys Inc.
+UVM_INFO /opt/Synopsys/uvm-1.2/src/base/uvm_root.svh(579) @ 0: reporter [UVMTOP] UVM testbench topology:
+-------------------------------------------------------------------------------------------------
+Name                          Type                                                    Size  Value
+-------------------------------------------------------------------------------------------------
+uvm_test_top                  demo_test                                               -     @340 
+  env_h                       env                                                     -     @359 
+    agent_h                   agent                                                   -     @368 
+      driver_h                driver                                                  -     @709 
+        rsp_port              uvm_analysis_port                                       -     @728 
+        seq_item_port         uvm_seq_item_pull_port                                  -     @718 
+      in_monitor_h            in_monitor                                              -     @738 
+        ap                    uvm_analysis_port                                       -     @758 
+      out_monitor_h           out_monitor                                             -     @747 
+        ap                    uvm_analysis_port                                       -     @769 
+      sequencer_h             sequencer                                               -     @572 
+        rsp_export            uvm_analysis_export                                     -     @581 
+        seq_item_export       uvm_seq_item_pull_imp                                   -     @699 
+        arbitration_queue     array                                                   0     -    
+        lock_queue            array                                                   0     -    
+        num_last_reqs         integral                                                32    'd1  
+        num_last_rsps         integral                                                32    'd1  
+    comparator                uvm_algorithmic_comparator #(BEFORE,AFTER,TRANSFORMER)  -     @386 
+      after_analysis_export   uvm_analysis_export                                     -     @562 
+      before_analysis_export  uvm_analysis_imp                                        -     @552 
+      comp                    uvm_in_order_class_comparator #(T)                      -     @395 
+        after                 uvm_tlm_analysis_fifo #(T)                              -     @493 
+          analysis_export     uvm_analysis_imp                                        -     @542 
+          get_ap              uvm_analysis_port                                       -     @532 
+          get_peek_export     uvm_get_peek_imp                                        -     @512 
+          put_ap              uvm_analysis_port                                       -     @522 
+          put_export          uvm_put_imp                                             -     @502 
+        after_export          uvm_analysis_export                                     -     @414 
+        before                uvm_tlm_analysis_fifo #(T)                              -     @434 
+          analysis_export     uvm_analysis_imp                                        -     @483 
+          get_ap              uvm_analysis_port                                       -     @473 
+          get_peek_export     uvm_get_peek_imp                                        -     @453 
+          put_ap              uvm_analysis_port                                       -     @463 
+          put_export          uvm_put_imp                                             -     @443 
+        before_export         uvm_analysis_export                                     -     @404 
+        pair_ap               uvm_analysis_port                                       -     @424 
+    transf                    transformer                                             -     @377 
+-------------------------------------------------------------------------------------------------
+
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(17) @ 70: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 90: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 1, result : 3
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 90: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(17) @ 90: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(308) @ 90: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] not find in search_q, push back transaction is vld_o: 1, result : 3
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 110: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 1, result : 10
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 110: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/component/out_monitor.svh(28) @ 110: uvm_test_top.env_h.agent_h.out_monitor_h [OUT MONITOR] out trans is vld_o: 1, result : 9
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(17) @ 110: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(308) @ 110: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] not find in search_q, push back transaction is vld_o: 1, result : 10
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(308) @ 110: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] not find in search_q, push back transaction is vld_o: 1, result : 9
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 130: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 1, result : 1
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 130: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/component/out_monitor.svh(28) @ 130: uvm_test_top.env_h.agent_h.out_monitor_h [OUT MONITOR] out trans is vld_o: 1, result : 10
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(17) @ 130: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(308) @ 130: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] not find in search_q, push back transaction is vld_o: 1, result : 1
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(312) @ 130: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] find in search_q, delete transaction is vld_o: 1, result : 10
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 150: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 1, result : 6
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 150: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/component/out_monitor.svh(28) @ 150: uvm_test_top.env_h.agent_h.out_monitor_h [OUT MONITOR] out trans is vld_o: 1, result : 2
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(17) @ 150: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(308) @ 150: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] not find in search_q, push back transaction is vld_o: 1, result : 6
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(308) @ 150: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] not find in search_q, push back transaction is vld_o: 1, result : 2
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 170: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 1, result : 9
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 170: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/component/out_monitor.svh(28) @ 170: uvm_test_top.env_h.agent_h.out_monitor_h [OUT MONITOR] out trans is vld_o: 1, result : 6
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(17) @ 170: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(312) @ 170: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] find in search_q, delete transaction is vld_o: 1, result : 9
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(312) @ 170: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] find in search_q, delete transaction is vld_o: 1, result : 6
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 190: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 1, result : 7
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 190: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/component/out_monitor.svh(28) @ 190: uvm_test_top.env_h.agent_h.out_monitor_h [OUT MONITOR] out trans is vld_o: 1, result : 7
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(17) @ 190: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(308) @ 190: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] not find in search_q, push back transaction is vld_o: 1, result : 7
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(312) @ 190: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] find in search_q, delete transaction is vld_o: 1, result : 7
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 210: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 1, result : 8
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 210: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/component/out_monitor.svh(28) @ 210: uvm_test_top.env_h.agent_h.out_monitor_h [OUT MONITOR] out trans is vld_o: 1, result : 8
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(17) @ 210: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(308) @ 210: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] not find in search_q, push back transaction is vld_o: 1, result : 8
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(312) @ 210: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] find in search_q, delete transaction is vld_o: 1, result : 8
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 230: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 1, result : 4
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 230: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/component/out_monitor.svh(28) @ 230: uvm_test_top.env_h.agent_h.out_monitor_h [OUT MONITOR] out trans is vld_o: 1, result : 3
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(17) @ 230: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(308) @ 230: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] not find in search_q, push back transaction is vld_o: 1, result : 4
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(312) @ 230: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] find in search_q, delete transaction is vld_o: 1, result : 3
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 250: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 1, result : 2
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 250: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/component/out_monitor.svh(28) @ 250: uvm_test_top.env_h.agent_h.out_monitor_h [OUT MONITOR] out trans is vld_o: 1, result : 4
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(17) @ 250: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(312) @ 250: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] find in search_q, delete transaction is vld_o: 1, result : 2
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(312) @ 250: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] find in search_q, delete transaction is vld_o: 1, result : 4
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 270: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 1, result : 5
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 270: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/component/out_monitor.svh(28) @ 270: uvm_test_top.env_h.agent_h.out_monitor_h [OUT MONITOR] out trans is vld_o: 1, result : 1
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(24) @ 270: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(308) @ 270: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] not find in search_q, push back transaction is vld_o: 1, result : 5
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(312) @ 270: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] find in search_q, delete transaction is vld_o: 1, result : 1
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 290: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 0, result : 0
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 290: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/component/out_monitor.svh(28) @ 290: uvm_test_top.env_h.agent_h.out_monitor_h [OUT MONITOR] out trans is vld_o: 1, result : 5
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(24) @ 290: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 0
+UVM_INFO /opt/Synopsys/uvm-1.2/src/comps/uvm_in_order_comparator.svh(312) @ 290: uvm_test_top.env_h.comparator.comp [SEARCH_COMPARE] find in search_q, delete transaction is vld_o: 1, result : 5
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(24) @ 310: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 330: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 0, result : 0
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 330: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(24) @ 330: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 0
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(24) @ 350: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 370: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 0, result : 0
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 370: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(24) @ 370: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 390: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 0, result : 0
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 390: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(24) @ 390: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 410: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 0, result : 0
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 410: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(24) @ 410: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 1
+UVM_INFO testbench/tb_classes/component/transformer.svh(33) @ 430: uvm_test_top.env_h.transf [TRANSFORMER] predict out trans is vld_o: 0, result : 0
+UVM_INFO testbench/tb_classes/component/in_monitor.svh(27) @ 430: uvm_test_top.env_h.agent_h.in_monitor_h [IN MONITOR] in trans is vld_i: 1
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(24) @ 430: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 0
+UVM_INFO testbench/tb_classes/sequence/random_sequence.svh(24) @ 450: uvm_test_top.env_h.agent_h.sequencer_h@@random_seq [RANDOM SEQ] random tr: vld_i: 0
+UVM_INFO /opt/Synopsys/uvm-1.2/src/base/uvm_report_server.svh(847) @ 550: reporter [UVM/REPORT/SERVER] 
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :   85
+UVM_WARNING :    0
+UVM_ERROR :    0
+UVM_FATAL :    0
+** Report counts by id
+[IN MONITOR]    16
+[OUT MONITOR]    10
+[RANDOM SEQ]    20
+[RNTST]     1
+[SEARCH_COMPARE]    20
+[TRANSFORMER]    16
+[UVM/RELNOTES]     1
+[UVMTOP]     1
+
+$finish called from file "/opt/Synopsys/uvm-1.2/src/base/uvm_root.svh", line 517.
+$finish at simulation time                  550
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 550 ns
+CPU Time:      0.270 seconds;       Data structure size:   0.3Mb
+Thu Mar 10 16:53:33 2022

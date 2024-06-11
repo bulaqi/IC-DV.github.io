@@ -1,0 +1,429 @@
+//简单的driver，清单2-2
+class my _driver extends uvm_driver; //类
+  function new(string name="my_driver",uvm_component parent=null); //name参数名字，parent
+    super.new(name,parent);                                        //  用new创建一个实例
+  endclass                                                         //   class a;...endclass 是定义类
+task my_driver::main_phase(uvm_phase phase);  //mian phase实现driver
+ top_tb.rxd<=8'b0;
+ top_tb.rx_dv<=1'b0;
+ while(!top_tb.rst_n) // 满足top_tp为0为真就循环
+   @(posedge top_tb.clk);
+ for(int i=0;i<=256;i++)
+ begin @(posedge top_tb.clk); //
+ top_tb.rxd<=$urandom_range(0,255); //发送随机数
+ top_tb.rx_dv<=1'b1; //置1
+ `uvm_info("my_driver","date is drived",UVM_LOW)//尽量用info宏语句打印资料，LOW最高级，
+end
+ @(posedge top_tb.clk）； // 置0
+ top_tb.rx_dv<=1'b0;
+endtask
+
+
+
+//考虑到对driver的实例化 2-6
+'timescale 1ns/1ps
+'include "uvm_macros.svh"  //加载所有的宏，包含文件。macros里面包含了许多宏定义，只需包含一次
+
+import uvm_pkg::*; //     加载所有的类
+'include"my_driver.sv"    
+
+module top_tb; 
+
+reg clk;
+reg rst_n;
+reg[7:0] rxd;
+reg rx_dv;
+wire tx_en;
+dut my_dut(.clk(clk),
+           .rst_n(rst_n）,
+		   .rxd(rxd),
+		   .rx_dv(rx_dv),
+		   .txd(txd),
+		   .tx_en(tx_en);
+/*
+my_if input_if(clk,rst_n);
+my_if output_if(clk,rst_n);
+
+dut my_dut(.clk(clk),
+           .rst_n(rst_n),
+		   .rxd(input_if.data),         date是8位数据，valid是logic默认位数
+		   .rx_dv(input_if.valid),
+		   .txd(output_if.data),
+		   .tx_en(output_if.valid);
+*/
+		   
+initial begin                  //A
+    my_driver drv;            //定义，类似于 A a_inst; a_inst=new()
+	drv=new("drv",null);      //
+	drv.main_phase(null);     //  一般参数固定
+	$finish();                // finish函数结束仿真
+end                           //A`
+/*代码清单2-8
+module top_tb
+...
+  initial begin
+     run_test("my_driver");
+ end
+ endmodule
+用该语句代替A-A`语句  run_test语句直接创建实例并自动调用my_driver的main_phase
+
+*/
+initial begin
+    clk=0;
+	forever begin
+	#100 clk=~clk;
+	end
+end
+
+initial begin
+    rst_n=1'b0;
+	#1000;
+	rst_n=1'b1;
+end
+endmodule
+
+
+
+
+//加入factory机制  2-7
+class my_driver extends uvm_driver;
+
+  `uvm_component_untils(my_driver)
+  function new(st1 name="my_driver",uvm_component parent=null);
+    super.new(name,parent);
+	`uvm_info("my_driver","new is called",UVM_LOW);
+  endfunction
+  extern virtual task main_phase(uvm_phase phase);
+endclass
+
+task my_driver::main_phase(uvm_phase phase);
+   `uvm_info("uvm_driver","main_phase is called",UVM_LOW);
+   top_tb.rxd<=8'b0;
+   top_tb.rx_dv<=1'b0;
+   for(int i=0;i<256;i++)
+   begin @(posedge top_tb.clk);
+   top_tb.rxd<=$urandom_range(0.255);
+   top_tb.rx_dv<=1'b1;
+   `uvm_info("my_driver","date is drived",UVM_LOW);
+end
+   @(posedge top_tb.clk);
+   top_tb.rx_dv<=1'b0;
+endtask
+
+
+
+
+
+//加入 objection机制  2-9
+
+
+task my_driver::main_phase(uvm_phase phase);
+   phase.raise_objection(this);        // 在main_phase仿真时间之前
+   `uvm_info("my_driver", "main_phase is called", UVM_LOW);
+   top_tb.rxd <= 8'b0; 
+   top_tb.rx_dv <= 1'b0;
+   while(!top_tb.rst_n)
+      @(posedge top_tb.clk);
+   for(int i = 0; i < 256; i++)begin
+      @(posedge top_tb.clk);
+      top_tb.rxd <= $urandom_range(0, 255);
+      top_tb.rx_dv <= 1'b1;
+      `uvm_info("my_driver", "data is drived", UVM_LOW);
+   end
+   @(posedge top_tb.clk);
+   top_tb.rx_dv <= 1'b0;
+   phase.drop_objection(this);    //需要等待该命令后停止仿真，否则结束当前phase
+endtask
+
+
+
+
+//加入 virtual interface  2-11
+
+
+task my_driver::main_phase(uvm_phase phase);
+   phase.raise_objection(this);
+   `uvm_info("my_driver", "main_phase is called", UVM_LOW);
+/*
+在class后面先声明
+virtual my_if vif;
+声明之后可以在main_phase中使用
+*/
+   vif.data <= 8'b0;    //此处不再使用top_tb.rxd top_tb.rx_dv 而是用vif
+   vif.valid <= 1'b0;
+   while(!vif.rst_n)
+      @(posedge vif.clk);
+   for(int i = 0; i < 256; i++)begin
+      @(posedge vif.clk);
+      vif.data <= $urandom_range(0, 255);
+      vif.valid <= 1'b1;
+      `uvm_info("my_driver", "data is drived", UVM_LOW);
+   end
+   @(posedge vif.clk);
+   vif.valid <= 1'b0;
+   phase.drop_objection(this);
+endtask
+/* 定义  interface
+interface my_if(input clk,input rst_n);
+  logic[7:0] data;
+  logic valid;
+endinterface
+
+定义之后在top_tb中可以直接使用见2-6
+
+*/
+
+//不可以在类中声明interface,只有在top_tb模块中，类中用virtual interface
+//config_db机制 set get 目的是为了让top_tb中的input和vif对应
+initial begin    //top_tb中 SET
+   uvm_config_db#(virtual my_if)::set(null, "uvm_test_top", "vif", input_if);
+   /* set四个参数，第一个null暂时放一边，第二个uvm_test_top,表示路径索引（这个路径是run_test创建的），第三个参数vif，set和get必须一致，应是传递数据名称，第四个参数表示将哪个interface传递.
+   */
+end
+
+virtual function void build_phase(uvm_phase phase);  //my_driver中get
+      super.build_phase(phase);  //引入bulid_phase和它的子类super.build_phase
+      `uvm_info("my_driver", "build_phase is called", UVM_LOW);
+      if(!uvm_config_db#(virtual my_if)::get(this, "", "vif", vif)) //get数据
+	  /*第一个，第二个暂不说明，第三个与set一致
+	    第四个参数表示将得到的interface传递出去
+		：：表示两个函数都是静态函数
+	  */
+         `uvm_fatal("my_driver", "virtual interface must be set for vif!!!")//uvm_fatal宏
+   endfunction
+   //如果传递int 则看2-19,2-20    ，如果传递两个不同类型数据需要两个my_if，2-21,2-22
+   
+   
+   //为验证平台加入组件，transaction
+   //先定义transaction
+   
+class my_transaction extends uvm_sequence_item;
+
+   rand bit[47:0] dmac;   //48bit以太网目的地址
+   rand bit[47:0] smac;   //48bit以太网源地址
+   rand bit[15:0] ether_type;   //以太网类型
+   rand byte      pload[];    //携带数据大小
+   rand bit[31:0] crc;     //数据校验值
+
+   constraint pload_cons{
+      pload.size >= 46;
+      pload.size <= 1500;//大小在46~1500bit
+   }
+
+   function bit[31:0] calc_crc();
+      return 32'h0;
+   endfunction
+
+   function void post_randomize();   //sv中的函数，当某个类的实例randmize被调用，post_randmize随后调用
+      crc = calc_crc;
+   endfunction
+
+   `uvm_object_utils(my_transaction)
+
+   function new(string name = "my_transaction");
+      super.new();
+   endfunction
+endclass
+
+//2-24 在my_driver中实现驱动
+
+task my_driver::main_phase(uvm_phase phase);
+   my_transaction tr;  //定义tr
+   phase.raise_objection(this);
+   vif.data <= 8'b0;
+   vif.valid <= 1'b0;
+   while(!vif.rst_n)
+      @(posedge vif.clk);
+   for(int i = 0; i < 2; i++) begin 
+      tr = new("tr"); // 新建一个实例tr
+      assert(tr.randomize() with {pload.size == 200;});  //randomize将tr随机化
+      drive_one_pkt(tr);  //用driver_one_pkt将tr中所有数据传递到data_q中，然后弹出数据驱动
+   end
+   repeat(5) @(posedge vif.clk);
+   phase.drop_objection(this);
+endtask
+
+task my_driver::drive_one_pkt(my_transaction tr);
+   bit [47:0] tmp_data;
+   bit [7:0] data_q[$]; 
+  
+   //push dmac to data_q
+   tmp_data = tr.dmac;
+   for(int i = 0; i < 6; i++) begin
+      data_q.push_back(tmp_data[7:0]);
+      tmp_data = (tmp_data >> 8);
+   end
+   //push smac to data_q
+   tmp_data = tr.smac;
+   for(int i = 0; i < 6; i++) begin
+      data_q.push_back(tmp_data[7:0]);
+      tmp_data = (tmp_data >> 8);
+   end
+   //push ether_type to data_q
+   tmp_data = tr.ether_type;
+   for(int i = 0; i < 2; i++) begin
+      data_q.push_back(tmp_data[7:0]);
+      tmp_data = (tmp_data >> 8);
+   end
+   //push payload to data_q
+   for(int i = 0; i < tr.pload.size; i++) begin
+      data_q.push_back(tr.pload[i]);
+   end
+   //push crc to data_q
+   tmp_data = tr.crc;
+   for(int i = 0; i < 4; i++) begin
+      data_q.push_back(tmp_data[7:0]);
+      tmp_data = (tmp_data >> 8);
+   end
+
+   `uvm_info("my_driver", "begin to drive one pkt", UVM_LOW);
+   repeat(3) @(posedge vif.clk);
+
+   while(data_q.size() > 0) begin
+      @(posedge vif.clk);
+      vif.valid <= 1'b1;
+      vif.data <= data_q.pop_front(); 
+   end
+
+   @(posedge vif.clk);
+   vif.valid <= 1'b0;
+   `uvm_info("my_driver", "end drive one pkt", UVM_LOW);
+endtask
+
+
+//加入 env，在容器中例化其他的  2-25
+
+class my_env extends uvm_env;
+
+   my_driver drv;
+
+   function new(string name = "my_env", uvm_component parent);  //注册env
+      super.new(name, parent);
+   endfunction
+
+   virtual function void build_phase(uvm_phase phase); //实例化过程中传递了drv和this指针
+      super.build_phase(phase);
+      drv = my_driver::type_id::create("drv", this); 
+	  /*只有使用factory机制注册的类可以实例化
+	  验证平台的组件实例化都应该使用 type_name::type_id::create的方式
+	  */
+   endfunction
+
+   `uvm_component_utils(my_env)
+endclass
+
+/*需要注意的是，my_driver在uvm_env中例化，my_driver的父节点也就是参数（parent）,为my_env.
+先执行env中的phase再执行driver中的phase.driver先例化再执行。
+**my_driver层次改变，top_tb中的config_db机制传递到virtual my_if需要改变路径
+run_test参数从 my_driver变成了 my_env. set的第二个参数也就是2-11中的 uvm_test_top变为 uvm_test_top.drv 
+注:  uvm_test_top是UVM创建的树根，drv是 my_env的 build_phase实例化drv传递的名字,drv名字同步传递名字改变.
+*/
+
+
+//加入 monitor机制  2-29
+
+
+class my_monitor extends uvm_monitor;
+
+   virtual my_if vif;  //
+
+   `uvm_component_utils(my_monitor)
+   function new(string name = "my_monitor", uvm_component parent = null);   //因为 monitor是一直存在的属于 component
+      super.new(name, parent);
+   endfunction
+
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      if(!uvm_config_db#(virtual my_if)::get(this, "", "vif", vif))
+         `uvm_fatal("my_monitor", "virtual interface must be set for vif!!!")
+   endfunction
+
+   extern task main_phase(uvm_phase phase);
+   extern task collect_one_pkt(my_transaction tr);
+endclass
+
+task my_monitor::main_phase(uvm_phase phase);
+   my_transaction tr;
+   while(1) begin    //时刻收集数据，一直满足一直循环
+      tr = new("tr");
+      collect_one_pkt(tr);
+   end
+endtask
+
+task my_monitor::collect_one_pkt(my_transaction tr);
+   bit[7:0] data_q[$]; 
+   int psize;
+   while(1) begin
+      @(posedge vif.clk);
+      if(vif.valid) break;
+   end
+
+   `uvm_info("my_monitor", "begin to collect one pkt", UVM_LOW);
+   while(vif.valid) begin
+      data_q.push_back(vif.data);
+      @(posedge vif.clk);
+   end
+   //pop dmac
+   for(int i = 0; i < 6; i++) begin
+      tr.dmac = {tr.dmac[39:0], data_q.pop_front()};
+   end
+   //pop smac
+   for(int i = 0; i < 6; i++) begin
+      tr.smac = {tr.smac[39:0], data_q.pop_front()};
+   end
+   //pop ether_type
+   for(int i = 0; i < 2; i++) begin
+      tr.ether_type = {tr.ether_type[7:0], data_q.pop_front()};
+   end
+
+   psize = data_q.size() - 4;
+   tr.pload = new[psize];
+   //pop payload
+   for(int i = 0; i < psize; i++) begin
+      tr.pload[i] = data_q.pop_front();
+   end
+   //pop crc
+   for(int i = 0; i < 4; i++) begin
+      tr.crc = {tr.crc[23:0], data_q.pop_front()};
+   end
+   `uvm_info("my_monitor", "end collect one pkt, print it:", UVM_LOW);
+    tr.my_print();
+endtask
+
+
+
+// 2-30 my_print 在 my_transaction
+
+   function void my_print();
+      $display("dmac = %0h", dmac);
+      $display("smac = %0h", smac);
+      $display("ether_type = %0h", ether_type);
+      for(int i = 0; i < pload.size; i++) begin
+         $display("pload[%0d] = %0h", i, pload[i]);
+      end
+      $display("crc = %0h", crc);
+   endfunction
+   
+   
+//  2-31 完成定义后在env中例化  
+
+class my_env extends uvm_env;
+
+   my_driver drv;
+   my_monitor i_mon;
+   
+   my_monitor o_mon;
+
+   function new(string name = "my_env", uvm_component parent);
+      super.new(name, parent);
+   endfunction
+
+   virtual function void build_phase(uvm_phase phase);
+      super.build_phase(phase);
+      drv = my_driver::type_id::create("drv", this); 
+      i_mon = my_monitor::type_id::create("i_mon", this);
+      o_mon = my_monitor::type_id::create("o_mon", this);
+   endfunction
+
+   `uvm_component_utils(my_env)
+endclass

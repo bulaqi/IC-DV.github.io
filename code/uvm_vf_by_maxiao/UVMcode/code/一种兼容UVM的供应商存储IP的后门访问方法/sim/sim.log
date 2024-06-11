@@ -1,0 +1,173 @@
+Command: ./simv -l sim.log +UVM_TESTNAME=virtual_sequence_test
+Chronologic VCS simulator copyright 1991-2014
+Contains Synopsys proprietary information.
+Compiler version I-2014.03; Runtime version I-2014.03;  Aug 25 08:54 2023
+UVM_INFO /opt/Synopsys/uvm-1.2/src/base/uvm_root.svh(392) @ 0: reporter [UVM/RELNOTES] 
+----------------------------------------------------------------
+UVM-1.2
+(C) 2007-2014 Mentor Graphics Corporation
+(C) 2007-2014 Cadence Design Systems, Inc.
+(C) 2006-2014 Synopsys, Inc.
+(C) 2011-2013 Cypress Semiconductor Corp.
+(C) 2013-2014 NVIDIA Corporation
+----------------------------------------------------------------
+
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_NO_DEPRECATED undefined.
+  See http://www.eda.org/svdb/view.php?id=3313 for more details.
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_OBJECT_DO_NOT_NEED_CONSTRUCTOR undefined.
+  See http://www.eda.org/svdb/view.php?id=3770 for more details.
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_INFO @ 0: reporter [RNTST] Running test virtual_sequence_test...
+VCD+ Writer I-2014.03 Copyright (c) 1991-2014 by Synopsys Inc.
+UVM_INFO /opt/Synopsys/uvm-1.2/src/base/uvm_root.svh(579) @ 0: reporter [UVMTOP] UVM testbench topology:
+------------------------------------------------------------------
+Name                       Type                        Size  Value
+------------------------------------------------------------------
+uvm_test_top               virtual_sequence_test       -     @346 
+  env_h                    env                         -     @387 
+    agent_h                agent                       -     @396 
+      command_monitor_h    command_monitor             -     @829 
+        ap                 uvm_analysis_port           -     @848 
+      driver_h             driver                      -     @800 
+        rsp_port           uvm_analysis_port           -     @819 
+        seq_item_port      uvm_seq_item_pull_port      -     @809 
+      result_monitor_h     result_monitor              -     @838 
+        ap                 uvm_analysis_port           -     @860 
+      sequencer_h          sequencer                   -     @663 
+        rsp_export         uvm_analysis_export         -     @672 
+        seq_item_export    uvm_seq_item_pull_imp       -     @790 
+        arbitration_queue  array                       0     -    
+        lock_queue         array                       0     -    
+        num_last_reqs      integral                    32    'd1  
+        num_last_rsps      integral                    32    'd1  
+    bus_agent_h            bus_agent                   -     @405 
+      driver_h             bus_driver                  -     @1012
+        rsp_port           uvm_analysis_port           -     @1031
+        seq_item_port      uvm_seq_item_pull_port      -     @1021
+      monitor_h            bus_monitor                 -     @1041
+        ap                 uvm_analysis_port           -     @1052
+      sequencer_h          bus_sequencer               -     @875 
+        rsp_export         uvm_analysis_export         -     @884 
+        seq_item_export    uvm_seq_item_pull_imp       -     @1002
+        arbitration_queue  array                       0     -    
+        lock_queue         array                       0     -    
+        num_last_reqs      integral                    32    'd1  
+        num_last_rsps      integral                    32    'd1  
+    command_mon_cov_fifo   uvm_tlm_analysis_fifo #(T)  -     @486 
+      analysis_export      uvm_analysis_imp            -     @535 
+      get_ap               uvm_analysis_port           -     @525 
+      get_peek_export      uvm_get_peek_imp            -     @505 
+      put_ap               uvm_analysis_port           -     @515 
+      put_export           uvm_put_imp                 -     @495 
+    command_mon_scb_fifo   uvm_tlm_analysis_fifo #(T)  -     @545 
+      analysis_export      uvm_analysis_imp            -     @594 
+      get_ap               uvm_analysis_port           -     @584 
+      get_peek_export      uvm_get_peek_imp            -     @564 
+      put_ap               uvm_analysis_port           -     @574 
+      put_export           uvm_put_imp                 -     @554 
+    coverage_h             coverage                    -     @468 
+      cmd_port             uvm_blocking_get_port       -     @1067
+    predictor_h            predictor                   -     @439 
+      bus_in               uvm_analysis_imp            -     @448 
+      reg_ap               uvm_analysis_port           -     @458 
+    result_mon_scb_fifo    uvm_tlm_analysis_fifo #(T)  -     @604 
+      analysis_export      uvm_analysis_imp            -     @653 
+      get_ap               uvm_analysis_port           -     @643 
+      get_peek_export      uvm_get_peek_imp            -     @623 
+      put_ap               uvm_analysis_port           -     @633 
+      put_export           uvm_put_imp                 -     @613 
+    scoreboard_h           scoreboard                  -     @477 
+      cmd_port             uvm_blocking_get_port       -     @1077
+      result_port          uvm_blocking_get_port       -     @1087
+------------------------------------------------------------------
+
+UVM_INFO testbench/tb_classes/sequence/reset_sequence.svh(15) @ 70: uvm_test_top.env_h.agent_h.sequencer_h@@reset_seq [RESET SEQ] Reset completed ! 
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(54) @ 110: uvm_test_top.env_h.scoreboard_h [SCOREBOARD] ctrl_reg value is 0000
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 130: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: f7  B: e3   op: xor_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(59) @ 130: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: f7  B: e3   op: xor_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 130: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is xor_op, A is f7, B is e3, exp_result is 0014
+UVM_ERROR testbench/tb_classes/component/scoreboard.svh(74) @ 130: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] FAIL: A: f7  B: e3   op: xor_op = 0000 ==>  Actual result: 0000/Predicted result: 0014
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 190: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: f7  B: de   op: and_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(59) @ 190: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: f7  B: de   op: and_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 190: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is and_op, A is f7, B is de, exp_result is 00d6
+UVM_ERROR testbench/tb_classes/component/scoreboard.svh(74) @ 190: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] FAIL: A: f7  B: de   op: and_op = 0000 ==>  Actual result: 0000/Predicted result: 00d6
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 250: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: db  B: 74   op: and_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(59) @ 250: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: db  B: 74   op: and_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 250: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is and_op, A is db, B is 74, exp_result is 0050
+UVM_ERROR testbench/tb_classes/component/scoreboard.svh(74) @ 250: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] FAIL: A: db  B: 74   op: and_op = 0000 ==>  Actual result: 0000/Predicted result: 0050
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 370: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: 4c  B: 9a   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(59) @ 370: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: 4c  B: 9a   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 370: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is mul_op, A is 4c, B is 9a, exp_result is 2db8
+UVM_ERROR testbench/tb_classes/component/scoreboard.svh(74) @ 370: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] FAIL: A: 4c  B: 9a   op: mul_op = 0000 ==>  Actual result: 0000/Predicted result: 2db8
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 430: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: 2c  B: b5   op: and_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(59) @ 430: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: 2c  B: b5   op: and_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 430: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is and_op, A is 2c, B is b5, exp_result is 0024
+UVM_ERROR testbench/tb_classes/component/scoreboard.svh(74) @ 430: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] FAIL: A: 2c  B: b5   op: and_op = 0000 ==>  Actual result: 0000/Predicted result: 0024
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 550: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: ae  B: 24   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(59) @ 550: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: ae  B: 24   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 550: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is mul_op, A is ae, B is 24, exp_result is 1878
+UVM_ERROR testbench/tb_classes/component/scoreboard.svh(74) @ 550: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] FAIL: A: ae  B: 24   op: mul_op = 0000 ==>  Actual result: 0000/Predicted result: 1878
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 610: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: 3e  B: b3   op: xor_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(59) @ 610: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: 3e  B: b3   op: xor_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 610: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is xor_op, A is 3e, B is b3, exp_result is 008d
+UVM_ERROR testbench/tb_classes/component/scoreboard.svh(74) @ 610: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] FAIL: A: 3e  B: b3   op: xor_op = 0000 ==>  Actual result: 0000/Predicted result: 008d
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 790: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: 96  B: 16   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(59) @ 790: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: 96  B: 16   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 790: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is mul_op, A is 96, B is 16, exp_result is 0ce4
+UVM_ERROR testbench/tb_classes/component/scoreboard.svh(74) @ 790: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] FAIL: A: 96  B: 16   op: mul_op = 0000 ==>  Actual result: 0000/Predicted result: 0ce4
+UVM_INFO testbench/tb_classes/component/command_monitor.svh(30) @ 910: uvm_test_top.env_h.agent_h.command_monitor_h [COMMAND MONITOR] A: 21  B: 9e   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(59) @ 910: uvm_test_top.env_h.scoreboard_h [scoreboard_h] scoreboard get cmd is A: 21  B: 9e   op: mul_op = 0000
+UVM_INFO testbench/tb_classes/component/scoreboard.svh(36) @ 910: uvm_test_top.env_h.scoreboard_h [SCOREBOARD]  op is mul_op, A is 21, B is 9e, exp_result is 145e
+UVM_ERROR testbench/tb_classes/component/scoreboard.svh(74) @ 910: uvm_test_top.env_h.scoreboard_h [SELF CHECKER] FAIL: A: 21  B: 9e   op: mul_op = 0000 ==>  Actual result: 0000/Predicted result: 145e
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(16) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Write mem[0] -> 0000 Completed!
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(18) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Read mem[0] value is 0000
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(16) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Write mem[1] -> 1111 Completed!
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(18) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Read mem[1] value is 1111
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(16) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Write mem[2] -> 2222 Completed!
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(18) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Read mem[2] value is 2222
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(16) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Write mem[3] -> 3333 Completed!
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(18) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Read mem[3] value is 3333
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(16) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Write mem[4] -> 4444 Completed!
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(18) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Read mem[4] value is 4444
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(16) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Write mem[5] -> 5555 Completed!
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(18) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Read mem[5] value is 5555
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(16) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Write mem[6] -> 6666 Completed!
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(18) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Read mem[6] value is 6666
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(16) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Write mem[7] -> 7777 Completed!
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(18) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Read mem[7] value is 7777
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(16) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Write mem[8] -> 8888 Completed!
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(18) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Read mem[8] value is 8888
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(16) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Write mem[9] -> 9999 Completed!
+UVM_INFO testbench/tb_classes/sequence/bus_sequence.svh(18) @ 910: uvm_test_top.env_h.bus_agent_h.sequencer_h@@bus_seq [BUS SEQ] Read mem[9] value is 9999
+UVM_INFO /opt/Synopsys/uvm-1.2/src/base/uvm_report_server.svh(847) @ 910: reporter [UVM/REPORT/SERVER] 
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :   52
+UVM_WARNING :    0
+UVM_ERROR :    9
+UVM_FATAL :    0
+** Report counts by id
+[BUS SEQ]    20
+[COMMAND MONITOR]     9
+[RESET SEQ]     1
+[RNTST]     1
+[SCOREBOARD]    10
+[SELF CHECKER]     9
+[UVM/RELNOTES]     1
+[UVMTOP]     1
+[scoreboard_h]     9
+
+$finish called from file "/opt/Synopsys/uvm-1.2/src/base/uvm_root.svh", line 517.
+$finish at simulation time                  910
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 910 ns
+CPU Time:      1.260 seconds;       Data structure size:   0.3Mb
+Fri Aug 25 08:54:37 2023
