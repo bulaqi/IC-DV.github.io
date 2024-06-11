@@ -41,9 +41,9 @@ uvm_printer_knobs为特定的printer提供了相应的knobs变量.里面部分�
    ~~~
    rm_file_name = $sformatf("./log/ref/tx_ref_%x",cid);
    u_tx_data_printer = new(rm_file_name);
-   tx_trans.sprint(u_tx_data_printer);
-   $fflush(u_tx_data_printer,knobs.mcb);
-   $fclose(u_tx_data_printer,knobs.mcb);
+   tx_trans.sprint(u_tx_data_printer);//打印，采用自定义printer
+   $fflush(u_tx_data_printer,knobs.mcb);// 及时刷新文件
+   $fclose(u_tx_data_printer,knobs.mcb);// 及时刷新文件
    ~~~
 ### 3. 传送门
 1. [uvm_printer及使用](https://www.cnblogs.com/csjt/p/16206598.html)
