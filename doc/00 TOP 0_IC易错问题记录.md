@@ -925,3 +925,9 @@ else
   2. 经验
   3. 传送门
      1. [在Verdi中找出Glitch](https://blog.csdn.net/gsjthxy/article/details/115)
+### 89. 变量的随机和约束块的随机
+  1. rand_mode:使能和关闭变量随机
+  2. constraint_mode:控制constraints
+  3. randomize变量随机控制
+  4. 传送门
+	1.[systemverilog随机化控制方法](https://blog.csdn.net/muyiwushui/article/details/127248626#%E5%88%A9%E7%94%A8rand_mode()%E4%BD%BF%E8%83%BD%E5%92%8C%E5%85%B3%E9%97%AD%E5%8F%98%E9%87%8F%E9%9A%8F%E6%9C%BA)
