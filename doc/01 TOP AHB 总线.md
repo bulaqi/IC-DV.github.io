@@ -1,4 +1,9 @@
 ### 1. 基础知识
+#### 0. 控制信号,只维持1拍有效
+    - HTRANS[1:0]: IDLE BUSY NONSEQ SEQ
+    - HBURST[2:0]: SINGLE INCR WRAP4 INC4 WRAP8
+    - HWRITE
+    - HSIZE[2:0]: 
 #### 1. 信号列表
 1. 2个hready: 分别是 input和output
    - hready_o: slave 未准备好，反压master
@@ -17,11 +22,7 @@
 
 #### 4. 多种传送--pipeline
   1. 一次完整的传输会有多个传送周期，下一步地址与上一笔数据同时在总线上
-  2. 控制信号
-    - HTRANS[1:0]: IDLE BUSY NONSEQ SEQ
-    - HBURST[2:0]: SINGLE INCR WRAP4 INC4 WRAP8
-    - HWRITE
-    - HSIZE[2:0]: 
+
 
 #### 2. 注意事项
    1. 每笔包括地址传输周期和数据传输周期
