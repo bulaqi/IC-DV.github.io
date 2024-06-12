@@ -930,4 +930,4 @@ else
   2. constraint_mode:控制constraints
   3. randomize变量随机控制
   4. 传送门
-	1.[systemverilog随机化控制方法](https://blog.csdn.net/muyiwushui/article/details/127248626#%E5%88%A9%E7%94%A8rand_mode()%E4%BD%BF%E8%83%BD%E5%92%8C%E5%85%B3%E9%97%AD%E5%8F%98%E9%87%8F%E9%9A%8F%E6%9C%BA)
+	1.[systemverilog随机化控制方法]([https://blog.csdn.net/muyiwushui/article/details/127248626#%E5%88%A9%E7%94%A8rand_mode()%E4%BD%BF%E8%83%BD%E5%92%8C%E5%85%B3%E9%97%AD%E5%8F%98%E9%87%8F%E9%9A%8F%E6%9C%BA](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/02%20SV%20rand%20%E5%92%8C%E9%9A%8F%E6%9C%BA%E6%8E%A7%E5%88%B6.md))
