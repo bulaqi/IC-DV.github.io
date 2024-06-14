@@ -130,7 +130,86 @@ endfunction
     ~~~
 
 
-##### 3. 控制执行次数
+##### 3. 控制执行次数（受libaray内部变量的控制）
+1. 执行次数，是sqe_library 内部的min_random_count、max_random_count控制
+   ~~~
+   int unsigned min_random_count=10;
+   int unsigned max_random_count=10;
+   ~~~
+2. sequence library会在min_random_count和max_random_count之间随意选择一个数来作为执行次数。
+3. selection_mode为UVM_SEQ_LIB_ITEM时， 将会产生10个item； 
+4. 为其他模式时， 将会顺序启动10个sequence。 可以设置这两个值为其他值来改变迭代次数
+5. eg
+   ~~~
+    function void my_case0::build_phase(uvm_phase phase);
+
+        uvm_config_db#(uvm_object_wrapper)::set(this,
+                                                "env.i_agt.sqr.main_phase",
+                                                "default_sequence",
+                                                simple_seq_library::type_id::get());
+        uvm_config_db#(uvm_sequence_lib_mode)::set(this,
+                                                "env.i_agt.sqr.main_phase",
+                                                "default_sequence.selection_mode",
+                                                UVM_SEQ_LIB_ITEM);
+        //设置max 和mix 参数
+        uvm_config_db#(int unsigned)::set(this,
+                                                "env.i_agt.sqr.main_phase",
+                                                "default_sequence.min_random_count",
+                                                5);
+        uvm_config_db#(int unsigned)::set(this,
+                                                "env.i_agt.sqr.main_phase",
+                                                "default_sequence.max_random_count",
+                                                20);
+    endfunction
+    ~~~
+
+##### 3. sqe_library_cfg
+1. 背景： 如上述。用3个config_db设置迭代次数和选择算法稍显麻烦。 UVM提供了一个类uvm_sequence_library_cfg来对sequence library进行配置。 它一共有三个成员变量
+    ~~~
+    class uvm_sequence_library_cfg extends uvm_object;
+        `uvm_object_utils(uvm_sequence_library_cfg)
+
+        uvm_sequence_lib_mode selection_mode;
+        int unsigned min_random_count;
+        int unsigned max_random_count;
+        …
+    endclass  
+    ~~~
+2. 通过配置如上三个成员变量， 并将其传递给sequence library就可对sequence library进行配置：
+    ~~~
+    function void my_case0::build_phase(uvm_phase phase);
+    uvm_sequence_library_cfg cfg;
+    super.build_phase(phase);
+
+    cfg = new("cfg", UVM_SEQ_LIB_RANDC, 5, 20);
+    
+    uvm_config_db#(uvm_object_wrapper)::set(this, 
+                                            "env.i_agt.sqr.main_phase", 
+                                            "default_sequence", 
+                                            simple_seq_library::type_id::get());
+    uvm_config_db#(uvm_sequence_library_cfg)::set(this, 
+                                            "env.i_agt.sqr.main_phase", 
+                                            "default_sequence.config", 
+                                            cfg);
+    endfunction
+    ~~~
+3. 最简单的方法,对sequence library进行实例化后， 对其中的变量进行赋值  (**推荐**）
+    ~~~
+    function void my_case0::build_phase(uvm_phase phase);
+    simple_seq_library seq_lib;
+    super.build_phase(phase);
+
+    seq_lib = new("seq_lib");
+    seq_lib.selection_mode = UVM_SEQ_LIB_RANDC;
+    seq_lib.min_random_count = 10;
+    seq_lib.max_random_count = 15; 
+    uvm_config_db#(uvm_sequence_base)::set(this, 
+                                            "env.i_agt.sqr.main_phase", 
+                                            "default_sequence", 
+                                            seq_lib);
+    endfunction
+    ~~~
+   
 
 ### 2. 经验总结
 
