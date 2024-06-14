@@ -941,3 +941,4 @@ else
      - 仿真中，用例随机控制seq的变量，修改seq body内的处理逻辑（ps:静态控制可以通过start_seq前，修改seq的变量）
   2. 传送门:
      1.[sequence的config_db使用]（https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/03%20UVM%20%20sequence%E7%9A%84config_db%E4%BD%BF%E7%94%A8.md）
+### 92. 带随机属性的seq，如果没有randmozie()随机化，new后直接使用，其实constrain 约束块是没有起作用的，需要特别注意
