@@ -931,3 +931,7 @@ else
   3. randomize变量随机控制
   4. 传送门
 	1.[systemverilog随机化控制方法](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/02%20SV%20rand%20%E5%92%8C%E9%9A%8F%E6%9C%BA%E6%8E%A7%E5%88%B6.md)
+### 90. 利用sequence library ,实现对并发seq 的随机启动
+   传送门
+  1. [seq libray 实现seq随机触发](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/03%20UVM%20%20seq%20%20libray.md)
+  2. [UVM——Sequence Libirary的运用（sequence的添加、控制执行](https://blog.csdn.net/weixin_46022434/article/details/119604136)
