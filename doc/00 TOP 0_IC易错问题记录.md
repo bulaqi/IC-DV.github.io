@@ -935,3 +935,9 @@ else
    传送门
   1. [seq libray 实现seq随机触发](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/03%20UVM%20%20seq%20%20libray.md)
   2. [UVM——Sequence Libirary的运用（sequence的添加、控制执行](https://blog.csdn.net/weixin_46022434/article/details/119604136)
+### 91. seq 和环境通过config_db 传递参数，
+  1. 应用：
+     - 通过seq控制scb.cmp_en 开关
+     - 仿真中，用例随机控制seq的变量，修改seq body内的处理逻辑（ps:静态控制可以通过start_seq前，修改seq的变量）
+  2. 传送门:
+     1.[sequence的config_db使用]（https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/03%20UVM%20%20sequence%E7%9A%84config_db%E4%BD%BF%E7%94%A8.md）
