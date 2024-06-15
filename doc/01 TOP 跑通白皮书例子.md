@@ -1,11 +1,19 @@
 ### 1. 基础知识
+   1. 注意gVim需要能够获取 shell的环境变量
+   2. 先确定UVM_HONME 和 WORK_HOME 环境变量(用例filelist 需要使用的 )
+   3. 其实可以先看该书籍源码的readme,step by step
+   4. 代码根目录下,source setup.vcs
+   5. 用例的run_tc 脚本的vcs仿真部分，需要添加bsub 和-full64 选项
+   6. 运行时候，./simv +UVM_TESENAME=my_case0, 注意不加.sv 后缀
 ### 2. 经验
-1. 注意gVim需要能够获取 shell的环境变量
-2. 先确定UVM_HONME 和 WORK_HOME 环境变量(用例filelist 需要使用的 )
-3. 其实可以先看该书籍源码的readme,step by step
-4. 用例的run_tc 脚本的vcs仿真部分，需要添加bsub 和-full64 选项
-5. 运行时候，./simv +UVM_TESENAME=my_case0, 注意不加.sv 后缀
-   
+1. 环境 setup.vcs
+   ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/9f724dfb-7dda-4087-8966-7cf447492382)
+
+3. run_tc 命令
+   ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/a262dc2e-66ba-4271-860b-e34f7a103899)
+4. 运行
+   ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/6e9e6b79-4e9a-43e9-8c40-04ffc3d29f61)
+
 ### 3. 传送门:
 1. [如何使用VCS和verdi跑通《UVM实战》上的例子](https://blog.csdn.net/sinat_41774721/article/details/123903999)
 2. [uvm包的环境搭建以及跑通uvm实战中的示例代码
