@@ -6,12 +6,13 @@
    5. 用例的run_tc 脚本的vcs仿真部分，需要添加bsub 和-full64 选项
    6. 运行时候，./simv +UVM_TESENAME=my_case0, 注意不加.sv 后缀
 ### 2. 经验
-1. 环境 setup.vcs
+1. 环境 setup.vcs <br>
    ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/9f724dfb-7dda-4087-8966-7cf447492382)
 
-3. run_tc 命令
-   ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/a262dc2e-66ba-4271-860b-e34f7a103899)
-4. 运行
+3. run_tc 命令   
+   ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/f7e4a2c0-726d-4d14-978e-a3d9bf910efc)
+
+5. 运行<br>
    ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/6e9e6b79-4e9a-43e9-8c40-04ffc3d29f61)
 
 ### 3. 传送门:
