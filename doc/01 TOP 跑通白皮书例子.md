@@ -5,3 +5,4 @@
 3. 其实可以先看该书籍源码的readme,step by step
 ### 传送门:
 1. [如何使用VCS和verdi跑通《UVM实战》上的例子](https://blog.csdn.net/sinat_41774721/article/details/123903999)
+2. [【手把手带你学UVM】~ 记录遇到的一切错误](https://blog.csdn.net/qq_40549426/article/details/125815312)
