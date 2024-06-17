@@ -215,5 +215,6 @@ endfunction
 1.  min_random_count/max_random_count 只是的范围是指示seq_lib 总计可以启动seq的数量
 2.  当前的经验是，只能从build_phase 下通过config_db传递给default_seq才可以，在main_phase 运行，当前尝试seq_lib.start(xxx)无效，原因未知
 3.  注意：使用时，严格参考白皮书代码，只要例化sequence library，无需例化seq，用default_seq启动
+4.  注意一个lib下的seq是逐个调度的，在一个lib下同时只有1个seq有效，方便实现，超长包和超短包的混合调度，交替发送，不适合4个硬件通路同时发送激励，适合一个端口下error_trans,normal_trans,long_trans的发送
    
 ### 3. 传送门
