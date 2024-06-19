@@ -942,3 +942,7 @@ else
   2. 传送门:
      1.[sequence的config_db使用]（https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/03%20UVM%20%20sequence%E7%9A%84config_db%E4%BD%BF%E7%94%A8.md）
 ### 92. 带随机属性的seq，如果没有randmozie()随机化，new后直接使用，其实constrain 约束块是没有起作用的，需要特别注意
+### 93. UVM中seq的构造函数传参
+  1. 方法1：seq 类中注释掉uvm_object_utils行，其他正常，参考sv new构造函数传参
+     ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/392316be-3e57-44dc-87a2-cc579b5053f4)
+  2. 方法2：
