@@ -29,10 +29,11 @@
     endclass
 
     function integer toggle_rand( Packet p );
+        //p.constraint_mode(0)            //关闭 类 的随机
         if ( p.filter1.constraint_mode() )
-            p.filter1.constraint_mode(0);   //关闭filter1的约束，随机时不考虑该约束
+            p.filter1.constraint_mode(0);   //关闭 约束块  filter1的约束，随机时不考虑该约束
         else
-            p.filter1.constraint_mode(1);   //开启filter1的约束，随机时需要考虑该约束
+            p.filter1.constraint_mode(1);   //开启 约束块  filter1的约束，随机时需要考虑该约束
         toggle_rand = p.randomize();
     endfunction
     ~~~
