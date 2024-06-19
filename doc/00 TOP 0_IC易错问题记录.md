@@ -946,3 +946,4 @@ else
   1. 方法1：seq 类中注释掉uvm_object_utils行，其他正常，参考sv new构造函数传参
      ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/392316be-3e57-44dc-87a2-cc579b5053f4)
 
+### 94. UVM中seq的构造函数传参

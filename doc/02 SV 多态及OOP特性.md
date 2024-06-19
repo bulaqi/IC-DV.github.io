@@ -137,7 +137,7 @@ my_packet::b is 4
 
 向上类型转换是安全的，向下类型转换是不安全的，因为父类本来在内存里就划好了一小块地盘，但是因为子类含有比父类更丰富的属性，它很有可能会访问父类并不包含的资源，所以会造成内存溢出。
 
-- ###向上类型转换
+- 向上类型转换
 ~~~
 class father;
 	string m_name;
@@ -200,30 +200,31 @@ Hello child1
 class father;
 	string m_name;
 	
-function new (string name);
-	m_name = name;
-endfunction
-function void print ();
-	$display("Hello %s", m_name);
-endfunction
+	function new (string name);
+		m_name = name;
+	endfunction
+
+	function void print ();
+		$display("Hello %s", m_name);
+	endfunction
  
 endclass : father
  
 class child0 extends father;
 	string car = "car";
 	
-function new (string name);
-	super.new(name);
-endfunction
+	function new (string name);
+		super.new(name);
+	endfunction
  
 endclass : child0
  
 class child1 extends father;
 	string plane = "plane";
 	
-function new (string name);
-	super.new(name);
-endfunction
+	function new (string name);
+		super.new(name);
+	endfunction
  
 endclass : child1
  
@@ -232,24 +233,24 @@ module top;
 	child0 c0;
 	child1 c1;
 	child1 c2;
-initial begin
-	f = new("father");
-	f.print();
-	c0 = new("child0");
-	f = c0;
-	f.print();
-	c1 = new("child1");
-	f = c1;
-	f.print();
-	c1.plane="big_plane";
-	$cast(c2,f);//向下类型转换
-	f.print();
-	$write(", has %s",c2.plane);
-end
+
+	initial begin
+		f = new("father");
+		f.print();
+		c0 = new("child0");
+		f = c0;
+		f.print();
+		c1 = new("child1");
+		f = c1;
+		f.print();
+		c1.plane="big_plane";
+		$cast(c2,f);//向下类型转换
+		f.print();
+		$write(", has %s",c2.plane);
+	end
 endmodule : top
 ~~~
 说明：
-
 cast用于扩展内存空间，避免内存溢出，因为c2与c1类型相同，f指向了c1，所以最终c2是指向了c1，c2没有new过，所以在类型转换之前没有分配内存空间
 
 
