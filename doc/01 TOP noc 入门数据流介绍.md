@@ -96,7 +96,8 @@ FlexNoC简介
 ### 5. 数据流实例
 以1个一对一的简单NoC为例，从Initiator到Target的一笔request介绍数据流，response为相反操作，不再赘述。
 ~~~
-Initiator NIU protocol为AXI，addr width为64-bit，data width为256-bit。Target NIU protocol 为NSP，addr width为64-bit，data width为32-bit。Target的start address为3f70_0000，size为f_ffff。
+Initiator NIU protocol为AXI，addr width为64-bit，data width为256-bit。
+Target    NIU protocol 为NSP，addr width为64-bit，data width为32-bit。Target的start address为3f70_0000，size为f_ffff。
 ~~~
 #### 5.1 AXI to GenReq
 AXI IP发出一笔的burst，其中，
