@@ -1,8 +1,7 @@
 FlexNoC简介
 ### 1. FlexNoC hardware architecture concepts
-FlexNoC互连架构旨在用高度结构化的分层通信来取代传统的互连，例如总线(bus)或交叉开关(cross-bar)。
-
-FlexNoC方法借鉴了通用网络的一些概念，不仅具有更传统方法的引脚对引脚替换能力，而且还实现了高效、高度灵活和可扩展的解决方案，并由富有成效的设计流程支持。
+- FlexNoC互连架构旨在用高度结构化的分层通信来取代传统的互连，例如总线(bus)或交叉开关(cross-bar)。
+- FlexNoC方法借鉴了通用网络的一些概念，不仅具有更传统方法的引脚对引脚替换能力，而且还实现了高效、高度灵活和可扩展的解决方案，并由富有成效的设计流程支持。
 
 #### 1. Transaction-based
 为了取代传统总线、支持传统IP和通用SoC架构，FlexNoC互连架构利用了通常的基于事务的通信架构：
@@ -24,12 +23,7 @@ FlexNoC方法借鉴了通用网络的一些概念，不仅具有更传统方法�
 事务层关注互连外围，如FlexNoC网络接口单元 (NIU) 所示。这些单元负责互连sockets互操作性，以及将事务转换为数据包以供后续层处理。
 
 下图显示了FlexNoC环境是如何组成一个shell的：
-
-
-
-
-
-
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/0f828d2c-9738-4b66-a59e-7ae454217cc2)
 
 1. shell包含所有必要的转换硬件，特别是NIU specific-side，用于转换发送到 generic-side和从generic-side收到的transaction，以适应应用于外围的特定第三方sockets协议。
 2. NIU generic-side旨在实现最大面积效率，并为互连核心(core)提供统一的 transaction，这些transaction为系统级处理和分组化做好准备。
@@ -63,17 +57,10 @@ Arteris FlexNoC network interface unit (NIU) 是FlexNoC互连中transaction-leve
 NIU事务处理的一个典型示例发生在initiator sockets发出突发事务，而这些事务的目的地是不具备突发能力的端点时。在这种情况下，事务在传递到target socket之前在NoC内拆分。
 
 #### 4.1 Network Interface Unit Partition
-
-
-
-
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/89523398-6b19-4deb-99d0-b25dcaf8ccdf)
 
 #### 4.2 Specific To Generic
-
-
-
-
-
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/7bb83e98-5b61-49b0-8bd9-9894b1245160)
 
 Request semantics conversion包括：
 ~~~
@@ -90,11 +77,7 @@ Response semantics conversion包括：
 3. Semantics convert back to AXI protocol
 ~~~
 #### 4.3 Generic To Transport
-
-
-
-
-
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/2f18c99b-9d9b-4e31-af50-f7795e4f2aa0)
 
 Request Process包括：
 ~~~
@@ -123,13 +106,9 @@ Initiator NIU protocol为AXI，addr width为64-bit，data width为256-bit。Targ
 ~~~
 #### 5.1 AXI to GenReq
 AXI IP发出一笔的burst，其中，
-
 burst = INCR，
-
 awsize = 5，
-
 awlen = 0，
-
 awaddr = 64’h3f70_0020，
 ~~~
 wdata=256’hffff_eeee_dddd_cccc_bbbb_aaaa_9999_8888_7777_6666_5555_4444_3333_2222_1111_0000，
@@ -137,12 +116,7 @@ wdata=256’hffff_eeee_dddd_cccc_bbbb_aaaa_9999_8888_7777_6666_5555_4444_3333_22
 wstrb = 32’ha77a_2c12。
 
 仿真波形如下，
-
-
-
-
-
-
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/6d8974ce-704a-4ca8-9685-f63479752732)
 
 由上图可知，
 1. AXI的AW/AR、W/R、B通道共同使用GenReq
@@ -160,12 +134,7 @@ req_be[31:0] = 32'h4834_5ee5。
 ~~~
 #### 5.2 GenReq to Transport
 仿真波形如下，
-
-
-
-
-
-
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/4e393156-ce48-45c6-a007-64e567e8b8dd)
 
 由上图可知，GenReq数据位宽为256bit，Transport数据位宽为334bit，其中，
 ~~~
@@ -187,9 +156,7 @@ TxData = {1bit的worderr，32{1bit be + 8bit data} }
 ~~~
 #### 5.3 串行化处理
 仿真波形如下，
-
-
-
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/bc8ccc6a-a196-4467-bde6-a61d2ac92596)
 
 
 
@@ -205,11 +172,7 @@ Tx_Data[81:0] = {45bit header，1bit worderr，4{1bit be+8bit data}}
 ~~~
 #### 5.4 Transport（串行化处理后）to GenReq
 仿真波形如下，
-
-
-
-
-
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/9398bb7c-d6b7-43a8-8b68-9ee9b03b8168)
 
 由上图可知，转换从每1个clk周期传输的Data中的
 1. Header中恢复CMD信息
@@ -218,11 +181,7 @@ Tx_Data[81:0] = {45bit header，1bit worderr，4{1bit be+8bit data}}
 
 5.5 GenReq To NSP
 仿真波形如下，
-
-
-
-
-
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/6816ff59-c16c-4860-abc5-945c0e6eca6d)
 
 由上图可知，GenReq的 addr、data等信息位宽均与NSP一致。
 
@@ -255,11 +214,5 @@ Tx_Data[81:0] = {45bit header，1bit worderr，4{1bit be+8bit data}}
 
 6.4.2 Address interleaving
 这种情况大多发生于Target为DDR时。
-
-
-
-
-
-
-
 一笔 burst 的地址分布在2个Target中，即address1发往Target1，address2发往Target2，则NoC无法保证2个Target返回数据的时间。Reorder buffer可以先缓存address2返回的数据data2，等address1的数据data1返回后，先将data1返回给Master，再将data2返回给Master。
+![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/c8da0f93-1586-4b72-9753-b8b64c22df50)
