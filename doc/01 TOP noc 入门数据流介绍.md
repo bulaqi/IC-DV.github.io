@@ -196,9 +196,9 @@ Tx_Data[81:0] = {45bit header，1bit worderr，4{1bit be+8bit data}}
 2. 另一方面，在实际场景中，大部分IP不会发narrow burst。因此，NoC默认不支持narrow burst。需要支持时，可以进行配置，同时要配置所支持的最小narrow burst size。
 3. Narrow burst只针对于Initiator NIU，即Target NIU不会发narrow burst，有可能会发narrow的single操作。
 
-6.2 NIU默认不支持AXI WRAP
-6.3 NIU默认不支持AXI FIXED
-6.4若需要支持Interleaving，需要配置reorder buffer
+#### 6.2 NIU默认不支持AXI WRAP
+#### 6.3 NIU默认不支持AXI FIXED
+#### 6.4若需要支持Interleaving，需要配置reorder buffer
 这里有2种 interleaving：
 1. AXI read interleaving
 2. Address interleaving
