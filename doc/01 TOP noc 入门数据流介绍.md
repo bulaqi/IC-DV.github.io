@@ -1,7 +1,7 @@
 FlexNoC简介
-### 1. FlexNoC hardware architecture concepts
-- FlexNoC互连架构旨在用高度结构化的分层通信来取代传统的互连，例如总线(bus)或交叉开关(cross-bar)。
-- FlexNoC方法借鉴了通用网络的一些概念，不仅具有更传统方法的引脚对引脚替换能力，而且还实现了高效、高度灵活和可扩展的解决方案，并由富有成效的设计流程支持。
+### 0. FlexNoC hardware architecture concepts
+ 1. FlexNoC互连架构旨在用高度结构化的分层通信来取代传统的互连，例如总线(bus)或交叉开关(cross-bar)。
+ 2. FlexNoC方法借鉴了通用网络的一些概念，不仅具有更传统方法的引脚对引脚替换能力，而且还实现了高效、高度灵活和可扩展的解决方案，并由富有成效的设计流程支持。
 
 #### 1. Transaction-based
 为了取代传统总线、支持传统IP和通用SoC架构，FlexNoC互连架构利用了通常的基于事务的通信架构：
@@ -12,11 +12,11 @@ FlexNoC简介
 
 #### 2. System-level tasks
 除了事务转换，FlexNoC互连同时执行各种系统级任务，例如：
-1. 将事务请求路由到正确的Target。
-2. 将Target的响应返回给事务的Initiator。
-3. transaction之间的仲裁。
-4. 实施QoS策略。
-5. 记录错误。
+  1. 将事务请求路由到正确的Target。
+  2. 将Target的响应返回给事务的Initiator。
+  3. transaction之间的仲裁。
+  4. 实施QoS策略。
+  5. 记录错误。
 这些任务由不同的 FlexNoC 硬件 IP 单元处理，并按层组织。
 
 #### 3.Transaction layer
@@ -29,75 +29,69 @@ FlexNoC简介
 2. NIU generic-side旨在实现最大面积效率，并为互连核心(core)提供统一的 transaction，这些transaction为系统级处理和分组化做好准备。
 
 #### 4.Packet serialization
-1. 尽管数据包内容本身在互连传输过程中不会改变，但它的序列化(serialization)可以，也就是说，一个给定的数据包可以通过宽链路或窄链路传输，这取决于带宽、延迟、线数(wire count)和时钟速率之间的权衡 .
-
-2. 因此，数据包在到达目的地之前可以通过多个具有不同序列化(serialization)的传输级(transport-level)接口。
+  1. 尽管数据包内容本身在互连传输过程中不会改变，但它的序列化(serialization)可以，也就是说，一个给定的数据包可以通过宽链路或窄链路传输，这取决于带宽、延迟、线数(wire count)和时钟速率之间的权衡 .
+  2. 因此，数据包在到达目的地之前可以通过多个具有不同序列化(serialization)的传输级(transport-level)接口。
 
 ### 2. Network interface and packet transport
-1. 互连是来自FlexNoC硬件IP库的单元的组合。例如，该库包括专用于数据路径定义、观察和寄存器访问的各类单元。
-
-2. 数据路径类别包括两个值得仔细研究的关键子类别：
-     - 网络接口单元 (NIU)
-     - 数据包传输单元 (PTU)
-3. 网络接口单元在互连的外围运行，处于事务级别。通常，它们处理传入和传出的读或写请求和响应事务。
-4. FlexNoC NIU将传入的事务信息转换为特殊的“通用”数据包，以优化互连内的传输。然后使用PTU来处理该信息，通常是请求或响应数据包，作为在互连内流动的通用信息。当事务到达互连中可以交付给端点的位置时，NIU再次转换通用事务信息以满足端点需求。
+  1. 互连是来自FlexNoC硬件IP库的单元的组合。例如，该库包括专用于数据路径定义、观察和寄存器访问的各类单元。
+  2. 数据路径类别包括两个值得仔细研究的关键子类别：
+       - 网络接口单元 (NIU)
+       - 数据包传输单元 (PTU)
+  3. 网络接口单元在互连的外围运行，处于事务级别。通常，它们处理传入和传出的读或写请求和响应事务。
+  4. FlexNoC NIU将传入的事务信息转换为特殊的“通用”数据包，以优化互连内的传输。然后使用PTU来处理该信息，通常是请求或响应数据包，作为在互连内流动的通用信息。当事务到达互连中可以交付给端点的位置时，NIU再次转换通用事务信息以满足端点需求。
 
 ### 3. Advantages of the packet-based approach
-1. 基于数据包的传输架构本质上是可扩展的，因为它不需要在互连中存储有关特定事务状态的信息。
-
-2. 因此，基于数据包的互连架构中未决事务(pending transactions)的潜在数量永远不受数据包传输本身的限制，而是受端点(end-points)（即initial和target sockets）的处理能力的限制。
-
-3. 这对NoC硬件架构设计具有重要意义：
-
-4. 只要NIU配置为处理任何给定第三方 IP 单元能够同时处理的最大事务数量，Arteris NoC从不限制待处理事务的数量。
+  1. 基于数据包的传输架构本质上是可扩展的，因为它不需要在互连中存储有关特定事务状态的信息。  
+  2. 因此，基于数据包的互连架构中未决事务(pending transactions)的潜在数量永远不受数据包传输本身的限制，而是受端点(end-points)（即initial和target sockets）的处理能力的限制。  
+  3. 这对NoC硬件架构设计具有重要意义：  
+  4. 只要NIU配置为处理任何给定第三方 IP 单元能够同时处理的最大事务数量，Arteris NoC从不限制待处理事务的数量。
 
 ### 4. NIU Transaction Handling
-Arteris FlexNoC network interface unit (NIU) 是FlexNoC互连中transaction-level 的基础。
-
-NIU事务处理的一个典型示例发生在initiator sockets发出突发事务，而这些事务的目的地是不具备突发能力的端点时。在这种情况下，事务在传递到target socket之前在NoC内拆分。
+  1. Arteris FlexNoC network interface unit (NIU) 是FlexNoC互连中transaction-level 的基础。  
+  2. NIU事务处理的一个典型示例发生在initiator sockets发出突发事务，而这些事务的目的地是不具备突发能力的端点时。在这种情况下，事务在传递到target socket之前在NoC内拆分。
 
 #### 4.1 Network Interface Unit Partition
-![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/89523398-6b19-4deb-99d0-b25dcaf8ccdf)
+  ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/89523398-6b19-4deb-99d0-b25dcaf8ccdf)
 
 #### 4.2 Specific To Generic
-![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/7bb83e98-5b61-49b0-8bd9-9894b1245160)
-
-Request semantics conversion包括：
-~~~
-1. AW-W and AR channel merge together
-2. ID compression
-3. Burst type conversion
-4. ……
-~~~
-
-Response semantics conversion包括：
-~~~
-1. Generic response split to R-channel and B-channel
-2. ID extending
-3. Semantics convert back to AXI protocol
-~~~
+  ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/7bb83e98-5b61-49b0-8bd9-9894b1245160)
+  
+  Request semantics conversion包括：
+  ~~~
+  1. AW-W and AR channel merge together
+  2. ID compression
+  3. Burst type conversion
+  4. ……
+  ~~~
+  
+  Response semantics conversion包括：
+  ~~~
+  1. Generic response split to R-channel and B-channel
+  2. ID extending
+  3. Semantics convert back to AXI protocol
+  ~~~
 #### 4.3 Generic To Transport
-![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/2f18c99b-9d9b-4e31-af50-f7795e4f2aa0)
-
-Request Process包括：
-~~~
-1. Address decoding
-2. ID allocation, routing
-3. Transaction splitting
-4. Context table filling
-    ……
-~~~
-Response Process包括：
-~~~
-1. Looking up context table
-2. ID de-allocation
-3. Response reassembly
-~~~
-Context table包括：
-~~~
-1. “Remember”a request waiting for a response
-2. Need as many entries as the lifetime of the transaction
-~~~
+  ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/2f18c99b-9d9b-4e31-af50-f7795e4f2aa0)
+  
+  Request Process包括：
+  ~~~
+  1. Address decoding
+  2. ID allocation, routing
+  3. Transaction splitting
+  4. Context table filling
+      ……
+  ~~~
+  Response Process包括：
+  ~~~
+  1. Looking up context table
+  2. ID de-allocation
+  3. Response reassembly
+  ~~~
+  Context table包括：
+  ~~~
+  1. “Remember”a request waiting for a response
+  2. Need as many entries as the lifetime of the transaction
+  ~~~
 
 ### 5. 数据流实例
 以1个一对一的简单NoC为例，从Initiator到Target的一笔request介绍数据流，response为相反操作，不再赘述。
