@@ -12,6 +12,7 @@
 5. git checkout aem // 切回原分支
 6. git reset --soft HEAD^  //回退已commit 但未push的
 7. git reset HEAD <fiel>   // 回退已经add,但是未commit的
+8. git fetch --tags  //只更新tags
 ~~~
 #### 1.2 stash 暂存
 ~~~
