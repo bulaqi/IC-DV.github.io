@@ -32,11 +32,13 @@
    - uvm_event可以通过get_num_waiters()来获取等待它的进程数目;
 
 #### 4.uvm_event相关function/task
-##### 4.1 uvm_event主要有三类function:
-   1. trigger函数： 如trigger(), get_trigger_data(), get_trigger_time()等,
-   2. 状态函数： is_on(),is_off(),reset(), get_num_waiters()等),
-   3. callback函数： add_callback(), delete_callback()等
-##### 4.2 常用函数列举
+1. uvm_event主要有三类function:
+~~~
+1. trigger函数： 如trigger(), get_trigger_data(), get_trigger_time()等,
+2. 状态函数： is_on(),is_off(),reset(), get_num_waiters()等),
+3. callback函数： add_callback(), delete_callback()等
+~~~
+2. 常用函数列举
 ~~~
 1. wait_on
  - 等待事件处于activated状态,如果事件已经被触发,这个task会立即返回;一旦事件被触发,它将一直保持"on"状态直到事件reset;
