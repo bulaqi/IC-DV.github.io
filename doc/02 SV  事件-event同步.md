@@ -1,18 +1,16 @@
-### 1.背景
-用例dut_cfg完成后，才运行rm 读取dut的配置组件
-
-### 2. sv与uvm中同步的方法 
+### 1.基础知识
+#### 1. sv与uvm中同步的方法 
 1. 在sv中,用于同步的方法有event, semaphore和mailbox;
 2. 在UVM中,用于同步的方法为uvm_event(uvm_event派生于uvm_object);
 3.  uvm_event不仅能实现不同组件进程间同步的功能,还能像TLM通信一样传递数据,并且作用范围更广(TLM通信只能局限于uvm_component之间,而uvm_event不限于此);
 
-### 3.什么情况下会使用uvm_event呢
+#### 2.什么情况下会使用uvm_event呢
 1. 组件之间的常规的数据流向是通过TLM通信方法实现的，比如sequencer与driver之间，或者monitor与scoreboard之间。
 2. 然而有些时候，数据的传输的偶然触发的，并且需要立即响应，这个时候uvm_event就是得力的助手了。
 3. uvm_event 解决 uvm_object和uvm_component对象之间如果要发生同步，TLM传输无法实现，因为TLM传输必须是在组件（component）和组件之间进行的。
 4. 如果在sequence与sequence之间要进行同步，或者sequence与driver之间要进行同步，都可以借助uvm_event来实现。
 
-### 4. sv与uvm event 比较
+#### 3. sv与uvm event 比较
 1. uvm_event的基础是event,只不过对event的触发与等待进行了扩展;
 2. 触发方式：
    - event被->触发后,会触发用@/wait(event.triggered())等待该事件的对象;
@@ -24,8 +22,7 @@
    - event无法携带更多的信息;
    - uvm_event可以通过trigger(uvm_event data=null)的可选参数,将要伴随触发的数据对象都写到该触发事件中,而等待该事件的对象可以通过方法wait_trigger_data(output uvm_object data)来获取事件触发时写入的数据对象;
    - 注1:如果uvm_event.trigger不传递参数,不传递额外的信息,则等待该事件的对象可以调用wait_trigger,而不是wait_trigger_data;
-   - 补充：![Uploading image.png…]()
-
+   - 补充：![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/a966d0b7-11f0-4531-aa63-abd9ee979a2d)
 
 5. 触发回调函数：
    - event触发时无法直接触发回调函数;
@@ -34,12 +31,12 @@
    - event无法直接获取等待它的进程数目
    - uvm_event可以通过get_num_waiters()来获取等待它的进程数目;
 
-### 5.uvm_event相关function/task
-#### 3.1 uvm_event主要有三类function:
+#### 5.uvm_event相关function/task
+##### 3.1 uvm_event主要有三类function:
    1. trigger函数： 如trigger(), get_trigger_data(), get_trigger_time()等,
    2. 状态函数： is_on(),is_off(),reset(), get_num_waiters()等),
    3. callback函数： add_callback(), delete_callback()等
-#### 3.2 常用函数
+##### 3.2 常用函数
 1. wait_on
  - 等待事件处于activated状态,如果事件已经被触发,这个task会立即返回;一旦事件被触发,它将一直保持"on"状态直到事件reset;
 2. wait_off
