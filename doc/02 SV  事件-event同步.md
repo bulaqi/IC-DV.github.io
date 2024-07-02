@@ -31,12 +31,13 @@
    - event无法直接获取等待它的进程数目
    - uvm_event可以通过get_num_waiters()来获取等待它的进程数目;
 
-#### 5.uvm_event相关function/task
-##### 3.1 uvm_event主要有三类function:
+#### 4.uvm_event相关function/task
+##### 4.1 uvm_event主要有三类function:
    1. trigger函数： 如trigger(), get_trigger_data(), get_trigger_time()等,
    2. 状态函数： is_on(),is_off(),reset(), get_num_waiters()等),
    3. callback函数： add_callback(), delete_callback()等
-##### 3.2 常用函数
+##### 4.2 常用函数列举
+~~~
 1. wait_on
  - 等待事件处于activated状态,如果事件已经被触发,这个task会立即返回;一旦事件被触发,它将一直保持"on"状态直到事件reset;
 2. wait_off
@@ -52,9 +53,113 @@
 9. is_on
 10. is_off
 11. get_trigger_time
+~~~
 
+##### 5. uvm_event_pool
+1. 不同的组件可以共享同一个uvm_event，这不需要通过跨层次传递uvm_event对象句柄来实现共享的，因为这并不符合组件环境封闭的原则。这种共享同一个uvm_event对象是通过uvm_event_pool这一全局资源池来实现的。
 
-### 3. UVM_event扩展,示例说明
+2. uvm_event_pool这个资源池类是uvm_object_string_pool #(T)的子类，它可以生成和获取通过字符串来索引的uvm_event对象。通过全局资源池对象（唯一的），在环境中任何一个地方的组件都可以从资源池中获取共同的对象，这就避免了组件之间的互相依赖。
+
+##### 5. uvm_event_callback  
+1. 可以从uvm_event_callback进行类的派生,并实现pre_trigger与post_trigger函数,之后将该派生类通过add_callback函数添加到uvm_event中;
+
+2. pre_trigger()有返回值，如果返回值为1，则表示uvm_event不会被trigger，也不会再执行post_trigger()方法；如果返回值为0，则会继续trigger该事件对象。
+
+3. 对于uvm_event的callback而言,不用采用示例2中通用的callback机制方法,可以直接使用uvm_event已经实现好的函数(如add_callback等);
+4. eg1
+~~~
+//示例1
+class edata extends uvm_object;
+    `uvm_object_utils(edata)
+    int data;
+    ...
+endclass
+
+class ecb extends uvm_event_callback;
+    `uvm_object_utils(ecb)
+    ...
+    function bit pre_trigger(uvm_event e, uvm_object data=null);
+        `uvm_info("EPRETRIG",$sformatf("before trigger event %s", e.get_name()),UVM_NONE)
+        return 0;
+    endfunction
+
+    function void post_trigger();
+        `uvm_info("EPOSTTRIG",$sformatf("after trigger event %s", e.get_name()),UVM_NONE)
+    endfunction
+endclass
+
+class comp1 extends uvm_component;
+    `uvm_component_utils(comp1)
+    uvm_event e1;
+    ...
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        e1=uvm_event_pool::get_global("e1");
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        edata d=new();
+        ecb  cb=new();
+        d.data=100;
+        #10ns;
+        e1.add_callback(cb);
+        e1.trigger(d);
+    endtask
+endclass
+
+class comp2 extends uvm_component;
+    `uvm_component_utils(comp2)
+    uvm_event e1;
+    ...
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        e1=uvm_event_pool::get_global("e1");
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        uvm_object tmp;
+        edata d;
+        e1.wait_trigger_data(tmp);
+        void'($cast(d,tmp));
+    endtask
+endclass
+
+class env1 extends uvm_env;
+    comp1 c1;
+    comp2 c2;
+    ...
+endclass
+~~~
+
+4. eg2
+~~~
+//示例2
+//step1.create event callback class;
+class int_event_callbacks extends uvm_event_callback;
+    function new(string name="int_event_callbacks");
+        super.new(name);
+    endfunction
+
+    virtual function bit pre_trigger(uvm_event e, uvm_object data=null);
+        `uvm_info("UVM_EVENT_CALLBACK",$sformatf("UVM EVENT pre_trigger callback triggered"),UVM_LOW)
+    endfunction
+
+    virtual function void post_trigger(uvm_event e, uvm_object data=null);
+        `uvm_info("UVM_EVENT_CALLBACK",$sformatf("UVM EVENT post_trigger callback triggered"),UVM_LOW)
+    endfunction
+endclass
+
+//step2.instantiate callback class;
+typedef uvm_callbacks #(uvm_event, int_event_callbacks) cbs;
+int_event_callbacks interrupt_event_cbk=new("interrupt_event_cbk");
+
+//step3.register callback class;
+uvm_config_db#(uvm_event)::set(null,"","transmit_b",transmit_barrier_ev);
+cbs::add(transmit_barrier_ev, interrupt_event_cbk);
+~~~
+
+### 2. UVM_event扩展,示例说明
+#### 1. 基础uvm_event 举例
 1.组件A 定义事件，并触发：
 ~~~
 class my_component extends uvm_comopnent;
@@ -129,7 +234,8 @@ endclass
  通过 my_event = uvm_event_pool::get_global("my_event") 这种方法将my_event 注册到event_pool中；在set_component中将uvm_event放到event_pool中，并设置好触发条件，在get_component中，从uvm_event_pool中取出来，通过wait_trigger捕获这次事件。（这里用component只是作为例子使用，实际上在object中也可以这么做）。
 
 
-### - 参考
+
+### 3. 传送门
 1. [uvm通信-uvm_event & uvm_event_pool & uvm_event_callback](https://www.cnblogs.com/csjt/p/15561286.html)
 1. [uvm_event的使用总结](https://blog.csdn.net/zyj0oo0/article/details/120264318)
 2. [事件.pptx](https://github.com/bulaqi/IC-DV.github.io/files/12486444/default.pptx)
