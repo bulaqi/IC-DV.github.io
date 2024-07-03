@@ -39,4 +39,4 @@
 ### 2. 经验
 
 ### 3. 传送门
- 1. [X态及Xprop解决策略](https://blog.csdn.net/li_kin/article/details/135564661)
+ 1. [VCS +vcs+initreg使用经验汇总](https://blog.csdn.net/develop2006/article/details/124846874)
