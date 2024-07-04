@@ -87,6 +87,16 @@ typedef enum
     ~~~
     <sim command> +UVM_MAX_QUIT_COUNT=6,NO
     ~~~
+  4. eg:
+    ~~~
+    //src/ch3/section3.4/3.4.3/base_test.sv
+    function void base_test::build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        env = my_env::type_id::create("env", this);
+        set_report_max_quit_count(5);
+    endfunction
+    ~~~
+
 
 ### 2. 经验总结
 
