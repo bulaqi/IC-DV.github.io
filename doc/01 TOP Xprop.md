@@ -39,29 +39,42 @@
 1. Xprop策略–即仿真选项
    - xprop是为了扩散X态传播，把不传播不定态的情形，强制传播出去，从而尽早暴露Bug；
    - xprop检查有三种模式，按照从悲观到乐观的顺序：xmerge –>tmerge（常用）–>Vmerge(默认，无传播)；
-   - vmerge:遵守Verilog/VHDL对于X态处理行为；<**等同于不添加该选项>**
+   - xmerge: 
+        ~~~
+        1. 它假设任何输入信号中的X都会无条件地传播到输出,
+        2. 当控制信号未知时，输出信号的值将始终为X，无论其他信号的值如何
+        ~~~
    - tmerge: 接近实际硬件行为或门仿 <**最常用**>
+        ~~~
+        1. 它考虑到当控制信号未知时，输出信号的值将取决于其他已知信号的值以及输出信号当前的状态。
+        2. 如果控制信号为X，那么输出信号的值将依赖于输出信号当前的值和数据信号的值，可能会导致X的传播，也可能不会
+        ~~
+   - vmerge:遵守Verilog/VHDL对于X态处理行为；<**默认值，等同于不添加该选项>**
+        ~~~
+        1. 它假设如果输入信号中有X，但只要有一个确定的信号值，那么输出就有可能是确定的，不会无条件地传播X。
+        2. 当控制信号未知时（即为X），输出信号的值保持不变，即使其他输入信号已知。
+        ~~~
 xmerge：最悲观，一直传递下去；
    - vcs‑xprop[=tmerge|xmerge|xprop_config_file],xprop_config_file(这是一个带具体路径的文件) 用以针对特定 instance 进行特定模式的 xprop 监测或开关特定instance 的 xprop 检测，其示例用法如下：
-    ~~~
-    tree{top}
-    instance{top.A}{xpropOn};
-    instance{top.B}{xpropOff};
-    module{C}{xpropOff};
-    merge=tmerge;
-    ~~~
-2. 仿真的注意事项
+        ~~~
+        tree{top}
+        instance{top.A}{xpropOn};
+        instance{top.B}{xpropOff};
+        module{C}{xpropOff};
+        merge=tmerge;
+        ~~~
+1. 仿真的注意事项
    - **-xprop 一般不能跟 +vcs+initreg+0/1/random 同时使用**，因为 +vcs+initreg+0/1/random 会把 Verilog 的变量、寄存器及 Memory 初始值设置为 0 或 1 等非 X 状态，这样就测不到初始 X 态了。
    - 若未指定 -xprop，默认为 vmerge，即默认不存在 X 态传播问题，也不进行检查。
    - 若定义了 -xprop 但未指定具体模式，默认为 tmerge，即采用接近真实电路的 X 态传播模式并
    - Xprop查看
-    ~~~
-    1. 一方面最直观的就是在查看波形的时候顺带就check出来了。是最直接也是最经常使用的方法； 
-    2. 另外通过查看相关report来查看。
-    3. vcs 在编译、仿真两个阶段均提供了相关手段来检查相关 instance 的 xprop 开关情况：
-    4. 若在编译阶段使能了 xprop，编译完成之后会生成一个 xprop.log 来报告 if/case 状态、always 边沿触发等条件的 xprop 检查开关情况。
-    5. simv 仿真阶段添加仿真选项 -report=xprop[+exit] 能生成 xprop_config.report，便于在仿真后对 xprop 检查情况进行确认。若采用 -report=xprop+exit，在检测完 xprop 状态情况后后立即终止仿真。
-    ~~~
+        ~~~
+        1. 一方面最直观的就是在查看波形的时候顺带就check出来了。是最直接也是最经常使用的方法； 
+        2. 另外通过查看相关report来查看。
+        3. vcs 在编译、仿真两个阶段均提供了相关手段来检查相关 instance 的 xprop 开关情况：
+        4. 若在编译阶段使能了 xprop，编译完成之后会生成一个 xprop.log 来报告 if/case 状态、always 边沿触发等条件的 xprop 检查开关情况。
+        5. simv 仿真阶段添加仿真选项 -report=xprop[+exit] 能生成 xprop_config.report，便于在仿真后对 xprop 检查情况进行确认。若采用 -report=xprop+exit，在检测完 xprop 状态情况后后立即终止仿真。
+        ~~~
 
 2. 什么阶段使用X-prop
 - 什时候打开Xprop检测：smoke–功能VO阶段完成；较后期收集覆盖率打开Xprop选项；X态传播不能不做，但是也不宜早做；
@@ -71,7 +84,7 @@ xmerge：最悲观，一直传递下去；
   3. RTL 仿真前期不开启 xprop，以尽快调通 sanity/smoke case 及主要 datapath。
   4. RTL 仿真后期建议开启 xprop，提前排除部分 X 态。排除X态传播导致的芯片Bug，尤其是控制通路上的X态传播；
    
-3. Debug trace x
+1. Debug trace x
 - trace X是指追踪X态产生的源头。利用Verdi自动追踪组合逻辑，锁存器，触发器等的X态传播源头。
 - Verdi Trace X有两种途径：
   1. 一种是在Verdi GUI内Trace；
@@ -85,6 +98,7 @@ xmerge：最悲观，一直传递下去；
     检查 A 的 Driver (控制信号、触发条件、逻辑输入等) 是否存在 X 态
     重复以上步骤，直到找到 X 态产生的源头
     ~~~
+    
     2.自动Trace X
     ~~~
     把出现 X 态信号 A 拖到 nWave 窗口
@@ -105,10 +119,29 @@ xmerge：最悲观，一直传递下去；
     查看 trx_report.txt 查看 Trace 结果
     ~~~
 
-4. X 态怎么处理？
+1. X 态怎么处理？
     - 如果 X 态没有传播，无需处理。
     - 如果 X 态发生传播，但后续有 X 态保护电路，无需处理。
     - 如果 X 态发生传播，且后续没有 X 态保护电路，需要从根源上消除 X 态。
+
+### 3. 不同语法在xprop的实际分析
+#### 1. 概述
+
+#### 2. assgin
+1. assign是对xprop选项最不敏感的语法，
+2. 无论是在哪种xprop配置反应都是一样的
+3. 对于逻辑运算，assign遵循合理X态规则：如果能确定数值，则传播确定值，否则传播X态。4. 具体的规则如下：
+    ~~~
+    x & 1 = x
+    x | 1 = 1
+    x & 0 = 0
+    x | 0 = x
+    x ^ 0 = x
+    x ^ 1 = x
+    ~~~
+5. 
+#### 3. case
+#### 4. if_else
 
 ### 2. 经验
 xprop是VCS中的编译参数，在项目中用法
