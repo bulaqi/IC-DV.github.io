@@ -40,29 +40,28 @@ typedef enum
     ~~~
 3. 递归的设置函数set_report_verbosity_level_hier， 
    - 注意事项：
-     1.set_report_verbosity_level会对某个component内**所有**的uvm_info宏显示的信息产生影响
-   - eg.全部组件
-    ~~~
-    // 如把env.i_agt及其下所有的component的冗余度阈值设置为UVM_HIGH的代码为：
-    env.i_agt.set_report_verbosity_level_hier(UVM_HIGH);
-    ~~~
-  - eg,by_id
-    ~~~
-    env.i_agt.set_report_id_verbosity_hier("ID1", UVM_HIGH);
-    ~~~
-4. set_report_id_verbosity函数来区分不同的ID的冗余度阈值
+     set_report_verbosity_level会对某个component内**所有**的uvm_info宏显示的信息产生影响
+   - 全部组件，eg：
+        ~~~
+        // 如把env.i_agt及其下所有的component的冗余度阈值设置为UVM_HIGH的代码为：
+        env.i_agt.set_report_verbosity_level_hier(UVM_HIGH);
+        ~~~
+   - by_id，eg：
+        ~~~
+        env.i_agt.set_report_id_verbosity_hier("ID1", UVM_HIGH);
+        ~~~
 
 
 #### 4. set_report_severity_override/set_report_severity_id_override，重载打印信息的严重性
-    1.  背景：UVM默认有四种信息严重性： UVM_INFO、 UVM_WARNING、 UVM_ERROR、UVM_FATAL。 这四种严重性可以互相重载。
-    2.  如果要把driver中所有的UVM_WARNING显示为UVM_ERROR， 可以使用如下的函数：
-    3. 重载函数，eg:    
-  ~~~
-  virtual function void connect_phase(uvm_phase phase);
+1. 背景：UVM默认有四种信息严重性： UVM_INFO、 UVM_WARNING、 UVM_ERROR、UVM_FATAL。 这四种严重性可以互相重载。
+2. 如果要把driver中所有的UVM_WARNING显示为UVM_ERROR， 可以使用如下的函数：
+3. 重载函数，eg:    
+    ~~~
+    virtual function void connect_phase(uvm_phase phase);
      env.i_agt.drv.set_report_severity_override(UVM_WARNING, UVM_ERROR);
      //env.i_agt.drv.set_report_severity_id_override(UVM_WARNING, "my_driver", UVM_ERROR);
-  endfunction
-  ~~~
+    endfunction
+    ~~~
     
 3. eg，不加上述的设置
     - 范例代码
