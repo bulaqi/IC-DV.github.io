@@ -1,24 +1,28 @@
 ### 1. 基础知识
 #### 1. 日志等级概念
-~~~
-typedef enum
-{
-    UVM_NONE = 0,
-    UVM_LOW = 100,
-    UVM_MEDIUM = 200,
-    UVM_HIGH = 300,
-    UVM_FULL = 400,
-    UVM_DEBUG = 500
-} uvm_verbosity;
-~~~
+	~~~
+	typedef enum
+	{
+		UVM_NONE = 0,
+		UVM_LOW = 100,
+		UVM_MEDIUM = 200,
+		UVM_HIGH = 300,
+		UVM_FULL = 400,
+		UVM_DEBUG = 500
+	} uvm_verbosity;
+	~~~
+	
 #### 2. 设置日志等级方法
-1.  仿真参数设置
+仿真参数设置
 ~~~
 <sim command> +UVM_VERBOSITY=UVM_HIGH
 ~~~
+
+
 #### 3. 常用方法
 1. get_report_verbosity_level
    得到某个component的冗余度阈值：
+   
 2. set_report_verbosity_level/set_report_id_verbosity(区分不同的ID的冗余度阈值)
    - 功能：来设置某个特定component的默认冗余度阈值
    - 注意事项：
@@ -38,6 +42,7 @@ typedef enum
     ~~~
     env.i_agt.drv.set_report_id_verbosity("ID1", UVM_HIGH)
     ~~~
+	
 3. 递归的设置函数set_report_verbosity_level_hier， 
    - 注意事项：
      set_report_verbosity_level会对某个component内**所有**的uvm_info宏显示的信息产生影响
@@ -51,8 +56,8 @@ typedef enum
         env.i_agt.set_report_id_verbosity_hier("ID1", UVM_HIGH);
         ~~~
 
-
 #### 4. set_report_severity_override/set_report_severity_id_override，重载打印信息的严重性
+
 1. 背景：UVM默认有四种信息严重性： UVM_INFO、 UVM_WARNING、 UVM_ERROR、UVM_FATAL。 这四种严重性可以互相重载。
 2. 如果要把driver中所有的UVM_WARNING显示为UVM_ERROR， 可以使用如下的函数：
 3. 重载函数，eg:    
@@ -82,19 +87,19 @@ typedef enum
   1. set_report_max_quit_count,UVM_ERROR达到一定数量时结束仿真
   2. get_max_quit_count,用于查询当前的退出阈值,如果返回值为0则表示无论出现多少个,UVM_ERROR都不会退出仿真
   3. 命令行设置，可以在命令行中设置退出阈值
-     其中第一个参数6表示退出阈值， 而第二个参数NO表示此值是不可以被后面的设置语句重载， 其值还可以是YES。
-~~~
-<sim command> +UVM_MAX_QUIT_COUNT=6,NO
-~~~
-  4. eg:
-~~~
-//src/ch3/section3.4/3.4.3/base_test.sv
-function void base_test::build_phase(uvm_phase phase);
-    super.build_phase(phase);
-    env = my_env::type_id::create("env", this);
-    set_report_max_quit_count(5);
-endfunction
-~~~
+    - 其中第一个参数6表示退出阈值， 而第二个参数NO表示此值是不可以被后面的设置语句重载， 其值还可以是YES。
+        ~~~
+        <sim command> +UVM_MAX_QUIT_COUNT=6,NO
+        ~~~
+  5. eg:
+        ~~~
+        //src/ch3/section3.4/3.4.3/base_test.sv
+        function void base_test::build_phase(uvm_phase phase);
+            super.build_phase(phase);
+            env = my_env::type_id::create("env", this);
+            set_report_max_quit_count(5);
+        endfunction
+        ~~~
 
 
 ### 2. 经验总结
