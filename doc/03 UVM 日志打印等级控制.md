@@ -57,12 +57,12 @@ typedef enum
     1.  背景：UVM默认有四种信息严重性： UVM_INFO、 UVM_WARNING、 UVM_ERROR、UVM_FATAL。 这四种严重性可以互相重载。
     2.  如果要把driver中所有的UVM_WARNING显示为UVM_ERROR， 可以使用如下的函数：
     3. 重载函数，eg:    
-      ~~~
-      virtual function void connect_phase(uvm_phase phase);
-         env.i_agt.drv.set_report_severity_override(UVM_WARNING, UVM_ERROR);
-         //env.i_agt.drv.set_report_severity_id_override(UVM_WARNING, "my_driver", UVM_ERROR);
-      endfunction
-      ~~~
+  ~~~
+  virtual function void connect_phase(uvm_phase phase);
+     env.i_agt.drv.set_report_severity_override(UVM_WARNING, UVM_ERROR);
+     //env.i_agt.drv.set_report_severity_id_override(UVM_WARNING, "my_driver", UVM_ERROR);
+  endfunction
+  ~~~
     
 3. eg，不加上述的设置
     - 范例代码
@@ -84,18 +84,18 @@ typedef enum
   2. get_max_quit_count,用于查询当前的退出阈值,如果返回值为0则表示无论出现多少个,UVM_ERROR都不会退出仿真
   3. 命令行设置，可以在命令行中设置退出阈值
      其中第一个参数6表示退出阈值， 而第二个参数NO表示此值是不可以被后面的设置语句重载， 其值还可以是YES。
-    ~~~
-    <sim command> +UVM_MAX_QUIT_COUNT=6,NO
-    ~~~
+~~~
+<sim command> +UVM_MAX_QUIT_COUNT=6,NO
+~~~
   4. eg:
-    ~~~
-    //src/ch3/section3.4/3.4.3/base_test.sv
-    function void base_test::build_phase(uvm_phase phase);
-        super.build_phase(phase);
-        env = my_env::type_id::create("env", this);
-        set_report_max_quit_count(5);
-    endfunction
-    ~~~
+~~~
+//src/ch3/section3.4/3.4.3/base_test.sv
+function void base_test::build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    env = my_env::type_id::create("env", this);
+    set_report_max_quit_count(5);
+endfunction
+~~~
 
 
 ### 2. 经验总结
