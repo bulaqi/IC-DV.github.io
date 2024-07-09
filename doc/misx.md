@@ -3,19 +3,24 @@
 1. msix_func_en
 2. msix_func_mask
 3. pvm
-4. pba状态
+4. pba状态--置位
    - 当msix_func_en为0时PBA为0       
    - 当msix_func_en为1时：
      - 若msix_func_mask为1，则触发中断时置位PBA；
      - 若msix_func_mask为0, 且vector mask为1则触发中断时置位PBA。
      - 其他场景PBA为0。
-
+5. pba状态--清0
+   
 #### 1. 工作方式
 1. pure polling
-   不使能msix中断，也不读pending_bit 寄存器，而是定时，直接读CQE队列，根据phase_tag判断有效的cqe数据，然后ring cqe hdbl
-2. 中断，不屏蔽pvm
-   主机收到msix中断后，直接读cq队列中查看cqe的phase bit,pvm不动作
-3. 中断，进入中断时，pvm置位，退出中断前，pvm 清0 
+   - pcie 协议的要求
+     ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/abfcd6bd-8c4f-4cc3-af6a-df5b3d7b965c)
+
+   - 不使能msix中断，也不读pending_bit 寄存器，而是定时，直接读CQE队列，根据phase_tag判断有效的cqe数据，然后ring cqe hdbl
+3. 中断，不屏蔽pvm
+   - 主机收到msix中断后，直接读cq队列中查看cqe的phase bit,pvm不动作
+4. 中断（正常模块），
+   - 进入中断时，pvm置位，退出中断前，pvm 清0 
 #### 2. msix_en
 #### 3. pending_bit
 
