@@ -16,6 +16,7 @@
     git config hooks.filesizehardlimit 20000000
     git config hooks.filesizesoftlimit 2000000
     ~~~
+2. 实测，github 无效，
 ### 3. 传送门
 1. [Git禁止大文件提交到仓库中](https://cloud.tencent.com/developer/article/1559399)
 2. [保姆级教程：如何在 GitHub 上传大文件](https://blog.csdn.net/wzk4869/article/details/131661472)
