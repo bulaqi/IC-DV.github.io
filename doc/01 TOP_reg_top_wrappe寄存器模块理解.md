@@ -1,13 +1,13 @@
 ### 1. 基础知识
 #### 1. 总体框图
+- ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/b8528375-26e8-4b95-abc1-1eef717e0c84)
 
 #### 2. 子模块功能介绍
-
-   
+  
 ##### 1. AHB2SRAM接口
 1. 功能：完成AHB和ESRAM接口的协议转化，三个状态机构成：AHB读状态机，AHB写状态机，ESRAM状态机
 2. 结构框图
-   
+  - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/9602c8c8-2bf2-4771-abe6-c49af617a0ae)
 
 ##### 2. Bus Access Control子模块
 1. 主要功能
@@ -17,6 +17,7 @@
    - Kernel Register interface, memory interface: 对kernel部分提供标准的ESRAM接口
 
 2. 结构框图
+   - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/e3ca9e9c-49fd-4028-bfc8-2e85e544d0c5)
 
 
 ##### 3. Register Bank子模块
@@ -33,6 +34,8 @@
 2. 而RO，WO，WOB和ROB四种类型的寄存器在寄存器工具内部无寄存器实体。
 3. RW在Register Bank有实体寄存器
 4. RWHS： H—>hard, S->soft
+5. 寄存器表
+   - ![image](https://github.com/bulaqi/IC-DV.github.io/assets/55919713/fa8728d3-2292-425c-b786-30597d45baa5)
 
 #### 4. 总结
 1. RO 是kernal 对reg_wraper的输入, 
