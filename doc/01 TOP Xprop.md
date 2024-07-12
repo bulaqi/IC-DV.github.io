@@ -139,9 +139,118 @@ xmerge：最悲观，一直传递下去；
     x ^ 0 = x
     x ^ 1 = x
     ~~~
-5. 
+5. eg
+    ~~~
+    //test0
+    logic t0_sel0, sel1;
+    initial begin
+        t0_sel0 = 1'b0;
+        `DELAY(20, clk);
+        t0_sel0 = 1'bx;
+    end
+
+    wire t0_xend0 = t0_sel0 & 1'b1;
+    wire t0_xend1 = t0_sel0 | 1'b1;
+    wire t0_xend2 = t0_sel0 & 1'b0;
+    wire t0_xend3 = t0_sel0 | 1'b0;
+    wire t0_xend4 = t0_sel0 ^ 1'b1;
+    wire t0_xend5 = t0_sel0 ^ 1'b0;
+    wire t0_xend6 = (t0_sel0 == t0_sel0);
+    wire t0_xend7 = (t0_sel0 === t0_sel0);
+    ~~~
+6. 波形分析：
+   -xprop=vmerge/tmerge/xmerge波形均一致：
+7. assign语法特殊注意，感觉不合理（仅仅从RTL角度而不是仿真角度），会呈现X态
+   - demo
+   ~~~
+   wire t0_xend6 = (t0_sel0 == t0_sel0)
+   ~~~
+   - 而对于===则会反馈为1，这个也算是很”著名“的==和===的区别，感兴趣的可以自行查阅：
+8. assign对于选择逻辑，配置为vmerge和tmerge遵循的规则仍然是如果能确定数值，则传播确定值，否则传播X态，比如下面这个代码：
+   -demo
+  ~~~
+  wire t2_en2 = t0_sel0 ? t2_data0 : t2_data1;
+  ~~~
+  vmerge和tmerge的波形如下：
+而xmerge的波形如下：
+9. 不过需要注意的是在xmerge配置下，如果X态出现在数据内那就不无脑X而是合理X了：
+  - demo
+  ~~~
+  wire t2_en3 = t2_data0 ? t0_sel0 : t2_data1;
+  ~~~
+
+
+
+
+
+
 #### 3. case
+1. 测试代码
+~~~
+always @* begin
+    case(t0_sel0) 
+        0 : t2_en1 = t2_data0;
+        1 : t2_en1 = t2_data1;
+        default: t2_en1 = t2_data0;
+    endcase
+end
+~~~
+2. 仿真结果
+- vmerge仿真结果：
+- vmerge仿真结果：
+- vmerge仿真结果：
+
+3. 总结一下规律，case(sel)选择a or b：
+   - 个人认为tmerge是最为合理的策略。而对于X态在数据中的情况，无论什么配置case都是如实的将X态传播出来，比
+4. 而对于X态在数据中的情况，无论什么配置case都是如实的将X态传播出来，比如这个代码：
+- eg
+~~~
+always @* begin
+    case(t2_data0) 
+        0 : t2_en4 = t0_sel0;
+        1 : t2_en4 = t2_data1;
+        default: t2_en4 = t2_data0;
+    endcase
+end
+~~~
+- 结果
+- 
 #### 4. if_else
+1. 被测代码
+~~~
+always @* begin
+    if(t0_sel0)begin
+        t2_en0 = t2_data0;
+    end
+    else begin
+        t2_en0 = t2_data1;
+    end
+end
+~~~
+2. 仿真结果
+vmerge仿真结果：
+tmerge仿真结果：
+xmerge仿真结果：
+
+3. 总结
+
+   - sel有X态时if-else语句中
+     - vmerge选择的是else分支，而case是选择"不变"策略；
+     - tmerge和xmerge的结果则是和case语句相同的。
+   - if(sel) a else b的选择语句结果：
+   - 
+4. 对于X态在数据内，无论什么配置if-else语句也是如实的将X态反馈出来：
+~~~
+always @* begin
+    if(t2_data0)begin
+        t2_en5 = t0_sel0;
+    end
+    else begin
+        t2_en5 = t2_data1;
+    end
+end
+~~~
+
 
 ### 2. 经验
 xprop是VCS中的编译参数，在项目中用法
