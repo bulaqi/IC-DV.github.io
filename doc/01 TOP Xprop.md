@@ -132,43 +132,43 @@
 
 #### 2. assgin语句
 ##### 1. 概述
-  1. assign是对xprop选项 **最不敏感** 的语法，
-  2. 无论是在哪种xprop配置反应 **都一样** 的
-  3. 对于逻辑运算，assign遵循合理X态规则：**如果能确定数值，则传播确定值，否则传播X态**（个人理解是，某些场景下，跳过三目运算的选择）。
-  4. 具体的规则如下：
-      ~~~
-      x & 1 = x
-      x | 1 = 1
-      x & 0 = 0
-      x | 0 = x
-      x ^ 0 = x
-      x ^ 1 = x
-      ~~~
-  5. eg
-      ~~~
-      //test0
-      logic t0_sel0, sel1;
-      initial begin
-          t0_sel0 = 1'b0;
-          `DELAY(20, clk);
-          t0_sel0 = 1'bx;
-      end
+1. assign是对xprop选项 **最不敏感** 的语法，
+2. 无论是在哪种xprop配置反应 **都一样** 的
+3. 对于逻辑运算，assign遵循合理X态规则：**如果能确定数值，则传播确定值，否则传播X态**（个人理解是，某些场景下，跳过三目运算的选择）。
+4. 具体的规则如下：
+   ~~~
+   x & 1 = x
+   x | 1 = 1
+   x & 0 = 0
+   x | 0 = x
+   x ^ 0 = x
+   x ^ 1 = x
+   ~~~
+5. eg:
+   ~~~
+   //test0
+   logic t0_sel0, sel1;
+   initial begin
+       t0_sel0 = 1'b0;
+       `DELAY(20, clk);
+       t0_sel0 = 1'bx;
+   end
 
-      wire t0_xend0 = t0_sel0 & 1'b1;
-      wire t0_xend1 = t0_sel0 | 1'b1;
-      wire t0_xend2 = t0_sel0 & 1'b0;
-      wire t0_xend3 = t0_sel0 | 1'b0;
-      wire t0_xend4 = t0_sel0 ^ 1'b1;
-      wire t0_xend5 = t0_sel0 ^ 1'b0;
-      wire t0_xend6 = (t0_sel0 == t0_sel0);
-      wire t0_xend7 = (t0_sel0 === t0_sel0);
-      ~~~
-  6. 波形分析：
+   wire t0_xend0 = t0_sel0 & 1'b1;
+   wire t0_xend1 = t0_sel0 | 1'b1;
+   wire t0_xend2 = t0_sel0 & 1'b0;
+   wire t0_xend3 = t0_sel0 | 1'b0;
+   wire t0_xend4 = t0_sel0 ^ 1'b1;
+   wire t0_xend5 = t0_sel0 ^ 1'b0;
+   wire t0_xend6 = (t0_sel0 == t0_sel0);
+   wire t0_xend7 = (t0_sel0 === t0_sel0);
+   ~~~
+6. 波形分析：
      - -xprop=vmerge/tmerge/xmerge波形均一致：
      - ![image](https://github.com/user-attachments/assets/cdcc3342-4ccf-4329-9935-2c8161b3a835)
 
 
-  7. assign语法特殊注意，感觉不合理（仅仅从RTL角度而不是仿真角度），会呈现X态
+7. assign语法特殊注意，感觉不合理（仅仅从RTL角度而不是仿真角度），会呈现X态
      - 被测代码
         ~~~
         wire t0_xend6 = (t0_sel0 == t0_sel0)
@@ -179,19 +179,19 @@
          - `==`： 4值参与比较，只有0和1才会相等，其余混排结果都是x
          - `===`：绝对相等比较，4值参与比较，状态都必须相等才为1，否则是0，结果inside{0,1},
 ##### 2. 控制通路
-   1. assign对于选择逻辑，配置为vmerge和tmerge遵循的规则仍然是如果能确定数值，则传播确定值，否则传播X态，比如下面这个代码：
+   1. assign对于选择逻辑，配置为vmerge和tmerge遵循的规则仍然是如果能确定数值，则传播确定值，否则传播X态
       - demo
          ~~~
          wire t2_en2 = t0_sel0 ? t2_data0 : t2_data1;
          ~~~
-      - vmerge和tmerge的波形如下：（如果能确定数值，则传播确定值，否则传播X态）
+      - vmerge和tmerge的波形如下：（优先级平等的选择，如果能确定数值，则传播确定值，否则传播X态）
          - ![image](https://github.com/user-attachments/assets/e4cbc527-ed19-4e74-b024-2bd8604f6a85)
 
       - 而xmerge的波形如下：
          - ![image](https://github.com/user-attachments/assets/74fd1f6c-dd82-4fcb-9c05-1bd3e85b5387)
 
 ##### 3. 数据通路
-1. 不过需要注意的是在xmerge配置下，如果X态出现在**数据**内那就不无脑X而是合理X了：
+1. 注意，在xmerge配置下，如果X态出现在**数据**内那就不无脑X而是合理X了：
    - demo
       ~~~
       wire t2_en3 = t2_data0 ? t0_sel0 : t2_data1;
@@ -243,18 +243,18 @@
 
 #### 4. if_else
 ##### 1. 控制通路x
-  1. 被测代码
-      ~~~
-      always @* begin
-          if(t0_sel0)begin
-              t2_en0 = t2_data0;
-          end
-          else begin
-              t2_en0 = t2_data1;
-          end
-      end
-      ~~~
-  2. 仿真结果
+1. 被测代码
+   ~~~
+   always @* begin
+       if(t0_sel0)begin
+           t2_en0 = t2_data0;
+       end
+       else begin
+           t2_en0 = t2_data1;
+       end
+   end
+   ~~~
+2. 仿真结果
      - vmerge仿真结果（x态，选else分支）：
        - ![image](https://github.com/user-attachments/assets/9666ed6a-773c-4299-b579-cf445da34b4f)
 
@@ -264,13 +264,11 @@
      - xmerge仿真结果：
         - ![image](https://github.com/user-attachments/assets/691f17fa-a5c6-4b9f-86b2-4e548c906224)
 
-  3. 总结
-
-     - sel有X态时if-else语句中
-       - vmerge选择的是else分支，而case是选择"不变"策略；
-       - tmerge和xmerge的结果则是和case语句相同的。
-     - if(sel) a else b的选择语句结果：
-       - ![image](https://github.com/user-attachments/assets/07f60a51-85b1-4b92-8f3e-045f35879b6e)
+3. 总结
+   - if_else时vmerge选择的是else分支，而case是选择"不变"策略；
+   - tmerge和xmerge的结果则是和case语句相同的。
+   - if(sel) a else b的选择语句结果：
+   - ![image](https://github.com/user-attachments/assets/07f60a51-85b1-4b92-8f3e-045f35879b6e)
 
 ##### 2. 数据通路x
 1. 无论什么配置if-else语句也是如实的将X态反馈出来：
