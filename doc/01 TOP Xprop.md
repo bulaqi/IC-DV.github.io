@@ -244,18 +244,22 @@ end
 ~~~
 2. 仿真结果
 - vmerge仿真结果：
-  - 
+  - ![image](https://github.com/user-attachments/assets/9666ed6a-773c-4299-b579-cf445da34b4f)
+
 - tmerge仿真结果：
-- 
+- ![image](https://github.com/user-attachments/assets/b8cdff56-4351-415e-981b-3f905f751733)
+
 - xmerge仿真结果：
- - 
+ - ![image](https://github.com/user-attachments/assets/691f17fa-a5c6-4b9f-86b2-4e548c906224)
+
 4. 总结
 
    - sel有X态时if-else语句中
      - vmerge选择的是else分支，而case是选择"不变"策略；
      - tmerge和xmerge的结果则是和case语句相同的。
    - if(sel) a else b的选择语句结果：
-   - 
+   - ![image](https://github.com/user-attachments/assets/07f60a51-85b1-4b92-8f3e-045f35879b6e)
+
 5. 对于X态在数据内，无论什么配置if-else语句也是如实的将X态反馈出来：
 ~~~
 always @* begin
@@ -267,6 +271,7 @@ always @* begin
     end
 end
 ~~~
+![image](https://github.com/user-attachments/assets/11b6061a-9c5f-4f15-b33c-d9119eb042d8)
 
 
 ### 2. 经验
