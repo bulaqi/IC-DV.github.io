@@ -48,7 +48,7 @@
         ~~~
         1. 它考虑到当控制信号未知时，输出信号的值将取决于其他已知信号的值以及输出信号当前的状态。
         2. 如果控制信号为X，那么输出信号的值将依赖于输出信号当前的值和数据信号的值，可能会导致X的传播，也可能不会
-        ~~
+        ~~~
    - vmerge:遵守Verilog/VHDL对于X态处理行为；<**默认值，等同于不添加该选项>**
         ~~~
         1. 它假设如果输入信号中有X，但只要有一个确定的信号值，那么输出就有可能是确定的，不会无条件地传播X。
@@ -111,7 +111,6 @@ xmerge：最悲观，一直传递下去；
     3.Verdi 的 traceX 工具
     除了在 GUI 内进行 X 态追踪，Verdi 还提供了 traceX 工具来追踪 X 态。
     ~~~
-    traceX 用法如下：
     设置变量打开 traceX 工具，setenv VERDI_TRACEX_ENABLE
     采用以下命令追踪 X 态
     未提供 X 态信号列表：traceX -lca -ssf xxx.fsdb
@@ -124,6 +123,7 @@ xmerge：最悲观，一直传递下去；
     - 如果 X 态发生传播，但后续有 X 态保护电路，无需处理。
     - 如果 X 态发生传播，且后续没有 X 态保护电路，需要从根源上消除 X 态。
 
+
 ### 3. 不同语法在xprop的实际分析
 #### 1. 概述
 - ![image](https://github.com/user-attachments/assets/ebf7fe0a-3144-4038-bc8b-06fa7e0a72f3)
@@ -131,7 +131,8 @@ xmerge：最悲观，一直传递下去；
 #### 2. assgin
 1. assign是对xprop选项最不敏感的语法，
 2. 无论是在哪种xprop配置反应都是一样的
-3. 对于逻辑运算，assign遵循合理X态规则：如果能确定数值，则传播确定值，否则传播X态。4. 具体的规则如下：
+3. 对于逻辑运算，assign遵循合理X态规则：如果能确定数值，则传播确定值，否则传播X态。
+4. 具体的规则如下：
     ~~~
     x & 1 = x
     x | 1 = 1
@@ -161,47 +162,47 @@ xmerge：最悲观，一直传递下去；
     ~~~
 6. 波形分析：
    -xprop=vmerge/tmerge/xmerge波形均一致：
-   - ![image](https://github.com/user-attachments/assets/a9d7a701-bdc8-4301-9e3d-b867f8fb1d03)
+   - [image](https://github.com/user-attachments/assets/a9d7a701-bdc8-4301-9e3d-b867f8fb1d03)
 
-8. assign语法特殊注意，感觉不合理（仅仅从RTL角度而不是仿真角度），会呈现X态
+7. assign语法特殊注意，感觉不合理（仅仅从RTL角度而不是仿真角度），会呈现X态
    - demo
-   ~~~
-   wire t0_xend6 = (t0_sel0 == t0_sel0)
-   ~~~
+      ~~~
+      wire t0_xend6 = (t0_sel0 == t0_sel0)
+      ~~~
    - 而对于===则会反馈为1，这个也算是很”著名“的==和===的区别，感兴趣的可以自行查阅：
    - ![image](https://github.com/user-attachments/assets/8f882c97-96ff-4c64-a22e-b8ce38f84425)
 
-9. assign对于选择逻辑，配置为vmerge和tmerge遵循的规则仍然是如果能确定数值，则传播确定值，否则传播X态，比如下面这个代码：
-   -demo
-  ~~~
-  wire t2_en2 = t0_sel0 ? t2_data0 : t2_data1;
-  ~~~
-  - vmerge和tmerge的波形如下：
-    - ![image](https://github.com/user-attachments/assets/e4cbc527-ed19-4e74-b024-2bd8604f6a85)
+8. assign对于选择逻辑，配置为vmerge和tmerge遵循的规则仍然是如果能确定数值，则传播确定值，否则传播X态，比如下面这个代码：
+   - demo
+      ~~~
+      wire t2_en2 = t0_sel0 ? t2_data0 : t2_data1;
+      ~~~
+   - vmerge和tmerge的波形如下：
+      - ![image](https://github.com/user-attachments/assets/e4cbc527-ed19-4e74-b024-2bd8604f6a85)
 
-  - 而xmerge的波形如下：
-    - ![image](https://github.com/user-attachments/assets/74fd1f6c-dd82-4fcb-9c05-1bd3e85b5387)
+   - 而xmerge的波形如下：
+      - ![image](https://github.com/user-attachments/assets/74fd1f6c-dd82-4fcb-9c05-1bd3e85b5387)
 
 9. 不过需要注意的是在xmerge配置下，如果X态出现在数据内那就不无脑X而是合理X了：
   - demo
-  ~~~
-  wire t2_en3 = t2_data0 ? t0_sel0 : t2_data1;
-  ~~~
+      ~~~
+      wire t2_en3 = t2_data0 ? t0_sel0 : t2_data1;
+      ~~~
  - wave
- - ![image](https://github.com/user-attachments/assets/19de5170-4296-4cea-ab68-33b0e8c804d5)
+   - ![image](https://github.com/user-attachments/assets/19de5170-4296-4cea-ab68-33b0e8c804d5)
 
 
 #### 3. case
 1. 测试代码
-~~~
-always @* begin
-    case(t0_sel0) 
-        0 : t2_en1 = t2_data0;
-        1 : t2_en1 = t2_data1;
-        default: t2_en1 = t2_data0;
-    endcase
-end
-~~~
+    ~~~
+    always @* begin
+        case(t0_sel0) 
+            0 : t2_en1 = t2_data0;
+            1 : t2_en1 = t2_data1;
+            default: t2_en1 = t2_data0;
+        endcase
+    end
+    ~~~
 2. 仿真结果
 - vmerge仿真结果：
    - ![image](https://github.com/user-attachments/assets/bdbc1954-8213-49f0-987f-5229ad979ec5)
@@ -218,70 +219,69 @@ end
 
 4. 而对于X态在数据中的情况，无论什么配置case都是如实的将X态传播出来，比如这个代码：
 - eg
-~~~
-always @* begin
-    case(t2_data0) 
-        0 : t2_en4 = t0_sel0;
-        1 : t2_en4 = t2_data1;
-        default: t2_en4 = t2_data0;
-    endcase
-end
-~~~
+    ~~~
+    always @* begin
+        case(t2_data0) 
+            0 : t2_en4 = t0_sel0;
+            1 : t2_en4 = t2_data1;
+            default: t2_en4 = t2_data0;
+        endcase
+    end
+    ~~~
 - xmerge的仿真结果也是这样的
   - ![image](https://github.com/user-attachments/assets/86743378-64dc-4516-b7e6-1acbe8475098)  
 
 #### 4. if_else
 1. 被测代码
-~~~
-always @* begin
-    if(t0_sel0)begin
-        t2_en0 = t2_data0;
+    ~~~
+    always @* begin
+        if(t0_sel0)begin
+            t2_en0 = t2_data0;
+        end
+        else begin
+            t2_en0 = t2_data1;
+        end
     end
-    else begin
-        t2_en0 = t2_data1;
-    end
-end
-~~~
+    ~~~
 2. 仿真结果
 - vmerge仿真结果：
   - ![image](https://github.com/user-attachments/assets/9666ed6a-773c-4299-b579-cf445da34b4f)
 
 - tmerge仿真结果：
-- ![image](https://github.com/user-attachments/assets/b8cdff56-4351-415e-981b-3f905f751733)
+  - ![image](https://github.com/user-attachments/assets/b8cdff56-4351-415e-981b-3f905f751733)
 
 - xmerge仿真结果：
- - ![image](https://github.com/user-attachments/assets/691f17fa-a5c6-4b9f-86b2-4e548c906224)
+   - ![image](https://github.com/user-attachments/assets/691f17fa-a5c6-4b9f-86b2-4e548c906224)
 
-4. 总结
+3. 总结
 
    - sel有X态时if-else语句中
      - vmerge选择的是else分支，而case是选择"不变"策略；
      - tmerge和xmerge的结果则是和case语句相同的。
    - if(sel) a else b的选择语句结果：
-   - ![image](https://github.com/user-attachments/assets/07f60a51-85b1-4b92-8f3e-045f35879b6e)
+     - ![image](https://github.com/user-attachments/assets/07f60a51-85b1-4b92-8f3e-045f35879b6e)
 
-5. 对于X态在数据内，无论什么配置if-else语句也是如实的将X态反馈出来：
-~~~
-always @* begin
-    if(t2_data0)begin
-        t2_en5 = t0_sel0;
+4. 对于X态在数据内，无论什么配置if-else语句也是如实的将X态反馈出来：
+    ~~~
+    always @* begin
+        if(t2_data0)begin
+            t2_en5 = t0_sel0;
+        end
+        else begin
+            t2_en5 = t2_data1;
+        end
     end
-    else begin
-        t2_en5 = t2_data1;
-    end
-end
-~~~
-![image](https://github.com/user-attachments/assets/11b6061a-9c5f-4f15-b33c-d9119eb042d8)
+    ~~~
+    ![image](https://github.com/user-attachments/assets/11b6061a-9c5f-4f15-b33c-d9119eb042d8)
 
 
 ### 2. 经验
-xprop是VCS中的编译参数，在项目中用法
+xprop是VCS中的编译参数，在项目中用法：
 ~~~
 tree                     {tb_top}         {xpropoff}
 instance             {tb_top.dut}    {tmerge}
 instance             {tb_top.dut}    {xpropon}
 instance             {tb_top.dut.serdes_pinmux_be_u0.xxx.xxx.xxx}  {tmergeoff}
-
 ~~~
 
 ### 3. 传送门
