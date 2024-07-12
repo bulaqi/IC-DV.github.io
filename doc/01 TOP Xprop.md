@@ -10,30 +10,29 @@
    - X态出现在仿真中（包括RTL前仿真，门级后仿真及低功耗仿真），若仿真过程中出现X态，表明会有极大的Bug风险，要竭力避免
    - X态传播：指X态作为触发/控制条件或者逻辑输入时，引起其他逻辑输出为X态。
 2. X态产生原因
-   ~~~
-    1.无初始化：未初始化的变量，比如logic/reg，在被复位或确定的值被锁定之前，保持X态；
-    2.信号多驱或总线竞争：将多个输入驱动到同一个变量上，多个驱动存在冲突时，表现X态；
-    3.位选择或数组索引越界返回X态；
-    4.模块输入端口未连接(未赋值或tie)
-    5.setup/hold timing violation：跨时钟域逻辑；
-    6.testbench注入X态；
-   ~~~
+    - 无初始化：未初始化的变量，比如logic/reg，在被复位或确定的值被锁定之前，保持X态；
+    - 信号多驱或总线竞争：将多个输入驱动到同一个变量上，多个驱动存在冲突时，表现X态；
+    - 位选择或数组索引越界返回X态；
+    - 模块输入端口未连接(未赋值或tie)
+    - setup/hold timing violation：跨时钟域逻辑；
+    - testbench注入X态；
+
 
 3. X态设计上避免发生
-- 使用二态变量；这个指的是使用wire和reg类型；在设计上；
-- 设计上进行复位操作，控制通路寄存器必选带复位，数据通路寄存器可以不带复位；
-- 验证tb_top例化DUT时接口input信号赋初值，一般是在tb_top层直接定义wire信号，然后进行例化连接，最后比如激励打的都是这个中间wire信号；
-- 仿真时利用initreg和inimem选项对reg和Memory进行初始化；
-- RTL model中添加针对X的assertion，及时发现X态上报并消除；
-- if-else或case使用确定写法，或者assign + 表达式来替代；
-    ~~~
-    if-else/case VS assign
-    RTL仿真中，对if-else/case及assign对X态不同的行为：
-    if(x) 默认x=0，走else分支，不传播X态；
-    case(x)，若存在default分支，则走default分支，否则不会匹配到任何分支；
-    assign c = sel ? a : b; 若sel = x，则输出x，从而将X态传播出去；
-    ~~~
-- 从上面来看，if-else和case不能传播X态，无法暴露X态传播问题；assign +表达式的方式能够传递X态；另外从时序和面积角度来看，if-else和case会被综合为带有优先级的选择电路，不利于时序和面积，在纯组合逻辑下，使用assign
+   - 使用二态变量；这个指的是使用wire和reg类型；在设计上；
+   - 设计上进行复位操作，控制通路寄存器必选带复位，数据通路寄存器可以不带复位；
+   - 验证tb_top例化DUT时接口input信号赋初值，一般是在tb_top层直接定义wire信号，然后进行例化连接，最后比如激励打的都是这个中间wire信号；
+   - 仿真时利用initreg和inimem选项对reg和Memory进行初始化；
+   - RTL model中添加针对X的assertion，及时发现X态上报并消除；
+   - if-else或case使用确定写法，或者assign + 表达式来替代；
+        ~~~
+        if-else/case VS assign
+        RTL仿真中，对if-else/case及assign对X态不同的行为：
+        if(x) 默认x=0，走else分支，不传播X态；
+        case(x)，若存在default分支，则走default分支，否则不会匹配到任何分支；
+        assign c = sel ? a : b; 若sel = x，则输出x，从而将X态传播出去；
+        ~~~
+    - 从上面来看，if-else和case不能传播X态，无法暴露X态传播问题；assign +表达式的方式能够传递X态；另外从时序和面积角度来看，if-else和case会被综合为带有优先级的选择电路，不利于时序和面积，在纯组合逻辑下，使用assign
 
 #### 2. X-Propagation选项
 1. Xprop策略–即仿真选项
