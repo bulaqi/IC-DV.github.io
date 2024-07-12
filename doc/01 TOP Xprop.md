@@ -126,6 +126,7 @@ xmerge：最悲观，一直传递下去；
 
 ### 3. 不同语法在xprop的实际分析
 #### 1. 概述
+- ![image](https://github.com/user-attachments/assets/ebf7fe0a-3144-4038-bc8b-06fa7e0a72f3)
 
 #### 2. assgin
 1. assign是对xprop选项最不敏感的语法，
@@ -160,28 +161,34 @@ xmerge：最悲观，一直传递下去；
     ~~~
 6. 波形分析：
    -xprop=vmerge/tmerge/xmerge波形均一致：
-7. assign语法特殊注意，感觉不合理（仅仅从RTL角度而不是仿真角度），会呈现X态
+   - ![image](https://github.com/user-attachments/assets/a9d7a701-bdc8-4301-9e3d-b867f8fb1d03)
+
+8. assign语法特殊注意，感觉不合理（仅仅从RTL角度而不是仿真角度），会呈现X态
    - demo
    ~~~
    wire t0_xend6 = (t0_sel0 == t0_sel0)
    ~~~
    - 而对于===则会反馈为1，这个也算是很”著名“的==和===的区别，感兴趣的可以自行查阅：
-8. assign对于选择逻辑，配置为vmerge和tmerge遵循的规则仍然是如果能确定数值，则传播确定值，否则传播X态，比如下面这个代码：
+   - ![image](https://github.com/user-attachments/assets/8f882c97-96ff-4c64-a22e-b8ce38f84425)
+
+9. assign对于选择逻辑，配置为vmerge和tmerge遵循的规则仍然是如果能确定数值，则传播确定值，否则传播X态，比如下面这个代码：
    -demo
   ~~~
   wire t2_en2 = t0_sel0 ? t2_data0 : t2_data1;
   ~~~
-  vmerge和tmerge的波形如下：
-而xmerge的波形如下：
+  - vmerge和tmerge的波形如下：
+    - ![image](https://github.com/user-attachments/assets/e4cbc527-ed19-4e74-b024-2bd8604f6a85)
+
+  - 而xmerge的波形如下：
+    - ![image](https://github.com/user-attachments/assets/74fd1f6c-dd82-4fcb-9c05-1bd3e85b5387)
+
 9. 不过需要注意的是在xmerge配置下，如果X态出现在数据内那就不无脑X而是合理X了：
   - demo
   ~~~
   wire t2_en3 = t2_data0 ? t0_sel0 : t2_data1;
   ~~~
-
-
-
-
+ - wave
+ - ![image](https://github.com/user-attachments/assets/19de5170-4296-4cea-ab68-33b0e8c804d5)
 
 
 #### 3. case
@@ -197,11 +204,18 @@ end
 ~~~
 2. 仿真结果
 - vmerge仿真结果：
+   - ![image](https://github.com/user-attachments/assets/bdbc1954-8213-49f0-987f-5229ad979ec5)
+
 - vmerge仿真结果：
+  - ![image](https://github.com/user-attachments/assets/94068f53-f40f-49d1-a4d4-fdb45ca2a480)
+
 - vmerge仿真结果：
+  - ![image](https://github.com/user-attachments/assets/ced2536c-104d-4721-8737-4ebfa28e4a36)
 
 3. 总结一下规律，case(sel)选择a or b：
-   - 个人认为tmerge是最为合理的策略。而对于X态在数据中的情况，无论什么配置case都是如实的将X态传播出来，比
+   - 个人认为tmerge是最为合理的策略。而对于X态在数据中的情况，无论什么配置case都是如实的将X态传播出来，
+   - ![image](https://github.com/user-attachments/assets/70dd6eea-94d0-4765-8a8f-63e18a408b1e)
+
 4. 而对于X态在数据中的情况，无论什么配置case都是如实的将X态传播出来，比如这个代码：
 - eg
 ~~~
@@ -213,8 +227,9 @@ always @* begin
     endcase
 end
 ~~~
-- 结果
-- 
+- xmerge的仿真结果也是这样的
+  - ![image](https://github.com/user-attachments/assets/86743378-64dc-4516-b7e6-1acbe8475098)  
+
 #### 4. if_else
 1. 被测代码
 ~~~
@@ -228,18 +243,20 @@ always @* begin
 end
 ~~~
 2. 仿真结果
-vmerge仿真结果：
-tmerge仿真结果：
-xmerge仿真结果：
-
-3. 总结
+- vmerge仿真结果：
+  - 
+- tmerge仿真结果：
+- 
+- xmerge仿真结果：
+ - 
+4. 总结
 
    - sel有X态时if-else语句中
      - vmerge选择的是else分支，而case是选择"不变"策略；
      - tmerge和xmerge的结果则是和case语句相同的。
    - if(sel) a else b的选择语句结果：
    - 
-4. 对于X态在数据内，无论什么配置if-else语句也是如实的将X态反馈出来：
+5. 对于X态在数据内，无论什么配置if-else语句也是如实的将X态反馈出来：
 ~~~
 always @* begin
     if(t2_data0)begin
