@@ -165,7 +165,8 @@
       ~~~
   6. 波形分析：
      - -xprop=vmerge/tmerge/xmerge波形均一致：
-     - [image](https://github.com/user-attachments/assets/a9d7a701-bdc8-4301-9e3d-b867f8fb1d03)
+     - ![image](https://github.com/user-attachments/assets/cdcc3342-4ccf-4329-9935-2c8161b3a835)
+
 
   7. assign语法特殊注意，感觉不合理（仅仅从RTL角度而不是仿真角度），会呈现X态
      - 被测代码
