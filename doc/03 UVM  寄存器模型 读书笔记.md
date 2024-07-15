@@ -450,19 +450,62 @@ set_sequencer函数告知reg_model的default_map， 并将default_map设置为�
 
 
 #### 5. UVM中后门访问操作接口
+1.寄存器模型的后门访问功能的步骤
+   1. 在reg_block中调用uvm_reg的configure函数时， 设置好第三个路径参数
+        ~~~
+        class reg_model extends uvm_reg_block;
+            rand reg_invert invert;
+            rand reg_counter_high counter_high;
+            rand reg_counter_low counter_low;
+
+            virtual function void build();
+                ...
+                invert.configure(this, null, "invert");
+                ...
+                counter_high.configure(this, null, "counter[31:16]");
+                ...
+                counter_low.configure(this, null, "counter[15:0]");
+                ...
+            endfunction
+
+            `uvm_object_utils(reg_model)
+
+            function new(input string name="reg_model");
+                super.new(name, UVM_NO_COVERAGE);
+            endfunction 
+        endclass
+        ~~~
+   2. 在将寄存器模型集成到验证平台时， 需要设置好根路径hdl_root
+        ~~~
+        function void base_test::build_phase(uvm_phase phase);
+            ...
+            rm = reg_model::type_id::create("rm", this);
+            rm.configure(null, "");
+            rm.build();
+            rm.lock_model();
+            rm.reset();
+            rm.set_hdl_path_root("top_tb.my_dut");//hdl_root
+            ...
+        endfunction
+        ~~~
+2. UVM提供两类后门访问的函数对比：
+   1. UVM_BACKDOOR形式的read和write --> 在进行操作时模仿DUT的行为
+   2. peek和poke  -->完全不管DUT的行为
+   3. eg,RO_reg进行写操作， 那么第一类由于要模拟DUT的只读行为， 所以是写不进去的， 但是使用第二类可以写进去。
 
 
 ### 4. 复杂的寄存器模型
-
 #### 1. 层次化的寄存器模型
 #### 2. reg_file的作用
 #### 3. 多个域的寄存器
 #### 4. 多个地址的寄存器
 #### 5. 加入存储器
 
+
 ### 5. 寄存器模型对DUT的模拟
 #### 1. 期望值与镜像值
 #### 2. 常用操作及其对期望值和镜像值的影响
+
 
 ### 6. 内建的sequence
 #### 1.检查后门访问中hdl路径的sequence
@@ -475,6 +518,7 @@ set_sequencer函数告知reg_model的default_map， 并将default_map设置为�
 #### 2. 使用UVM_PREDICT_DIRECT功能与mirror操作
 #### 3. 寄存器模型的随机化与update
 #### 4. 扩展位宽
+
 
 ### 8. 其他常用函数
 #### 1. get_root_blocks
