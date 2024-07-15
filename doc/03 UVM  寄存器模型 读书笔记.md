@@ -320,8 +320,162 @@ set_sequencer函数告知reg_model的default_map， 并将default_map设置为�
                 ~~~
 
 ### 3. 后门访问和前门访问
+#### 1. UVM中前门访问的实现
+##### 1. 概述
+参考模型中，通过p_sqr得到一个sequencer的指针， 也可以在此sequencer上启动一个sequence。(并env中将sequencer的指针赋值给此变量即可) 
+##### 2. UVM内建了一种transaction： uvm_reg_item。 通过adapter的bus2reg及reg2bus， 可
+以实现uvm_reg_item与目标transaction的转换
+##### 3. 读
+1. 原始
+    ~~~
+    · 参考模型调用寄存器模型的读任务。
+    · 寄存器模型产生sequence， 并产生uvm_reg_item： rw。
+    · 产生driver能够接受的transaction： bus_req=adapter.reg2bus（rw） 。
+    · 把bus_req交给bus_sequencer。   
+    · driver得到bus_req后驱动它， 得到读取的值， 并将读取值放入bus_req中， 调用item_done。
+    · 寄存器模型调用adapter.bus2reg（bus_req， rw） 将bus_req中的读取值传递给rw。
+    · 将rw中的读数据返回参考模型
+    ~~~
+
+2. 问题：
+     - sequence的应答机制时提到过， 如果driver一直发送应答而sequence不收集应答， 那么将会导致sequencer的应答队列溢出。 
+3. 解决：
+   UVM考虑到这种情况， 在adapter中设置了provide_responses选项
+    ~~~
+    virtual class uvm_reg_adapter extends uvm_object;
+        …
+        bit provides_responses;
+        …
+    endclass
+    ~~~
+4. 设置了此选项后， 寄存器模型在调用bus2reg将目标transaction转换成uvm_reg_item时， 其传入的参数是rsp， 而不是req。 使用应答机制的操作流程为：
+    ~~~
+    · 参考模型调用寄存器模型的读任务。
+    · 寄存器模型产生sequence， 并产生uvm_reg_item： rw。
+    · 产生driver能够接受的transaction： bus_req=adapter.reg2bus（rw） 。
+    · 将bus_req交给bus_sequencer。
+    · driver得到bus_req， 驱动它， 得到读取的值， 并将读取值放入rsp中， 调用item_done。 //rsp
+    · 寄存器模型调用adapter.bus2reg（rsp， rw） 将rsp中的读取值传递给rw。
+    · 将rw中的读数据返回参考模型。
+    ~~~
+
+
+#### 2. 后门访问操作的定义
+1. 背景：只读统计计数器特点
+   - 只读， 无法通过前门访问操作对其进行写操作
+   - 位宽一般都比较大，它们的位宽超过了设计中对加法器宽度的上限限制
+2. 后门访问是与前门访问
+   - 所有不通过DUT的总线而对DUT内部的寄存器或者存储器进行存取的操作都是后门访问操作。
+3. 后门的优点
+   - 因后门访问不消耗仿真时间，替代前门工作。 
+     - 缩写配置时间，在大型芯片验证中，前面配置时间长， 如后门访问操作， 则时间可能缩短为原来的1/100。
+     - 后门访问操作能够完成前门访问操作不能完成的事情。 
+       - 如在网络通信系统中， 计数器通常都是只读的（有一些会附加清零功能） ， 无法对其指定一个非零的初值。 而大部分计数器都是多个加法器的叠加， 需要测试它们的进位操作。 
+       - 32bit 宽计数器的功能验证， 可以给只读的寄存器一个初值。
+4. 后门的劣势
+   - 前门访问操作都可以在波形文件中找到总线信号变化的波形及所有操作的记录。 
+   - 后门访问操作则无法在波形文件中找到操作痕迹，只能通过打印。
+
+
+#### 3. 使用interface进行后门访问操作
+1. 绝对路径的后门访问：起始与top_tb.sv，移植性差
+2. 在driver或monitor中使用后门访问， 一种方法是使用接口。 可以新建一个后门interface
+3. eg
+- demo
+    ~~~
+    interface backdoor_if(input clk, input rst_n);
+
+    function void poke_counter(input bit[31:0] value); // poke_counter为后门写
+        top_tb.my_dut.counter = value;
+    endfunction
+
+    function void peek_counter(output bit[31:0] value); //peek_counter为后门读
+        value = top_tb.my_dut.counter;
+    endfunction
+    endinterface
+    ~~~
+
+- 用例中应用
+    ~~~
+    task my_case0::configure_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        @(posedge vif.rst_n);
+            vif.poke_counter(32'hFFFD);
+        phase.drop_objection(this);
+    endtask
+    ~~~
+- 缺点：
+  - 移植性差：如果有n个寄存器， 那么需要写n个poke函数， 同时如果有读取要求的话， 还要写n个peek函数， 这限制了其使用
+- 适用场合：
+  - 不想使用寄存器模型提供的后门访问或者根本不想建立寄存器模型， 同时又必须要对DUT中的一个寄存器或一块存储器（ memory） 进行后门访问操作的情况
+
+#### 4. UVM中后门访问操作的实现： DPI(sv)+VPI(verilog)
+1. VPI接口(Verilog后门读)
+   - 特点：
+     - 是Verilog提供的接口
+     - 可以将DUT的层次结构开放给外部的C/C++代码
+   - 常用的2个VPI接口
+       ~~~
+       vpi_get_value(obj, p_value);   //从RTL中得到一个寄存器的值
+       vpi_put_value(obj, p_value, p_time, flags); //将RTL中的寄存器设置为某个值
+       ~~~
+   - 缺点： 纯VPI， 在SystemVerilog与C/C++之间传递参数时将非常麻烦。 
+2. DPI(sv后门读)）
+   - 特点：是SystemVerilog提供了一种更好的接口
+   - 读demo:
+        ~~~
+        int uvm_hdl_read(char *path, p_vpi_vecval value);
+        ~~~
+   - 底层：在这个函数中通过最终调用vpi_get_value得到寄存器的值，是对verilog 提供的函数的封装。
+   - SystemVerilog中首先需要使用如下的方式将在C/C++中定义的函数导入
+        ~~~
+        import "DPI-C" context function int uvm_hdl_read(string path, output uvm_hdl_d ata_t value);
+        ~~~
+   - 优点：SV中像普通函数一样调用uvm_hdl_read函数了。 这种方式比单纯地使用VPI的方式简练许多。 它可以直接将参数传递给C/C++中的相应函数， 省去了单纯使用VPI时繁杂的注册系统函数的步骤
+   - 效果：DPI+VPI的方式中， 要操作的寄存器的路径被抽像成了一个字符串， 而不再是一个绝对路径
+    ~~~
+    uvm_hdl_read("top_tb.my_dut.counter", value);
+    ~~~
+  - 优势： 
+        路径被抽像成了一个字符串， 从而可以以参数的形式传递， 并可以存储，这为建立寄存器模型提供了可能。 
+3. UVM中使用DPI+VPI的方式来进行后门访问操作， 它大体的流程
+   1. 在建立寄存器模型时将路径参数设置好。
+   2. 在进行后门访问的写操作时， 寄存器模型调用uvm_hdl_deposit函数：
+      - 开放C/C++接口
+      ~~~
+      import "DPI-C" context function int uvm_hdl_deposit(string path, uvm_hdl_data_t value);
+      ~~~
+      - 在C/C++侧， 此函数内部会调用vpi_put_value函数来对DUT中的寄存器进行写操作。
+   3. 进行后门访问的读操作时，调用uvm_hdl_read函数， 在C/C++侧， 此函数内部会调用vpi_get_value函数来对DUT中的寄存器进行读操作， 并将读取值返回
+
+
+#### 5. UVM中后门访问操作接口
+
+
 ### 4. 复杂的寄存器模型
+
+#### 1. 层次化的寄存器模型
+#### 2. reg_file的作用
+#### 3. 多个域的寄存器
+#### 4. 多个地址的寄存器
+#### 5. 加入存储器
+
 ### 5. 寄存器模型对DUT的模拟
+#### 1. 期望值与镜像值
+#### 2. 常用操作及其对期望值和镜像值的影响
+
 ### 6. 内建的sequence
+#### 1.检查后门访问中hdl路径的sequence
+#### 2.检查默认值的sequence
+#### 3. 检查读写功能的sequence
+
+
 ### 7. 高级用法
+#### 1. 使用reg_predictor
+#### 2. 使用UVM_PREDICT_DIRECT功能与mirror操作
+#### 3. 寄存器模型的随机化与update
+#### 4. 扩展位宽
+
 ### 8. 其他常用函数
+#### 1. get_root_blocks
+#### 2.get_reg_by_offset函数
