@@ -495,11 +495,280 @@ set_sequencer函数告知reg_model的default_map， 并将default_map设置为�
 
 
 ### 4. 复杂的寄存器模型
+  
 #### 1. 层次化的寄存器模型
+##### 1. 建立层次化的寄存器模型
+1. 一般的， 只会在第一级的uvm_reg_block中加入寄存器， 而第二级的uvm_reg_block通常只添加uvm_reg_block。
+   - 优点：结构清晰
+##### 2. 将一个子reg_block加入父reg_block中步骤
+1. 先实例化子reg_block。
+2. 调用子reg_block的configure函数
+   - 如果需要后门访问，则在这个函数中要说明子reg_block的路径， 这个路径不是绝对路径， 而是相对于父reg_block来说的路径（如果，路径参数设置为空字符串， 不能发起后门访问操作）
+3. 调用子reg_block的build函数
+4. 调用子reg_block的lock_model函数
+5. 将子reg_block的default_map以子map的形式加入父reg_block的default_map中,
+   原因:
+   - 因为一般在子reg_block中定义寄存器时， 给定的都是寄存器的偏移地址， 其实际物理地址还要再加上一个基地址。
+   - 寄存器前门访问的读写操作最终都要通过default_map来完成。
+   - 子reg_block的default_map并不知道寄存器的基地址， 它只知道寄
+存器的偏移地址， 只有将其加入父reg_block的default_map， 并在加入的同时告知子map的偏移地址， 这样父reg_block的default_map
+就可以完成前门访问操作了。
+6. 总结
+   - 一般将具有同一基地址的寄存器作为整体加入一个uvm_reg_block中， 而不同的基地址对应不同的uvm_reg_block。 
+   - 每个uvm_reg_block一般都有与其对应的物理地址空间。 
+   - 子reg_block， 其里面还可以加入小的reg_block， 这相当于将地
+址空间再次细化。
+
+
 #### 2. reg_file的作用
+##### 1. uvm_reg_file的背景
+1. 作用：主要是用于区分不同的hdl路径
+2. 问题：
+   - 背景：两个寄存器regA和regB， 它们的hdl路径分别为top_tb.mac_reg.fileA.regA和top_tb.mac_reg.fileB.regB，设top_tb.mac_reg下面所有寄存器的基地址为0x2000， 
+   - 在最顶层的reg_block中加入mac模块时， 其hdl路径要写成
+        ~~~
+        mb_ins.configure(this, "mac_reg");
+        ~~~
+   - 在mac_blk的build中， 要通过如下方式将regA和regB的路径告知寄存器模型
+        ~~~
+        regA.configure(this, null, "fileA.regA");
+        … 
+        regB.configure(this, null, "fileB.regB");
+        ~~~
+   - 假如fileA中有几十个寄存器时， 那么很显然， fileA.*会几十次地出现在这几十个寄存器的configure函数里，假如有一天， fileA的名字忽然变为filea_inst， 那么就需要把这几十行中所有fileA替换成filea_inst， 这个过程很容易出错
+   - 解决方案： 引入uvm_reg_file
+##### 2. uvm_reg_file的应用
+1. uvm_reg_file同uvm_reg相同是一个纯虚类， 不能直接使用， 而必须使用其派生类：
+2. demo
+   - 分析
+    1. 先从uvm_reg_file派生一个类， 然后在my_blk中实例化此类， 
+    2. 之后调用其configure函数， 
+        - 第一个参数是其所在的reg_block的指针， 
+        - 第二个参数是假设此reg_file是另外一个reg_file的父文件， 那么这里就填写其父reg_file的指针。 由于这里只有这一级reg_file， 因此填写null。 
+        - 第三个参数则是此reg_file的hdl路径。 
+            当把reg_file定义好后， 在调用寄存器的configure参数时，就可以将其第二个参数设为reg_file的指针。
+   - code
+        ~~~
+        class regfile extends uvm_reg_file;
+        function new(string name = "regfile");
+            super.new(name);
+        endfunction
+
+        `uvm_object_utils(regfile)
+        endclass
+
+        ...
+
+        class mac_blk extends uvm_reg_block;
+
+        rand regfile file_a;
+        rand regfile file_b;
+        rand reg_regA regA;
+        rand reg_regB regB;
+        rand reg_vlan vlan;
+        
+        virtual function void build();
+            default_map = create_map("default_map", 0, 2, UVM_BIG_ENDIAN, 0);
+
+            file_a = regfile::type_id::create("file_a", , get_full_name());
+            file_a.configure(this, null, "fileA");
+            file_b = regfile::type_id::create("file_b", , get_full_name());
+            file_b.configure(this, null, "fileB");
+            ...
+            //未引入regfile时的写法：regA.configure(this, null, "fileA.regA");
+            regA.configure(this, file_a, "regA"); //第二个参数
+            ...
+            regB.configure(this, file_b, "regB");  //第二个参数
+            ...
+
+        endfunction
+
+            `uvm_object_utils(mac_blk)
+
+            function new(input string name="mac_blk");
+                super.new(name, UVM_NO_COVERAGE);
+            endfunction 
+        
+        endclass
+        ~~~
+3. 加入reg_file的概念后， 当fileA变为filea_inst时， 只需要将file_a的configure参数值改变一下即可， 其他则不需要做任何改变。 这大大减少了出错的概率。
+   
+
 #### 3. 多个域的寄存器
+##### 1. 如果一个寄存器有多个域时， 那么在建立模型时不同
+##### 2. 问题
+1. 背景：某个寄存器有三个域， 其中最低两位为filedA， 接着三位为filedB， 接着四位为filedC， 其余位未使用
+2. 这个寄存器从逻辑上来看是一个寄存器， 但是从物理上来看， 即它的DUT实现中是三个寄存器， 因此这一个寄存器实际上对应着三个不同的hdl路径： fieldA、 fieldB、 fieldC。
+3. demo
+    ~~~
+    class three_field_reg extends uvm_reg;
+        rand uvm_reg_field fieldA;
+        rand uvm_reg_field fieldB;
+        rand uvm_reg_field fieldC;
+
+        virtual function void build();
+            fieldA = uvm_reg_field::type_id::create("fieldA");
+            fieldB = uvm_reg_field::type_id::create("fieldB");
+            fieldC = uvm_reg_field::type_id::create("fieldC");
+        endfunction
+        ...
+    endclass
+
+
+    class mac_blk extends uvm_reg_block;
+        ...
+    rand three_field_reg tf_reg;
+    
+    virtual function void build();
+        ...   
+        tf_reg = three_field_reg::type_id::create("tf_reg", , get_full_name());
+        //最后一个代表hdl路径的参数已经变为了空的字符串
+        tf_reg.configure(this, null, "");
+        tf_reg.build();
+        tf_reg.fieldA.configure(tf_reg, 2, 0, "RW", 1, 0, 1, 1, 1);
+        //重点：参数分为为：路径 ，起始位，位宽
+        tf_reg.add_hdl_path_slice("fieldA", 0, 2);
+        tf_reg.fieldB.configure(tf_reg, 3, 2, "RW", 1, 0, 1, 1, 1);
+        tf_reg.add_hdl_path_slice("fieldA", 2, 3);
+        tf_reg.fieldC.configure(tf_reg, 4, 5, "RW", 1, 0, 1, 1, 1);
+        tf_reg.add_hdl_path_slice("fieldA", 5, 4);
+        default_map.add_reg(tf_reg, 'h41, "RW");
+    endfunction
+    ...   
+    endclass
+    ~~~
+4. 分析
+   1. 先从uvm_reg派生一个类， 在此类中加入3个uvm_reg_field。 
+   2. 在reg_block中将此类实例化后， 调用tf_reg.configure时要注意， 最后一个代表hdl路径的参数已经变为了空的字符串， 
+   3. 在调用tf_reg.build之后要调用tf_reg.fieldA的configure函数。
+   4. 调用完fieldA的configure函数后， 需要将fieldA的hdl路径加入tf_reg中， 此时用到的函数是**add_hdl_path_slice**,参数如下：
+       - 第一个参数是要加入的路径 
+       - 第二个参数则是此路径对应的域在此寄存器中的起始位数， 如fieldA是从0开始的， 而fieldB是从2开始的 
+       - 第三个参数则是此路径对应的域的位宽
+
 #### 4. 多个地址的寄存器
+##### 1. 问题背景
+DUT中的counter是32bit的， 而系统的数据位宽是16位的， 所以就占据了两个地址
+##### 2. 方法
+1. 将一个寄存器分割成两个寄存器的方式加入寄存器模型中的。 因其每次要读取counter的值时， 都需要对counter_low和counter_high各进行一次读取操作， 然后再将两次读取的值合成一个counter的值， 所以这种方式使用起来非常不方便
+2. 新方法解决一个寄存器占据多个地址
+3. demo
+    ~~~
+    class reg_counter extends uvm_reg;
+
+        rand uvm_reg_field reg_data;
+
+        virtual function void build();
+            reg_data = uvm_reg_field::type_id::create("reg_data");
+            // parameter: parent, size, lsb_pos, access, volatile, reset value, has_reset, is_rand, individually accessible
+            reg_data.configure(this, 32, 0, "W1C", 1, 0, 1, 1, 0);
+        endfunction
+
+        `uvm_object_utils(reg_counter)
+
+        function new(input string name="reg_counter");
+            //parameter: name, size, has_coverage
+            super.new(name, 32, UVM_NO_COVERAGE);
+        endfunction
+    endclass
+
+
+    class reg_model extends uvm_reg_block;
+    rand reg_invert invert;
+    rand reg_counter counter;
+
+    virtual function void build();
+            ...      
+        counter= reg_counter::type_id::create("counter", , get_full_name());
+        counter.configure(this, null, "counter");
+        counter.build();
+        default_map.add_reg(counter, 'h5, "RW");
+    endfunction
+    ...
+
+    endclass
+    ~~~
+
+2. 分析：
+     1. 可以定义一个reg_counter， 并在其构造函数中指明此寄存器的大小为32位， 此寄存器中只有一个域， 此域的宽度也为32bit， 之后在reg_model中将其实例化即可。  
+     2. 在调用default_map的add_reg函数时， 要指定寄存器的地址， 这里只需要指明最小的一个地址即可。 这是因为在前面实例化default_map时， 已经指明了它使用UVM_LITTLE_ENDIAN形式， 同时总线的宽度为2byte， 即16bit， UVM会自动根据这些信息计算出此寄存器占据两个地址。 
+     3. 当使用前门访问的形式读写此寄存器时， 寄存器模型会进行两次读写操作， 即发出两个transaction， 这两个transaction对应的读写操作的地址从0x05一直递增到0x06。 
+     4. 将counter作为一个整体时， 可以一次性地访问它：
+           ~~~
+           class case0_cfg_vseq extends uvm_sequence;
+               ...
+               virtual task body();
+               ...
+                   p_sequencer.p_rm.counter.read(status, value, UVM_FRONTDOOR);
+                   `uvm_info("case0_cfg_vseq", $sformatf("counter's initial value(FRONTDOOR) is %0h", value), UVM_LOW)
+                   p_sequencer.p_rm.counter.poke(status, 32'h1FFFD);
+                   p_sequencer.p_rm.counter.read(status, value, UVM_FRONTDOOR);
+                   `uvm_info("case0_cfg_vseq", $sformatf("after poke, counter's value(FRONTDOOR) is %0h", value), UVM_LOW)
+               ...
+               endtask
+           endclass
+           ~~~
+
+
 #### 5. 加入存储器
+1. 存储器
+- DUT中还存在大量的存储器。 这些存储器有些被分配了地址空间， 有些没有。 验证人员有时需要在仿真过程中得到存放在这些存储器中数据的值， 从而与期望的值比较并给出结果。
+2. eg,示例背景
+- 一个DUT的功能是接收一种数据， 它经过一些相当复杂的处理（ 操作A） 后将数据存储在存储器中， 这块存储器是DUT内部的存储器， 并没有为其分配地址。 
+- 当存储器中的数据达到一定量时， 将它们读出， 并再另外做一些复杂处理（ 如封装成另外一种形式的帧， 操作B） 后发送出去。
+- 在验证平台中如果只是将DUT输出接口的数据与期望值相比较， 当数据不匹配情况出现时， 则无法确定问题是出在操作A还是操作B中， 如图7-8a所示。 此时， 如果在输出接口之前再增加一级比较， 就可以快速地定位问题所在了， 如图7-8b所示
+3. 寄存器模型中加入存储器非常容易。
+   - demo
+        ~~~
+        class my_memory extends uvm_mem;
+            function new(string name="my_memory");
+                super.new(name, 1024, 16);
+            endfunction
+
+            `uvm_object_utils(my_memory)
+        endclass
+
+
+        class reg_model extends uvm_reg_block;
+            ...
+            rand my_memory mm;
+
+            virtual function void build();
+            ...
+                mm = my_memory::type_id::create("mm", , get_full_name());
+                //参数2：是此块存储器的hdl路径。
+                mm.configure(this, "stat_blk.ram1024x16_inst.array");
+                //有map才能前门访问
+                default_map.add_mem(mm, 'h100);
+            endfunction
+        endclass
+        ~~~
+
+   - 分析
+     1. 由uvm_mem派生一个类my_memory， 在其new函数中调用super.new函数。 这个函数有三个参数， 第一个是名字， 第二个是存储器的深度， 第三个是宽度。 
+     2. 在reg_model的build函数中， 将存储器实例化， 调用其configure函数， 第一个参数是所在reg_block的指针， 第二个参数是此块存储器的hdl路径。 
+     3. 最后调用default_map.add_mem函数， 
+        - 将此块存储器加入default_map中， 从而可以对其进行前门访问操作。 
+        - 如果没有对此块存储器分配地址空间， 那么这里可以不将其加入default_map中。 在这种情况下，只能使用后门访问的方式对其进行访问。
+4. 通过调用read、 write、 peek、 poke实现对此存储器进行读写，
+ - 这四个任务/函数在调用的时候需要额外加入一个offset的参数， 说明读取此存储器的哪个地址。
+5. 假如存储器的宽度大于系统总线位宽时， 情况会略有不同。 如在一个16位的系统中加入512×32的存储器
+ - demo
+      ~~~
+      src/ch7/section7.4/7.4.5/ram512x32/reg_model.sv
+      class my_memory extends uvm_mem;
+          function new(string name="my_memory");
+              super.new(name, 512, 32);
+          endfunction
+
+          `uvm_object_utils(my_memory)
+      endclass
+      ~~~
+ - 分析
+     1. 在派生my_memory时， 就要在其new函数中指明其宽度为32bit， 在my_block中加入此memory的方法与前面的相同。 
+     2. 这里加入的存储器的一个单元占据两个物理地址， 共占据1024个地址。 那么当使用read、 write、 peek、 poke时， 输入的参数offset代表实际的物理地址偏移还是某一个存储单元偏移呢？ 答案是存储单元偏移。 在访问这块512×32的存储器时， offset的最大值是511， 而不是1023。 
+     3. 当指定一个offset， 使用前门访问操作读写时， 由于一个offset对应的是两个物理地址， 所以寄存器模型会在总线上进行两次读写操作。
+
 
 
 ### 5. 寄存器模型对DUT的模拟
