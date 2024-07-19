@@ -14,6 +14,8 @@
 8. 主机访问pcie 设备的
    - 配置空间：是通过CFG_MSG 类型的TLP 包实现的
    - MEM: ADDR 路由
+   - ![image](https://github.com/user-attachments/assets/648f12de-afa8-4a08-82b5-e774c77f4210)
+
 9.  
 
 #### 2. RC vip 经验
