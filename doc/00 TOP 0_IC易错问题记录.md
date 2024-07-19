@@ -949,6 +949,6 @@ else
 ### 94. TCL脚本验证过程中，如果有嵌套调用，注意tcl语句，选择非阻塞语句，尽量不要阻塞后续的tcl脚本的执行
   1. 分析，如果user.do 先于ppm0_forece_c.do、ppm0_user.do执行，如果user.do语句非阻塞，会影响ppm脚本的执行，操作初始化流程不完整的问题
   2. ![image](https://github.com/user-attachments/assets/dc59612c-8d91-4146-bb1c-035ef3d8daff)
+  3. ![image](https://github.com/user-attachments/assets/4fec66af-0443-4a4c-97bd-4a71c2b16c81)
 
-  3. 
 
