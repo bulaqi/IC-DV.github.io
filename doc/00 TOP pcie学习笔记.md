@@ -10,7 +10,11 @@
 4. PCIE 最大是X16插槽，可以向下兼容，
 5. 1条line包含一个rx/tx接口，
 6. pcie带宽指的是双向总的带宽，
-7.  
+7. PCIe Spec 中明确指出，IO 地址空间只是为了兼容早期的 PCI 设备（Legacy Device），在新设计中都应当使用 MMIO，因为 IO 地址空间可能会被新版本的 PCI Spec 所抛弃
+8. 主机访问pcie 设备的
+   - 配置空间：是通过CFG_MSG 类型的TLP 包实现的
+   - MEM: ADDR 路由
+9.  
 
 #### 2. RC vip 经验
 1. 日志分类： tl（事务处） dll（数据链路层） phy（物理层） 层
