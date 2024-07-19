@@ -951,4 +951,8 @@ else
   2. ![image](https://github.com/user-attachments/assets/dc59612c-8d91-4146-bb1c-035ef3d8daff)
   3. ![image](https://github.com/user-attachments/assets/4fec66af-0443-4a4c-97bd-4a71c2b16c81)
 
-
+### 95. 数据存储和传输的大小端
+  1. 总线传输过程中，数据的字节顺序是指当一个**多字节的数据值**通过总线从一个位置移动到另一个位置时，**各个字节是如何排列**的。这主要涉及到两种格式：大端和小端
+  2. 传输:在大端格式中，数据的最高有效字节（Most Significant Byte, MSB）首先传输，而最低有效字节（Least Significant Byte, LSB）最后传输
+  3. 存储：接上，**这意味着在内存中，最高有效字节将存储在最低的地址上**，而最低有效字节将存储在最高的地址上
+  4. 反之则是小端
