@@ -773,13 +773,171 @@ DUT中的counter是32bit的， 而系统的数据位宽是16位的， 所以就�
 
 ### 5. 寄存器模型对DUT的模拟
 #### 1. 期望值与镜像值
-#### 2. 常用操作及其对期望值和镜像值的影响
+1. 基础：
+   - 于DUT中寄存器的值可能是实时变更的， 寄存器模型并不能实时地知道这种变更， 因此， 寄存器模型中的寄存器的值有时与DUT中相关寄存器的值并不一致
+   - mirrored value： 对于任意一个寄存器， 寄存器模型中都会有一个专门的变量用于最大可能地与DUT保持同步， 这个变量在寄存器模型中称为DUT的镜像值（ mirrored value）
+     - 通过get函数可以得到寄存器的期望值， 通过get_mirrored_value可以得到镜像值
+   -  desired value：如目前DUT中invert的值为'h0， 寄存器模型中的镜像值也为'h0， 但是希望向此寄存器中写入一个'h1， 
+     - 一种方法是直接调用前面介绍的write任务， 将'h1写入， 期望值与镜像值都更新为'h1； 
+     - 另外一种方法是通过**set&update**
+       - set函数将期望值设置为'h1（ 此时镜像值依然为0） ， 
+       - 之后调用update任务，update任务会检查期望值和镜像值是否一致， 
+       - 如果不一致， 那么将会把期望值写入DUT中， 并且更新镜像值
+   - 对于存储器来说， 并不存在期望值和镜像值。 寄存器模型*不对**存储器进行任何模拟。 若要得到存储器中某个存储单元的值，只能使用read、 write、 peek、 poke四种操作
+2. eg
+    ~~~
+    class case0_cfg_vseq extends uvm_sequence;
+    ...
+    virtual task body();
+    ...
+        value = p_sequencer.p_rm.invert.get();
+        `uvm_info("case0_cfg_vseq", $sformatf("invert's desired value is %0h", value), UVM_LOW)
+        value = p_sequencer.p_rm.invert.get_mirrored_value(); //得到镜像值
+        `uvm_info("case0_cfg_vseq", $sformatf("invert's mirrored value is %0h", value), UVM_LOW)
+        p_sequencer.p_rm.invert.peek(status, value);
+        `uvm_info("case0_cfg_vseq", $sformatf("invert's actual value is %0h", value), UVM_LOW)
+        if(starting_phase != null) 
+            starting_phase.drop_objection(this);
+    endtask
 
+    endclass
+    ~~~
+
+#### 2. 常用操作及其对期望值和镜像值的影响
+1. read&write操作： 无论通过后门/前门 读写寄存器， 在操作完成后， 寄存器模型都会根据读写的结果更新期望值和镜像值（ 二者相等） 。
+2. peek&poke操作：在操作完成后， 寄存器模型会根据操作的结果更新期望值和镜像值（ 二者相等） 。
+1. get&set操作： 
+   - set操作会更新期望值， 但是镜像值不会改变。 
+   - get操作会返回寄存器模型中当前寄存器的期望值。
+2. update操作： 这个操作会检查寄存器的期望值和镜像值是否一致， 
+   - 如果不一致， 那么就会将期望值写入DUT中， 并且更新镜像值， 使其与期望值一致。 
+   - 每个由uvm_reg派生来的类都会有update操作。 
+   - 每个由uvm_reg_block派生来的类也有update操作， 它会递归地调用所有加入此reg_block的寄存器的update任务。
+3. randomize操作： 寄存器模型提供randomize接口。 
+   - randomize之后， 期望值将会变为随机出的数值， 镜像值不会改变。 
+   - 但是并不是寄存器模型中所有寄存器都支持此函数。 
+   - 如果不支持， 则randomize调用后其期望值不变。 
+   - 若要关闭随机化功能，在reg_invert的build中调用reg_data.configure时将其第八个参数设置为0即可。 
+   - 一般， randomize不会单独使用而是和update一起。 如在DUT上电复位后， 需要配置一些寄存器的值。 这些寄存器的值通过randomize获得， 并使用update任务配置到DUT中。 关于randomize和update
 
 ### 6. 内建的sequence
 #### 1.检查后门访问中hdl路径的sequence
+1. uvm_reg_mem_hdl_paths_seq，检查hdl路径的正确性,寄存器&存储器
+2. 如果某个寄存器/存储器在加入寄存器模型时没有指定其hdl路径， 那么此sequence在检查时会跳过这个寄存器/存储器
+3. 原型
+    ~~~
+    class uvm_reg_mem_hdl_paths_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item))
+    ~~~
+4. 依赖：
+    运行依赖于在基类uvm_sequence中定义的一个变量uvm_reg_block model，在启动此sequence时必须给model赋值
+5. 运行条件：在任意的sequence中， 可以启动此sequence：
+6. eg：
+     - 在调用这个sequence的start任务时， 传入的sequencer参数为null。 因为它正常工作不依赖于这个sequencer， 而依赖于model变量。
+     - 这个sequence会试图读取hdl所指向的寄存器， 如果无法读取， 则给出错误提示
+     - demo
+        ~~~
+        文件： src/ch7/section7.6/7.6.1/my_case0.sv
+        class case0_cfg_vseq extends uvm_sequence;
+            ...
+            virtual task body();
+                ...
+                uvm_reg_mem_hdl_paths_seq ckseq;
+                ...
+                ckseq = new("ckseq");
+                ckseq.model = p_sequencer.p_rm;
+                ckseq.start(null);
+                ...
+            endtask
+            ...
+        endclass
+     ~~~
+
+
 #### 2.检查默认值的sequence
+1. uvm_reg_hw_reset_seq用于检查上电复位后寄存器模型与DUT中寄存器的默认值是否相同
+2. 原型
+    ~~~
+    class uvm_reg_hw_reset_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_item));
+    ~~~
+3. 默认值& 复位值
+   - 对于DUT来说， 在复位完成后， 其值就是默认值。 
+   - 但是对于寄存器模型来说， 如果只是将它集成在验证平台上， 而不做任何处理， 那么它所有寄存器的值为0， 
+   - 此时需要调用reset函数来使其内寄存器的值变为默认值（ 复位值） 
+4. 该sequence在其检查前会调用model的reset函数， 所以即使在集成到验证平台时没有调用reset函数， 这个sequence也能正常
+工作
+5. 作用：
+   - 该sequence所做的事情就是使用前门访问的方式读取所有寄存器的值， 
+   - 并将其与寄存器模型中的比较
+6. 忽略检查：
+   - 如果想跳过某个寄存器的检查， 可以行的在启动此sequence前使用resource_db设置不检查此寄存器。
+   - resource_db机制与config_db机制的底层实现是一样的， uvm_config_db类就是从uvm_resource_db类派生而来的。 
+   - 由于在寄存器模型的sequence中， get操作是通过resource_db来进， 所以这里使用resource_db来进行设置：
+   - demo1 
+       ~~~
+       文件： src/ch7/section7.6/7.6.2/my_case0.sv
+       function void my_case0::build_phase(uvm_phase phase);
+           …
+           uvm_resource_db#(bit)::set({"REG::",rm.invert.get_full_name(),".*"},"NO_REG_TESTS", 1, this);
+           …
+       endfunction
+       ~~~
+
+   - demo2
+       ~~~
+       文件： src/ch7/section7.6/7.6.2/my_case0.sv
+       function void my_case0::build_phase(uvm_phase phase);
+           …
+           uvm_resource_db#(bit)::set({"REG::",rm.invert.get_full_name(),".*"}, "NO_REG_HW_RESET_TEST", 1, this);
+       endfunction
+       ~~~
+
+
 #### 3. 检查读写功能的sequence
+##### 1. 寄存器
+1.  uvm_reg_access_seq用于检查寄存器的读写
+2.  原型，使用此sequence也需要指定其model变量
+    ~~~
+    class uvm_reg_access_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_it em))
+    ~~~
+3. 作用：
+   - 该sequence，使用前门 给 所有寄存器写数据， 然后使用后门 读回， 并比较结果。
+   - 最后把这个过程反过来，使用后门方式写入数据， 再用前门访问读回。
+4. 注意事项：这个sequence要正常工作必须为所有的寄存器设置好hdl路径
+5. 跳过寄存器检查，下一方式，2选1
+    ~~~
+    文件： src/ch7/section7.6/7.6.3/my_case0.sv
+    function void my_case0::build_phase(uvm_phase phase);
+        …
+        //set for reg access sequence
+        uvm_resource_db#(bit)::set({"REG::",rm.invert.get_full_name(),".*"},    "NO_REG_TESTS", 1, this);
+        uvm_resource_db#(bit)::set({"REG::",rm.invert.get_full_name(),".*"},    "NO_REG_ACCESS_TEST", 1, this);
+        …
+    endfunction
+    ~~~
+##### 2. 存储器
+1. uvm_mem_access_seq用于检查存储器的读写，
+2. 原型，启动此sequence同样需要指定其model变量。
+    ~~~
+    class uvm_mem_access_seq extends uvm_reg_sequence #(uvm_sequence #(uvm_reg_it em)
+    ~~~
+3. 作用
+- 这个sequence会通过使用前门访问的方式向所有存储器写数据， 然后使用后门访问的方式读回， 并比较结果。
+-  最后把这个过程反过来， 使用后门访问的方式写入数据， 再用前门访问读回。 
+4. 注意事项
+   这个sequence要正常工作必须为所有的存储器设置好HDL路径。   
+5. 如果要跳过某块存储器的检查，下一方式，3选1
+    ~~~
+    文件： src/ch7/section7.6/7.6.3/my_case0.sv
+    function void my_case0::build_phase(uvm_phase phase);
+        ...
+        …
+        //set for mem access sequence
+        uvm_resource_db#(bit)::set({"REG::",rm.get_full_name(),".*"},    "NO_REG_TESTS", 1, this);
+        uvm_resource_db#(bit)::set({"REG::",rm.get_full_name(),".*"},    "NO_MEM_TESTS", 1, this);
+        uvm_resource_db#(bit)::set({"REG::",rm.invert.get_full_name(),".*"},
+        "NO_MEM_ACCESS_TEST", 1, this);
+    endfunction
+    ~~~
 
 
 ### 7. 高级用法
