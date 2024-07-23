@@ -942,6 +942,72 @@ DUT中的counter是32bit的， 而系统的数据位宽是16位的， 所以就�
 
 ### 7. 高级用法
 #### 1. 使用reg_predictor
+##### 1. set_auto_predict(1)
+1. 特点：
+-  依赖于driver
+-  driver将读取值返回后， 寄存器模型会更新寄存器的镜像值和期望值   
+2. 使能
+    ~~~
+    rm.default_map.set_auto_predict(1)
+    ~~~  
+3. 框图：
+4. 
+##### 2. set_auto_predict(0)
+1. 特点：
+   - 是由monitor将从总线上收集到的transaction交给寄存器模型， 后者更新相应寄存器的值
+2. 使能
+    ~~~
+    rm.default_map.set_auto_predict(0)
+    ~~~  
+3. 使用
+- 需要实例化一个reg_predictor， 并为这个reg_predictor实例化一个adapter
+- 在connect_phase中， 需要将reg_predictor和bus_agt的ap口连接在一起， 并设置reg_predictor的adapter和map
+- 只有设置了map后， 才能将predictor和寄存器模型关联在一起
+- 如下demo事实上存在着两条更新寄存器模型的路径： 
+  - 一是图下图虚线所示的自动预测途径， 
+  - 二是经由predictor的途径。 如果要彻底关掉虚线的更新路径,则需``rm.default_map.set_auto_predict(0);``
+  - demo
+    ~~~
+    文件： src/ch7/section7.7/7.7.1/base_test.sv
+    class base_test extends uvm_test;
+        …
+        reg_model rm;
+        my_adapter reg_sqr_adapter;
+        my_adapter mon_reg_adapter;
+
+        uvm_reg_predictor#(bus_transaction) reg_predictor;
+        …
+    endclass
+
+    function void base_test::build_phase(uvm_phase phase);
+        …
+        rm = reg_model::type_id::create("rm", this);
+        rm.configure(null, "");
+        rm.build();
+        rm.lock_model();
+        rm.reset();
+        reg_sqr_adapter = new("reg_sqr_adapter");
+        mon_reg_adapter = new("mon_reg_adapter");
+        reg_predictor = new("reg_predictor", this); //例化
+        env.p_rm = this.rm;
+    endfunction
+
+    function void base_test::connect_phase(uvm_phase phase);
+        …
+        rm.default_map.set_sequencer(env.bus_agt.sqr, reg_sqr_adapter);
+        rm.default_map.set_auto_predict(1); //打开
+        reg_predictor.map = rm.default_map;
+        reg_predictor.adapter = mon_reg_adapter;
+        env.bus_agt.ap.connect(reg_predictor.bus_in);
+    endfunction
+    ~~~ 
+4. 框图：
+ 
+##### 3. set_auto_predict(0)，set_auto_predict(1) 对比
+- 当总线上只有一个主设备（ master） 时， 则图7-9的左图和右图是完全等价的。 
+- 如果有多个主设备， 则左图会漏掉某些trasaction。
+
+
 #### 2. 使用UVM_PREDICT_DIRECT功能与mirror操作
 #### 3. 寄存器模型的随机化与update
 #### 4. 扩展位宽
