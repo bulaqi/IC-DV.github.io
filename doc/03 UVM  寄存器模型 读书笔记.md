@@ -1009,6 +1009,99 @@ DUT中的counter是32bit的， 而系统的数据位宽是16位的， 所以就�
 
 
 #### 2. 使用UVM_PREDICT_DIRECT功能与mirror操作
+##### 1. mirror
+1. mirror:用于读取DUT中寄存器的值并将它们更新到寄存器模型中
+2. 函数原型:
+   - 有多个参数， 但是常用的只有前三个。 
+   - 其中第二个参数指的是如果发现DUT中寄存器的值与寄存器模型中的镜像值不一致， 那么在更新寄存器模型之前是否给出错误提示。 
+   - 其可选的值为UVM_CHECK和UVM_NO_CHECK。
+    ~~~
+    task uvm_reg::mirror(output uvm_status_e status,
+                        input uvm_check_e check = UVM_NO_CHECK,
+                        input uvm_path_e path = UVM_DEFAULT_PATH,
+                        …);
+    ~~~
+3. 2种场景
+   - 一是在仿真中不断地调用它， 使得到整个寄存器模型的值与DUT中寄存器的值保持一致， 此时check选项是关闭的。
+   - 仿真即将结束时， 检查DUT中寄存器的值与寄存器模型中寄存器的镜像值是否一致， 这种情况下， check选项是
+打开的
+4. 本质
+   - mirror操作会更新期望值和镜像值。 
+   - 同update操作类似， mirror操作既可以在uvm_reg级别被调用， 也可以在uvm_reg_block级别被调用
+   - 当调用一个uvm_reg_block的mirror时， 其实质是调用加入其中的所有寄存器的mirror。
+5. 仿真应用
+    一般的， 会在仿真即将结束时使用mirror操作检查这些计数器的值是否与预期值一致。
+
+##### 2. 累计统计计数器
+1. 背景：
+   在通信系统中存在大量的计数器。 当网络出现异常时， 借助这些计数器能够快速地找出问题所在， 所以必须要保证这些计数器的正确性
+2. 问题：
+   在DUT中的计数器是不断累加的， 但是寄存器模型中的计数器则保持静止
+3. 现状
+   前文中介绍的所有的操作都无法完成这个事情， 无论是set， 还是write， 或是poke； 无论是后门访问还是前门访问
+4. 思路
+   人为地更新镜像值， 但是同时又不要对DUT进行任何操作。
+5. 解决方案 -- UVM提供predict操作来实现
+   - 参数
+       - 第一个参数表示要预测的值， 
+       - 第二个参数是byte_en， 默认-1的意思是全部有效， 
+       - 第三个参数是预测的类型，有如下可选项
+            ~~~
+            来源： UVM源代码
+            typedef enum {
+                    UVM_PREDICT_DIRECT,
+                    UVM_PREDICT_READ,
+                    UVM_PREDICT_WRITE
+                    } uvm_predict_e;
+            ~~~  
+       - 第四个参数是后门访问或者是前门访问。 
+   - 原型：
+        ~~~
+        function bit uvm_reg::predict (uvm_reg_data_t value,
+                            uvm_reg_byte_en_t be = -1,
+                            uvm_predict_e kind = UVM_PREDICT_DIRECT,
+                            uvm_path_e path = UVM_FRONTDOOR,
+        …);
+        ~~~
+6. read/peek和write/poke操作在对DUT完成读写后， 也会调用predict函数， 只是它们给出的参数是UVM_PREDICT_READ和UVM_PREDICT_WRITE
+7. 要实现在参考模型中更新寄存器模型而又不影响DUT的值， 需要使用UVM_PREDICT_DIRECT， 即默认值：
+   - 在my_model中， 每得到一个新的transaction， 就先从寄存器模型中得到counter的期望值（ 此时与镜像值一致） ， 之后将新的transaction的长度加到counter中， 最后使用predict函数将新的counter值更新到寄存器模型中。
+   - predict操作会更新镜像值和期望值
+   - demo
+        ~~~
+        task my_model::main_phase(uvm_phase phase);
+            …
+            p_rm.invert.read(status, value, UVM_FRONTDOOR);
+            while(1) begin
+                port.get(tr);
+                …
+                if(value)
+                invert_tr(new_tr);
+                counter = p_rm.counter.get();
+                length = new_tr.pload.size() + 18;
+                counter = counter + length;
+                p_rm.counter.predict(counter);
+                ap.write(new_tr);
+            end
+        endtask
+        ~~~
+    - 在测试用例中， 仿真完成后可以检查DUT中counter的值是否与寄存器模型中的counter值一致：
+        ~~~
+        class case0_vseq extends uvm_sequence;
+            …
+            virtual task body();
+                …
+                dseq = case0_sequence::type_id::create("dseq");
+                dseq.start(p_sequencer.p_my_sqr);
+                #100000;
+                p_sequencer.p_rm.counter.mirror(status, UVM_CHECK, UVM_FRONTDOOR);
+                …
+            endtask
+
+        endclass
+        ~~~
+
+
 #### 3. 寄存器模型的随机化与update
 #### 4. 扩展位宽
 
