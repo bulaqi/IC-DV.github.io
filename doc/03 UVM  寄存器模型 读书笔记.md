@@ -1103,11 +1103,193 @@ DUT中的counter是32bit的， 而系统的数据位宽是16位的， 所以就�
         endclass
         ~~~
 
-
 #### 3. 寄存器模型的随机化与update
-#### 4. 扩展位宽
+##### 1. register_model/uvm_reg_block/uvm_reg级来说， 都支持randomize操作。
+        ~~~
+        assert(rm.randomize());
+        assert(rm.invert.randomize());
+        assert(rm.invert.reg_data.randomize());
+        ~~~
+##### 2. 使某个field能够随机化， 
+1. 寄存器模型的rand类型,
+    ~~~
+    //uvm_reg中加入uvm_reg_field时， 是将加入的uvm_reg_field定义为rand类型
+    class reg_invert extends uvm_reg;
+        rand uvm_reg_field reg_data;
+        … 
+    endclass
 
+    ...
+    // 在将uvm_reg加入uvm_reg_block中时， 同样定义为rand类型
+    class reg_model extends uvm_reg_block;
+        rand reg_invert invert;
+        … 
+    endclass
+    ~~~
+2. 在每个reg_field加入uvm_reg时， 要调用其configure函数：
+    - 这个函数的第八个参数即决定此field是否会在randomize时被随机化。 
+    - 但是即使此参数为1， 也不一定能够保证此field被随机化。 
+    - 当一个field的类型中**没有写操作时， 此参数设置是无效的**。
+    - 换言之， 此参数只在此field类型为RW、 WRC、 WRS、 WO、W1、 WO1时才有效。
+    - demo
+        ~~~
+        // parameter: parent, size, lsb_pos, access, volatile, reset value, has_reset,
+        is_rand, individually accessible
+        reg_data.configure(this, 1, 0, "RW", 1, 0, 1, 1, 0);
+        ~~~
+##### 3. 避免一个field被随机化，以下方法3选1
+1. 当在uvm_reg中定义此field时， 不要设置为rand类型。
+2. 在调用此field的configure函数时， 第八个参数设置为0。
+3. 设置此field的类型为RO、 RC、 RS、 WC、 WS、 W1C、 W1S、 W1T、 W0C、 W0S、 W0T、 W1SRC、 W1CRS、 W0SRC、
+W0CRS、 WSRC、 WCRS、 WOC、 WOS中的一种
+4. 总结：
+   - 其中第一种方式也适用于关闭某个uvm_reg或者某个uvm_reg_block的randomize功能。
+   - 既然存在randomize， 那么也可以为它们定义constraint，修改默认值
+       ~~~
+       class reg_invert extends uvm_reg;
+           rand uvm_reg_field reg_data;
+           constraint cons{
+           reg_data.value == 0;
+           }
+           … 
+       endclass
+       ~~~
+   - 在施加约束时， 要深入reg_field的value变量
+   - randomize会更新寄存器模型中的预期值：
+       ~~~
+       function void uvm_reg_field::post_randomize();
+           m_desired = value;
+       endfunction: post_randomiz
+       ~~~
+5. 应用
+   - 与set函数类似。 因此可以在randomize完成后调用update任务， 将随机化后的参数更新到DUT中。
+   - 这特别适用于在仿真开始时随机化并配置参数
+
+
+#### 4. 扩展位宽
+1. 如下寄存器模型定义，调用super.new时的第二个参数是16， 这个数字一般表示系统总线的宽度， 它可以是32、64、 128等。 
+2. 但是在寄存器模型中， 这个数字的默认最大值是64
+3. 它是通过一个宏来控制
+    ~~~
+    `ifndef UVM_REG_DATA_WIDTH
+        `define UVM_REG_DATA_WIDTH 64
+    `endif
+    ~~~
+4. 如果想要扩展系统总线的位宽， 可以通过重新定义这个宏来扩展。
+5. 与数据位宽相似的是地址位宽也有默认最大值限制， 其默认值也是64
+6. 在默认情况下， 字选择信号的位宽等于数据位宽除以8， 它通过如下的宏来控制：
+    ~~~
+    `ifndef UVM_REG_BYTENABLE_WIDTH
+        //兼容性的写法，
+        //if宏==63,(63-1)/8+1=8,
+        //if宏==64,(64-1)/8+1=8,
+        //if宏==65,(65-1)/8+1=9,
+        `define UVM_REG_BYTENABLE_WIDTH ((`UVM_REG_DATA_WIDTH-1)/8+1)  
+    `endif
+    ~~~
+7. 寄存器模型
+    ~~~
+    文件： src/ch7/section7.2/reg_model.sv
+    class reg_invert extends uvm_reg;
+
+        rand uvm_reg_field reg_data;
+
+        virtual function void build();
+            reg_data = uvm_reg_field::type_id::create("reg_data");
+            // parameter: parent, size, lsb_pos, access, volatile, reset value, has_reset, is_rand, indi
+            reg_data.configure(this, 1, 0, "RW", 1, 0, 1, 1, 0);
+        endfunction
+
+        `uvm_object_utils(reg_invert)
+
+        function new(input string name="reg_invert");
+            //parameter: name, size, has_coverage
+            super.new(name, 16, UVM_NO_COVERAGE); //16: 这个数字一般表示系统总线的宽度
+        endfunction
+    endclass
+    ~~~
 
 ### 8. 其他常用函数
 #### 1. get_root_blocks
+##### 1. 在某处,使用寄存器模型，2个方法
+1. 须将寄存器模型的指针传递过去， 如在virtual sequence中使用， 需要传递给virtual sequencer
+    ~~~
+    function void base_test::connect_phase(uvm_phase phase);
+        …
+        v_sqr.p_rm = this.rm;
+    endfunction
+    ~~~
+2. get_root_blocks，在不使用指针传递的情况下得到寄存器模型的指针
+   - get_root_blocks函数得到验证平台上所有的根块（ root block） 。 根块指最顶层的reg_block
+   - 在使用get_root_blocks函数得到reg_block的指针后， 要使用cast将其转化为目标reg_block形式（ 示例中为reg_model） 。 以后就可以直接使用p_rm来进行寄存器操作， 而不必使用p_sequencer.p_rm。
+   - 原型
+       ~~~
+       function void uvm_reg_block::get_root_blocks(ref uvm_reg_block blks[$]);
+       ~~~
+    - deomo
+        ~~~
+        src/ch7/section7.8/7.8.1/my_case0.sv
+        class case0_cfg_vseq extends uvm_sequence;
+            …
+            virtual task body();
+                uvm_status_e status;
+                uvm_reg_data_t value;
+                bit[31:0] counter;
+                uvm_reg_block blks[$];
+                reg_model p_rm;
+                …
+                uvm_reg_block::get_root_blocks(blks);//获取寄存器模型的跟块
+                if(blks.size() == 0)
+                    `uvm_fatal("case0_cfg_vseq", "can't find root blocks")
+                else begin
+                    if(!$cast(p_rm, blks[0])) //向下转换
+                    `uvm_fatal("case0_cfg_vseq", "can't cast to reg_model")
+                end
+
+                p_rm.invert.read(status, value, UVM_FRONTDOOR);
+                …
+            endtask
+        endclass
+        ~~~
+
 #### 2.get_reg_by_offset函数
+##### 1. 2中方式访问寄存器模型
+1. 直接通过层次引用的方式访问寄存器
+    ~~~
+    rm.invert.read(...);
+    ~~~
+2. get_reg_by_offset后通过地址访问
+   - 使用get_reg_by_offset函数通过寄存器的地址得到一个uvm_reg的指针，
+   - 再调用此uvm_reg的read或者write就可以进行读写操作
+   - 通过调用最顶层的reg_block的get_reg_by_offset， 即可以得到任一寄存器的指针
+   - 从最顶层的reg_block的get_reg_by_offset也可以得到子reg_block中的寄存器
+   - 即假如buf_blk的地址偏移是'h1000， 其中有偏移为'h3的寄存器（ 即此寄存器的实际物理地址是'h1003） ， 那么可以直接由p_rm.get_reg_by_offset（ 'h1003） 得到此寄存器， 而不必使用p_rm.buf_blk.get_reg_by_offset（ 'h3）。
+   - demo
+    ~~~
+    文件： src/ch7/section7.8/7.8.2/my_case0.sv
+    virtual task read_reg(input bit[15:0] addr, output bit[15:0] value);
+        uvm_status_e status;
+        uvm_reg target;
+        uvm_reg_data_t data;
+        uvm_reg_addr_t addrs[];
+        target = p_sequencer.p_rm.default_map.get_reg_by_offset(addr); //offseth获取寄存器
+
+        if(target == null)
+            `uvm_error("case0_cfg_vseq", $sformatf("can't find reg in register model with address: 'h%
+        target.read(status, data, UVM_FRONTDOOR); //读
+
+        void'(target.get_addresses(null,addrs)); // 当存在多个地址，通过get_addresses函数可以得到这个函数的所有地址， 其返回值是一个动态数组addrs, 其中无论是大端还是小端， addrs[0]是LSB对应的地址
+        if(addrs.size() == 1)
+            value = data[15:0];
+            else begin
+            int index;
+            for(int i = 0; i < addrs.size(); i++) begin
+                if(addrs[i] == addr) begin
+                    data = data >> (16*(addrs.size() - i));
+                    value = data[15:0];
+                    break;
+                end
+            end
+        end
+    endtask
+    ~~~
