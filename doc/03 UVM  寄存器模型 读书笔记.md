@@ -951,7 +951,8 @@ DUT中的counter是32bit的， 而系统的数据位宽是16位的， 所以就�
     rm.default_map.set_auto_predict(1)
     ~~~  
 3. 框图：
-4. 
+   ![image](https://github.com/user-attachments/assets/4dc8901b-e493-493d-b919-e86a7a1e0ea0)
+
 ##### 2. set_auto_predict(0)
 1. 特点：
    - 是由monitor将从总线上收集到的transaction交给寄存器模型， 后者更新相应寄存器的值
@@ -1002,7 +1003,8 @@ DUT中的counter是32bit的， 而系统的数据位宽是16位的， 所以就�
     endfunction
     ~~~ 
 4. 框图：
- 
+   ![image](https://github.com/user-attachments/assets/93bc71c7-27df-48c1-a8cc-d11cfde69a0e)
+
 ##### 3. set_auto_predict(0)，set_auto_predict(1) 对比
 - 当总线上只有一个主设备（ master） 时， 则图7-9的左图和右图是完全等价的。 
 - 如果有多个主设备， 则左图会漏掉某些trasaction。
