@@ -7,7 +7,6 @@
 ~~~
 1. git add .
 2. git commit -m "save tmp"
-3. git checkout -b develop origin/develop
 4. 查看代码
 5. git checkout aem // 切回原分支
 6. git reset --soft HEAD^  //回退已commit 但未push的
