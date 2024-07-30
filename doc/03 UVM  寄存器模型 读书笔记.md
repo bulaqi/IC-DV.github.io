@@ -1294,5 +1294,5 @@ W0CRS、 WSRC、 WCRS、 WOC、 WOS中的一种
     endtask
     ~~~
 
-   *** 8.  传送门
+### 8.  传送门
    1. [《UVM实战》学习笔记——第七章 UVM中的寄存器模型2——期望值/镜像值、自动/显示预测、操作方式](https://blog.csdn.net/qq_42135020/article/details/130345407)
