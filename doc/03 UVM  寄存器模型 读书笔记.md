@@ -1296,3 +1296,4 @@ W0CRS、 WSRC、 WCRS、 WOC、 WOS中的一种
 
 ### 8.  传送门
    1. [《UVM实战》学习笔记——第七章 UVM中的寄存器模型2——期望值/镜像值、自动/显示预测、操作方式](https://blog.csdn.net/qq_42135020/article/details/130345407)
+   2. [《UVM实战》学习笔记——第七章 UVM中的寄存器模型1——寄存器模型介绍、前门/后门访问](https://blog.csdn.net/qq_42135020/article/details/129400177?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522172230019916800172565637%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=172230019916800172565637&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-129400177-null-null.142^v100^control&utm_term=%E7%AC%AC%E4%B8%83%E7%AB%A0%20UVM%E4%B8%AD%E7%9A%84%E5%AF%84%E5%AD%98%E5%99%A8%E6%A8%A1%E5%9E%8B&spm=1018.2226.3001.4187)
