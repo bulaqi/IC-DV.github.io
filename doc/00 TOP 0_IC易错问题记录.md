@@ -965,3 +965,46 @@ else
 ### 97. 拼接 对象 数组元素的赋值 易混淆
 1. 第一种，不加单引号，拼接，要求拼接前元素/成员指定好位宽，不然就出错。
 2. 第二种，加引号，不拼接，是数组的初始化，每个元素/成员单独赋值（成员位宽不一致），不要整体赋值。
+
+
+### 98. 及时断言和并发断言
+1. 及时断言
+   - 在一个过程块（如 always 块）内执行的断言。
+   - 通常与同步时序逻辑一起使用，并且只在指定的时钟边沿上被评估。
+   - 及时断言不会影响仿真时钟的速度，因为它们是作为过程的一部分来执行的
+   - 断言会在每个时钟上升沿被评估。
+   - eg
+		~~~
+		always @(posedge clk) begin
+		assert property (a == b) else $display("Assertion failed at time %0t", $time);
+		end
+		~~~
+2. 并发断言:
+   - 在模块级别定义的断言，
+   - 它们独立于任何过程块，
+   - 并且在整个仿真过程中持续运行。
+   - 并发断言可以捕获非时序的错误，比如组合逻辑中的错误，并且它们可以与多个时钟域同时工作
+   - 如下：assert 语句定义了一个并发断言，它会不断地检查 a 和 b 是否相等
+   - eg
+		~~~
+		module my_module();
+		input wire a, b;
+		// ...
+		always @(a or b) begin
+			// ...
+		end
+		`ifndef VERILATOR
+		// Verilator does not support concurrent assertions
+		property p1;
+			a == b;
+		endproperty
+		assert property (p1) else $display("Concurrency assertion failed at time %0t", $time);
+		`endif
+		endmodule
+		~~~
+3. 总结
+   - 及时断言 是在过程块内部定义的，通常用于检查时序逻辑。
+   - 并发断言 是在模块级别定义的，可以用来检查整个设计的行
+4. 应用
+	- 需要确保在**任何时刻**都满足某些条件，那么你应该使用并发断言；
+	- 需要在特定的时钟**边沿**检查条件，则应该使用及时断言。
