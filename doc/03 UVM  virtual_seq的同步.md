@@ -190,3 +190,5 @@ virtual sequencer里面包含指向其他真实sequencer的指针：
 ### 2. 经验总结
 
 ### 3. 传送门
+1.  [UVM仿真技术（Virtual Sequence & Virtual Sequencer）](https://zhuanlan.zhihu.com/p/369681031)
+2. [理解UVM中的virtual sequencer和virtual sequence](https://blog.csdn.net/kevindas/article/details/120934619)
