@@ -1,8 +1,18 @@
 ### 1. 基础知识
 #### 1. ostd
 - 不需要等下本信号的回复，即可发送下一个新请求
-#### 2. out order
-- trans 粒度，不同的ID的trance可以不按照发送顺序回复，
+#### 2. out order(AXI4只有读)
+- trans 粒度，不同的ID的trans可以不按照发送顺序回复
+- 受众：主要针对的是slave端，而与master的行为无关
+- 读乱序：slave，收到的ARID的顺序和发送数据RID的顺序不一致(其中ARID可以是不同master,也可以是相同master)
+- 写乱序：slave，收到的AWID/WID的顺序和BRESP发送数据ID的顺序不一致(其中AWID/WID可以是不同master,也可以是相同master)
+- 优点：提高总线的性能
+ 1. 已读为例分析，![image](https://github.com/user-attachments/assets/6ae70ab2-36db-48a2-9db4-5337691b690f)
+ 2. 当slave连续收到ARID分别为ID0和ID1的读请求，由于未知原因，对ID1的响应速度比对ID0更快，slave可以先返回RID为ID1的读数据，再返回RID为ID0的读数据。
+ 3. 读乱序机制可以提高总线的性能。
+ 4. 如果严格保序，RID为ID1的读数据需等到ID0的读数据都返回之后才可返回，明显造成了性能的浪费。
+ 5. 其中读乱序的深度由read data reordering depth决定，代表slave中允许pending的adress个数。当read data reordering depth = 1时代表不允许读乱序。
+
 #### 3. intervaling
 - 比trans粒度下，不同ID之前的trans**小包**之间乱序发
 #### 4. AXI4协议去掉了WID信号，因此不再支持write interleaving。这是AXI4和AXI3的很重要和很大的一个改变
