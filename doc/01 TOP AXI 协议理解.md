@@ -1,17 +1,41 @@
 ### 1. 基础知识
 #### 1. ostd
 - 不需要等下本信号的回复，即可发送下一个新请求
-#### 2. out order（不同ID间）
+- 粒度：传输(transaction)
+- 优点：
+  - Master层面：Master可以一次性发完多个命令，节省命令间的等待时间；如果一个任务总共的命令小于outstanding能力，那么Master可以迅速的处理完当前任务的命令，转到下一个任务；
+  - Slave层面：Slave可以一次性准备多笔数据，而不是多次发单笔数据。如果slave是类似于DDR这种需要去存储介质中取数据的类型，那么可以减少去介质取数据的次数，提高效率，减少功耗；
+  - 总线层面：一个系统中总线是共享给多个master和slave的，支持outstanding>1能力，可以减少对总线的占用，提高系统的效率；
+- 缺点：
+  - Master要能支持outstanding的发送命令和接受返回的响应；
+  - Slave要能支持接受outstanding的命令；
+  - 总线能支持通路的outstanding；
+
+
+#### 2. out of order（不同ID间）
+##### 2.1 基础概念
 - trans 粒度，不同的ID的trans可以不按照发送顺序回复
 - 受众：主要针对的是slave端，而与master的行为无关
 - 读乱序：slave，收到的ARID的顺序和发送数据RID的顺序不一致(其中ARID可以是不同master,也可以是相同master)
 - 写乱序：slave，收到的AWID/WID的顺序和BRESP发送数据ID的顺序不一致(其中AWID/WID可以是不同master,也可以是相同master)
 - 优点：提高总线的性能
- 1. 已读为例分析，![image](https://github.com/user-attachments/assets/6ae70ab2-36db-48a2-9db4-5337691b690f)
- 2. 当slave连续收到ARID分别为ID0和ID1的读请求，由于未知原因，对ID1的响应速度比对ID0更快，slave可以先返回RID为ID1的读数据，再返回RID为ID0的读数据。
- 3. 读乱序机制可以提高总线的性能。
- 4. 如果严格保序，RID为ID1的读数据需等到ID0的读数据都返回之后才可返回，明显造成了性能的浪费。
- 5. 其中读乱序的深度由read data reordering depth决定，代表slave中允许pending的adress个数。当read data reordering depth = 1时代表不允许读乱序。
+   1. 已读为例分析，![image](https://github.com/user-attachments/assets/6ae70ab2-36db-48a2-9db4-5337691b690f)
+   2. 当slave连续收到ARID分别为ID0和ID1的读请求，由于未知原因，对ID1的响应速度比对ID0更快，slave可以先返回RID为ID1的读数据，再返回RID为ID0的读数据。
+   3. 读乱序机制可以提高总线的性能。
+   4. 如果严格保序，RID为ID1的读数据需等到ID0的读数据都返回之后才可返回，明显造成了性能的浪费。
+   5. 其中读乱序的深度由read data reordering depth决定，代表slave中允许pending的adress个数。当read data reordering depth = 1时代表不允许读乱序。
+
+##### 2.2 过程详解
+1. 无需保序的情况
+  - 不同master发出的transaction之间没有保序要求。
+  - 不同ID的transaction之间没有保序要求。
+  - AWID与ARID相同的transaction之间没有保序要求，即读写之间不需要保序。
+2. 必须保序的情况（同一ID的transcation必须保序，细分为以下三种情况）  
+  - 同一ARID的read transfer间需与address发出的顺序一致，即读:data必须按照addr顺序回
+  - 同一AWID的write transfer间需与address发出的顺序一致, 即写： 写data和写addr顺序的写
+  - 同一master发出的同一ID的transaction可能访问不同的slave，返回的RDATA或BRESP需与address发出的顺序一致。(ddr interleave 必须保序），即，同ID访问不同slave,data按照addr回
+
+
 
 #### 3. intervaling（不同ID间）
 - 读乱序的例子展示的是transaction粒度的乱序，读交织进一步允许transfer粒度的乱序
