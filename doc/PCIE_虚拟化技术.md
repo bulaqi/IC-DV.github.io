@@ -16,9 +16,10 @@
 无IOMMU --> IOMMU- > ATS -> SR-IOV
 
 ### 四. 演化过程详解
+
 #### 1. 无IOMMU
 0. ![image](https://github.com/user-attachments/assets/8d846a1e-d360-410d-ac99-8999c9189a1b)
-
+   
 1. 背景：
   - 一个处理器系统中存在两个 Domain， 其中一个为 Domain 1，而另一个为 Domain 2。 这两个 Domain 分别对应不同的虚拟机， 并使用独立的物理地址空间
   - GPA1 和 GPA2 采用独立的编码格式， 其地址都可以从各自 GPA 空间的 0x0000⁃0000 地址开始， 只是 GPA1 和 GPA2 空间在 System Memory 中占用的实际物理地址 HPA （Host Physi⁃cal Address） 并不相同
