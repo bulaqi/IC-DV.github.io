@@ -87,7 +87,8 @@
     - SR-IOV可以实现多个虚拟机共享物理资源，且bypass Hypervisor（或者VMM）软件层，使得虚拟机可以使用到设备的高性能
     - 优点：VM可直接与VF通信，不需要Hypervisor接入IO处理，节约 vCPU资源的同时，又可以实现不同VF之间性能相互隔离，互不影响
 
-
+### 5. 传送门
+- [PCIE 虚拟化技术.xmind](https://github.com/bulaqi/IC-DV.github.io/blob/main/doc/01_pcie/PCIE_%E8%99%9A%E6%8B%9F%E5%8C%96.xmind)
 
 
 
