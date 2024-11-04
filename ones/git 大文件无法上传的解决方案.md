@@ -20,11 +20,11 @@
 3. gitcode 设置
 	- 本地git 的限制放开
    		-  ![image.png](https://raw.gitcode.com/bulaqi/IC/attachment/uploads/57b81cdd-1cb2-40b3-a714-2e783e2f253d/image.png 'image.png')
-        - code
-        ~~~
-          [hooks]
-      	  		filesizehardlimit = 2000000000
-        ~~~
+        - 新增code
+	        ~~~
+	          [hooks]
+	      	  	filesizehardlimit = 2000000000
+	        ~~~
         - 不确定是否需要适配，:xx_repo/.git/hooks/pre-commit
 	- git 仓 的设置
     	- ![image.png](https://raw.gitcode.com/bulaqi/IC/attachment/uploads/0b63541e-37aa-4041-8302-17ed699d5b0c/image.png 'image.png')
