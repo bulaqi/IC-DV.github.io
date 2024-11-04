@@ -156,3 +156,5 @@ DPU 设备组成
 ### 2. 经验总结
 ### 3. 传送门
 1. [高性能网络 — SmartNIC、DPU 设备演进与运行原理](https://zhuanlan.zhihu.com/p/625827685)
+2. [SmartNIC与DPU有什么区别？为什么云级架构需要DPU？](https://zhuanlan.zhihu.com/p/388836636)
+3. [高性能网络 — SmartNIC、DPU 设备演进与运行原理](https://www.zhihu.com/question/507393809)
