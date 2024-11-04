@@ -19,7 +19,8 @@
 2. 实测，github 无效，
 3. gitcode 设置
 	- 本地git 的限制放开
-   		-  ![image.png](https://raw.gitcode.com/bulaqi/IC/attachment/uploads/57b81cdd-1cb2-40b3-a714-2e783e2f253d/image.png 'image.png')
+   		 -  ![image](https://github.com/user-attachments/assets/007320c2-3475-4109-b9b9-613106720acc)
+
         - 新增code
 	        ~~~
 	          [hooks]
@@ -27,7 +28,8 @@
 	        ~~~
         - 不确定是否需要适配，:xx_repo/.git/hooks/pre-commit
 	- git 仓 的设置
-    	- ![image.png](https://raw.gitcode.com/bulaqi/IC/attachment/uploads/0b63541e-37aa-4041-8302-17ed699d5b0c/image.png 'image.png')
+		- ![image](https://github.com/user-attachments/assets/0d1d33a0-5df6-4bb6-9ad2-fd490001d5d5)
+
 
 ### 3. 传送门
 1. [Git禁止大文件提交到仓库中](https://cloud.tencent.com/developer/article/1559399)
