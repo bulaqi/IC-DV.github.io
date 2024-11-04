@@ -17,6 +17,18 @@
     git config hooks.filesizesoftlimit 2000000
     ~~~
 2. 实测，github 无效，
+3. gitcode 设置
+	- 本地git 的限制放开
+   		-  ![image.png](https://raw.gitcode.com/bulaqi/IC/attachment/uploads/57b81cdd-1cb2-40b3-a714-2e783e2f253d/image.png 'image.png')
+        - code
+        ~~~
+          [hooks]
+      	  		filesizehardlimit = 2000000000
+        ~~~
+        - 不确定是否需要适配，:xx_repo/.git/hooks/pre-commit
+	- git 仓 的设置
+    	- ![image.png](https://raw.gitcode.com/bulaqi/IC/attachment/uploads/0b63541e-37aa-4041-8302-17ed699d5b0c/image.png 'image.png')
+
 ### 3. 传送门
 1. [Git禁止大文件提交到仓库中](https://cloud.tencent.com/developer/article/1559399)
 2. [保姆级教程：如何在 GitHub 上传大文件](https://blog.csdn.net/wzk4869/article/details/131661472)
