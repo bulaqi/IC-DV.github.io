@@ -83,11 +83,14 @@ DPU 设备组成
 #### 1. 现状&问题
 1. 失效的摩尔定律
 2. 沉重的数据中心税
+   - ![image](https://github.com/user-attachments/assets/db6f9403-f715-4df9-b713-a6c6defee3a4)
    - CPU 30% 的 workload 都是在做流量处理，这个开销被形象的称作数据中心税（Datacenter Tax）。即还未运行业务程序，先接入网络数据就要占去的计算资源。
    - 逐渐普及的 40GbE 和 100GbE 场景中，CPU 就会出现阻塞。
    - 
-3. 冯诺依曼内存墙
+4. 冯诺依曼内存墙
    - 内存墙“ 的现实就是 DDR（Main Memory 的容量和 Bus 传输带宽）已经成为了那块短板
+   - ![image](https://github.com/user-attachments/assets/aa0387ee-c456-47ea-ae08-cf362377caf0)
+
    - 例如 AI DL/ML 训练场景，具有高并发、高耦合的特点，不仅有大量的数据参与到整个算法运行的过程中，这些数据之间的耦合性也非常强，因此对 Main Memory 提出了非常高的要求。
    - 有下列几种 “补丁式“ 的解决方法
         1. 加大存储带宽：
@@ -100,24 +103,29 @@ DPU 设备组成
             - 在存储器上集成计算单元，
             - 现在也是一个比较受关注的方向。
     -  
-4. 数据 I/O 路径冗长
+5. 数据 I/O 路径冗长
    1. 针对不同的应用场景，在冯·诺依曼体系中部署专用的协处理器（e.g. GPU、ASIC、FPGA、DSA）来进行加速处理。
    2. 存在一个直观的问题
+      - ![image](https://github.com/user-attachments/assets/4624fd27-0f20-46e8-a4f4-bb5aa7867b5f)
+
       - CPU 和 Main Memory 以及 Device Memory 之间的数据 I/O 路径冗长，同样会成为计算性能的瓶颈
       - 以 CPU+GPU 异构计算为例，
         - GPU 具有强大的计算能力，能够同时并行工作数百个的内核，
         - 但 “CPU+GPU 分离” 架构中存在海量数据无法轻松存储到 GPU Device Memory 中，需要等待显存数据刷新。
         - 同时，海量数据在 CPU 和 GPU 等加速器之间来回移动，也加剧了额外的速率消耗。 
-   3. 以 CPU 为中心的体系架构在异构计算场景中，由于内存 IO 路径太长也会成为一种性能瓶颈。
+   4. 以 CPU 为中心的体系架构在异构计算场景中，由于内存 IO 路径太长也会成为一种性能瓶颈。
 #### 2. DPU
 1. 将更多 CPU 和 GPU 的 workload offload 到 DPU（Data Processing Unit，数据处理单元）中，使得计算、存储和网络变得更加紧耦合
-   
+   - ![image](https://github.com/user-attachments/assets/3c4a3102-f946-4e90-91ee-367794809fce)
+
 2. 重要趋势是，计算、存储和网络都在不断融合。而 DPU 的核心就是让计算发生在靠近数据产生的地方
    - CPU 负责通用计算。
    - GPU 负责加速计算
    - DPU 负责数据中心内部的数据传输和处理
 3. DPU 的抽象架构
-   1. 控制平面
+   1. ![image](https://github.com/user-attachments/assets/c9bd684f-80a5-4373-aa3e-92db0d9576b6)
+
+   2. 控制平面
       由通用处理器（x86 / ARM / MIPS）和片上内存实现，可运行 NIC OS（Linux），主要负责以下工作：
       1. DPU 设备运行管理
          - 安全管理：信任根、安全启动、安全固件升级、基于身份验证的容器和应用生命周期管理等。
@@ -127,22 +135,22 @@ DPU 设备组成
          - 存储功能控制面计算任务。
          - 等。
    
-   2. 数据平面
+   3. 数据平面
       由专用处理器（NP / ASIC / FPGA）和 NIC 实现，主要负责以下工作：
       
       1. 可编程的数据报文处理功能。
       2. 协议加速功能。
       
-   3. I/O 子系统
-   1. System I/O：由 PCIe 实现，负责 DPU 和其他系统的集成。支持 Endpoint 和 Root Complex 两种实现类型。
-   
-      1. Endpoint System I/O：将 DPU 作为 “从设备” 接入到 Host CPU 处理平台，将数据上传至 CPU 进行处理。
-      2. Root Complex System I/O：将 DPU 作为 “主设备” 接入其他加速处理平台（e.g. FPGA、GPU）或高速外部设备（e.g. SSD），将数据分流至加速平台或外设进行处理。
-   2. Network I/O：由 NIC（网络协议处理器单元）实现，与 IP/FC Fabric 互联。
-   
-   3. Main Memory I/O：由 DDR 和 HBM 接口实现，与片外内存互联，可作为 Cache 和 Shared Memory。
-      - DDR 可以提供比较大的存储容量（512GB 以上）。
-      - HBM 可以提供比较大的存储带宽（500GB/s 以上）。
+   4. I/O 子系统
+      1. System I/O：由 PCIe 实现，负责 DPU 和其他系统的集成。支持 Endpoint 和 Root Complex 两种实现类型。
+      
+         1. Endpoint System I/O：将 DPU 作为 “从设备” 接入到 Host CPU 处理平台，将数据上传至 CPU 进行处理。
+         2. Root Complex System I/O：将 DPU 作为 “主设备” 接入其他加速处理平台（e.g. FPGA、GPU）或高速外部设备（e.g. SSD），将数据分流至加速平台或外设进行处理。
+      2. Network I/O：由 NIC（网络协议处理器单元）实现，与 IP/FC Fabric 互联。
+      
+      3. Main Memory I/O：由 DDR 和 HBM 接口实现，与片外内存互联，可作为 Cache 和 Shared Memory。
+         - DDR 可以提供比较大的存储容量（512GB 以上）。
+         - HBM 可以提供比较大的存储带宽（500GB/s 以上）。
 
 
 ### 2. 经验总结
