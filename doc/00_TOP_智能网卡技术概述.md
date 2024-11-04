@@ -106,7 +106,7 @@ DPU 设备组成
 5. 数据 I/O 路径冗长
    1. 针对不同的应用场景，在冯·诺依曼体系中部署专用的协处理器（e.g. GPU、ASIC、FPGA、DSA）来进行加速处理。
    2. 存在一个直观的问题
-      - ![image](https://github.com/user-attachments/assets/4624fd27-0f20-46e8-a4f4-bb5aa7867b5f)
+      - ![image](https://github.com/user-attachments/assets/3252db9d-dcf1-4872-b98b-f28c7dd54f7b)
 
       - CPU 和 Main Memory 以及 Device Memory 之间的数据 I/O 路径冗长，同样会成为计算性能的瓶颈
       - 以 CPU+GPU 异构计算为例，
