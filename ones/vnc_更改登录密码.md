@@ -1,0 +1,1 @@
+[vncpasswd 更新登录密码 如何设置短密码 空密码](https://blog.csdn.net/yasin_lee/article/details/120520037)
